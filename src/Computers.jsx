@@ -1,9 +1,13 @@
 import * as THREE from 'three'
-import { useMemo, useContext, createContext, useRef, useEffect } from 'react'
+import { useMemo, useContext, createContext, useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF, Merged, RenderTexture, PerspectiveCamera, Text } from '@react-three/drei'
 import { SpinningBox } from './SpinningBox'
 import { BoxHelper } from 'three'
+import React from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { animated, useSpring } from '@react-spring/three';
+
 THREE.ColorManagement.legacyMode = false
 
 /*
@@ -19,6 +23,7 @@ Title: Old Computers
 const context = createContext()
 export function Instances({ children, ...props }) {
   const { nodes } = useGLTF('/computers_1-transformed.glb')
+  
   const instances = useMemo(
     () => ({
       Object: nodes.Object_4,
@@ -39,6 +44,12 @@ export function Instances({ children, ...props }) {
     [nodes]
   )
 
+  useEffect(()=>{
+    console.log("nodes",nodes);
+    console.log("instances",instances)
+    
+  },[])
+
 
   
   return (
@@ -49,6 +60,57 @@ export function Instances({ children, ...props }) {
 }
 
 export function Computers(props) {
+
+  const { camera } = useThree();
+const [spring, api] = useSpring(() => ({
+  position: camera.position.toArray(),
+  zoom: 1,
+  config: { tension: 100, friction: 30 },
+}));
+
+// Ref to track camera movement state to avoid re-renders
+const isCameraMoving = useRef(false);
+
+const handleScreenClick = (screenPosition, rotation) => {
+  if (isCameraMoving.current) return; // Prevent additional camera movements while moving
+
+  isCameraMoving.current = true;
+
+  // Create a rotation matrix from the Euler angles
+  const rotationMatrix = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(...rotation));
+
+  // Define an offset for the camera's position from the object
+  const offset = new THREE.Vector3(0, 0, -2); // You can adjust this distance as needed
+  offset.applyMatrix4(rotationMatrix); // Apply the object's rotation to the offset
+
+  // Calculate the new camera position by adding the offset to the object's position
+  const targetPosition = new THREE.Vector3(screenPosition[0], screenPosition[1], screenPosition[2]);
+  targetPosition.add(offset); // Add the rotated offset to the screen's position
+
+  // Start camera animation to the new position
+  api.start({
+    position: [targetPosition.x, targetPosition.y, targetPosition.z],
+    zoom: 0.25, // Adjust zoom level as needed
+  });
+};
+
+useFrame(() => {
+  // Only update the camera if there's a change in position or zoom
+  camera.position.set(...spring.position.get());
+  camera.zoom = spring.zoom.get();
+  camera.updateProjectionMatrix();
+});
+
+useEffect(() => {
+  // Reset the camera movement once the animation is completed
+  const animationComplete = () => {
+    isCameraMoving.current = false; // Reset the movement flag after the transition
+  };
+
+  return animationComplete; // Cleanup or reset after effect
+}, [spring.position, spring.zoom]);
+
+
   const { nodes: n, materials: m } = useGLTF('/computers_1-transformed.glb')
 
   
@@ -157,15 +219,15 @@ export function Computers(props) {
       <instances.Object36 position={[-1.1, 4.29, -4.43]} rotation={[0, 0.36, 0]} />
       <instances.Object36 position={[-5.25, 4.29, -1.47]} rotation={[0, 1.25, 0]} />
       <mesh castShadow receiveShadow geometry={n.Object_204.geometry} material={m.Texture} position={[3.2, 4.29, -3.09]} rotation={[-Math.PI, 0.56, 0]} scale={-1} />
-      <ScreenInteractive frame="Object_206" panel="Object_207" position={[0.27, 1.53, -2.61]} />
-      <ScreenText frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} />
-      <ScreenText invert frame="Object_212" panel="Object_213" x={-5} y={5} position={[-2.73, 0.63, -0.52]} rotation={[0, 1.09, 0]} />
-      <ScreenText invert frame="Object_215" panel="Object_216" position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]} />
-      <ScreenText invert frame="Object_218" panel="Object_219" x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81} />
+      <ScreenInteractive frame="Object_206" panel="Object_207" position={[0.27, 1.53, -2.61]} handleScreenClick={ handleScreenClick} />
+      <ScreenText frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} handleScreenClick={ handleScreenClick}/>
+      {/* <ScreenText invert frame="Object_212" panel="Object_213" x={-5} y={5} position={[-2.73, 0.63, -0.52]} rotation={[0, 1.09, 0]} onScreenClick={handleScreenClick}/>
+      <ScreenText invert frame="Object_215" panel="Object_216" position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]} onScreenClick={handleScreenClick} />
+      <ScreenText invert frame="Object_218" panel="Object_219" x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81} onScreenClick={handleScreenClick}/>
       <ScreenText frame="Object_221" panel="Object_222" y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9} />
-      <ScreenText invert frame="Object_224" panel="Object_225" position={[-3.9, 4.29, -2.64]} rotation={[0, 0.54, 0]} />
-      <ScreenText frame="Object_227" panel="Object_228" position={[0.96, 4.28, -4.2]} rotation={[0, -0.65, 0]} />
-      <ScreenText frame="Object_230" panel="Object_231" position={[4.68, 4.29, -1.56]} rotation={[0, -Math.PI / 3, 0]} />
+      <ScreenText invert frame="Object_224" panel="Object_225" position={[-3.9, 4.29, -2.64]} rotation={[0, 0.54, 0]} onScreenClick={handleScreenClick}/>
+      <ScreenText frame="Object_227" panel="Object_228" position={[0.96, 4.28, -4.2]} rotation={[0, -0.65, 0]} onScreenClick={handleScreenClick}/>
+      <ScreenText frame="Object_230" panel="Object_231" position={[4.68, 4.29, -1.56]} rotation={[0, -Math.PI / 3, 0]} onScreenClick={handleScreenClick}/> */}
       <Leds instances={instances} />
     
     </group>
@@ -175,10 +237,29 @@ export function Computers(props) {
 
 /* This component renders a monitor (taken out of the gltf model)
    It renders a custom scene into a texture and projects it onto monitors screen */
-function Screen({ frame, panel, children, ...props }) {
-  const { nodes, materials } = useGLTF('/computers_1-transformed.glb')
+// function Screen({ frame, panel, children, ...props }) {
+//   const { nodes, materials } = useGLTF('/computers_1-transformed.glb')
+//   return (
+//     <group {...props}>
+//       <mesh castShadow receiveShadow geometry={nodes[frame].geometry} material={materials.Texture} />
+//       <mesh geometry={nodes[panel].geometry}>
+//         <meshBasicMaterial toneMapped={false}>
+//           <RenderTexture width={512} height={512} attach="map" anisotropy={16}>
+//             {children}
+//           </RenderTexture>
+//         </meshBasicMaterial>
+//       </mesh>
+//     </group>
+//   )
+// }
+
+
+function Screen({ frame, panel, children, onScreenClick,handleScreenClick, ...props }) {
+  const { nodes, materials } = useGLTF('/computers_1-transformed.glb');
+  const screenRef = useRef();
+
   return (
-    <group {...props}>
+    <group {...props} ref={screenRef} onClick={() => { handleScreenClick(props.position,props.rotation)}} >
       <mesh castShadow receiveShadow geometry={nodes[frame].geometry} material={materials.Texture} />
       <mesh geometry={nodes[panel].geometry}>
         <meshBasicMaterial toneMapped={false}>
@@ -188,8 +269,9 @@ function Screen({ frame, panel, children, ...props }) {
         </meshBasicMaterial>
       </mesh>
     </group>
-  )
+  );
 }
+
 
 /* Renders a monitor with some text */
 function ScreenText({ invert, x = 0, y = 1.2, ...props }) {
@@ -197,7 +279,7 @@ function ScreenText({ invert, x = 0, y = 1.2, ...props }) {
   const rand = Math.random() * 10000
   useFrame((state) => (textRef.current.position.x = x + Math.sin(rand + state.clock.elapsedTime / 4) * 8))
   return (
-    <Screen {...props}>
+    <Screen {...props} >
       <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 15]} />
       <color attach="background" args={[invert ? 'black' : '#35c19f']} />
       <ambientLight intensity={0.5} />

@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF, MeshReflectorMaterial, BakeShadows } from '@react-three/drei'
+import { useGLTF, MeshReflectorMaterial, BakeShadows, OrbitControls } from '@react-three/drei'
 import { EffectComposer, Bloom, DepthOfField, ToneMapping } from '@react-three/postprocessing'
 import { easing } from 'maath'
 import { suspend } from 'suspend-react'
@@ -51,10 +51,11 @@ export default function App() {
         <DepthOfField target={[0, 0, 13]} focalLength={0.3} bokehScale={1} height={700} />
       </EffectComposer>
       {/* Camera movements */}
-      <CameraRig />
+      {/* <CameraRig /> */}
       {/* Small helper that freezes the shadows for better performance */}
       <BakeShadows />
       <axesHelper args={[5]} />
+      {/* <OrbitControls/> */}
 
     </Canvas>
   )
