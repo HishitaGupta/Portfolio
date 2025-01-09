@@ -1,12 +1,16 @@
 import * as THREE from 'three'
 import { useMemo, useContext, createContext, useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useGLTF, Merged, RenderTexture, PerspectiveCamera, Text } from '@react-three/drei'
+import { useGLTF, Merged, RenderTexture, PerspectiveCamera, Text, Html } from '@react-three/drei'
 import { SpinningBox } from './SpinningBox'
 import { BoxHelper } from 'three'
 import React from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { animated, useSpring } from '@react-spring/three';
+import * as dat from 'dat.gui'
+import gsap from 'gsap'
+
+
 
 THREE.ColorManagement.legacyMode = false
 
@@ -22,319 +26,614 @@ Title: Old Computers
 
 const context = createContext()
 export function Instances({ children, ...props }) {
-  const { nodes } = useGLTF('/computers_1-transformed.glb')
-  
-  const instances = useMemo(
-    () => ({
-      Object: nodes.Object_4,
-      Object1: nodes.Object_16,
-      Object3: nodes.Object_52,
-      Object13: nodes.Object_172,
-      Object14: nodes.Object_174,
-      Object23: nodes.Object_22,
-      Object24: nodes.Object_26,
-      Object32: nodes.Object_178,
-      Object36: nodes.Object_28,
-      Object45: nodes.Object_206,
-      Object46: nodes.Object_207,
-      Object47: nodes.Object_215,
-      Object48: nodes.Object_216,
-      Sphere: nodes.Sphere
-    }),
-    [nodes]
-  )
+    const { nodes } = useGLTF('/computers_1-transformed.glb')
 
-  useEffect(()=>{
-    console.log("nodes",nodes);
-    console.log("instances",instances)
-    
-  },[])
+    const instances = useMemo(
+        () => ({
+            Object: nodes.Object_4,
+            Object1: nodes.Object_16,
+            Object3: nodes.Object_52,
+            Object13: nodes.Object_172,
+            Object14: nodes.Object_174,
+            Object23: nodes.Object_22,
+            Object24: nodes.Object_26,
+            Object32: nodes.Object_178,
+            Object36: nodes.Object_28,
+            Object45: nodes.Object_206,
+            Object46: nodes.Object_207,
+            Object47: nodes.Object_215,
+            Object48: nodes.Object_216,
+            Sphere: nodes.Sphere
+        }),
+        [nodes]
+    )
+
+    useEffect(() => {
+        console.log("nodes", nodes);
+        console.log("instances", instances)
+
+    }, [])
 
 
-  
-  return (
-    <Merged castShadow receiveShadow meshes={instances} {...props}>
-      {(instances) => <context.Provider value={instances} children={children} />}
-    </Merged>
-  )
+
+    return (
+        <Merged castShadow receiveShadow meshes={instances} {...props}>
+            {(instances) => <context.Provider value={instances} children={children} />}
+        </Merged>
+    )
 }
 
 export function Computers(props) {
+    const { nodes: n, materials: m } = useGLTF('/computers_1-transformed.glb')
+    const instances = useContext(context)
+    const { camera } = useThree() // Yes, this gets the camera instance that was set up in the Canvas component in App.jsx with position: [0, 0, 4.5], fov: 45, etc.
 
-  const { camera } = useThree();
-const [spring, api] = useSpring(() => ({
-  position: camera.position.toArray(),
-  zoom: 1,
-  config: { tension: 100, friction: 30 },
-}));
-
-// Ref to track camera movement state to avoid re-renders
-const isCameraMoving = useRef(false);
-
-const handleScreenClick = (screenPosition, rotation) => {
-  if (isCameraMoving.current) return; // Prevent additional camera movements while moving
-
-  isCameraMoving.current = true;
-
-  // Create a rotation matrix from the Euler angles
-  const rotationMatrix = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(...rotation));
-
-  // Define an offset for the camera's position from the object
-  const offset = new THREE.Vector3(0, 0, -2); // You can adjust this distance as needed
-  offset.applyMatrix4(rotationMatrix); // Apply the object's rotation to the offset
-
-  // Calculate the new camera position by adding the offset to the object's position
-  const targetPosition = new THREE.Vector3(screenPosition[0], screenPosition[1], screenPosition[2]);
-  targetPosition.add(offset); // Add the rotated offset to the screen's position
-
-  // Start camera animation to the new position
-  api.start({
-    position: [targetPosition.x, targetPosition.y, targetPosition.z],
-    zoom: 0.25, // Adjust zoom level as needed
-  });
-};
-
-useFrame(() => {
-  // Only update the camera if there's a change in position or zoom
-  camera.position.set(...spring.position.get());
-  camera.zoom = spring.zoom.get();
-  camera.updateProjectionMatrix();
-});
-
-useEffect(() => {
-  // Reset the camera movement once the animation is completed
-  const animationComplete = () => {
-    isCameraMoving.current = false; // Reset the movement flag after the transition
-  };
-
-  return animationComplete; // Cleanup or reset after effect
-}, [spring.position, spring.zoom]);
+    const handleClick = (event, targetPos, targetRot) => {
+        event.stopPropagation();
 
 
-  const { nodes: n, materials: m } = useGLTF('/computers_1-transformed.glb')
+        // The rotation animation isn't working because camera.lookAt() in the position
+        // animation is overriding any manual rotation we set.
+        // We need to either:
+        // 1. Remove the lookAt if we want manual rotation control
+        // 2. Or remove the rotation animation since lookAt handles orientation
 
-  
-  
-  
-  const instances = useContext(context)
-  return (
-    <group {...props} dispose={null}>
-      <instances.Object position={[0.16, 0.79, -1.97]} rotation={[-0.54, 0.93, -1.12]} scale={0.5} />
-      <instances.Object position={[-2.79, 0.27, 1.82]} rotation={[-1.44, 1.22, 1.43]} scale={0.5} />
-      <instances.Object position={[-5.6, 4.62, -0.03]} rotation={[-1.96, 0.16, 1.2]} scale={0.5} />
-      <instances.Object position={[2.62, 1.98, -2.47]} rotation={[-0.42, -0.7, -1.85]} scale={0.5} />
-      <instances.Object position={[4.6, 3.46, 1.19]} rotation={[-1.24, -0.72, 0.48]} scale={0.5} />
-      <instances.Object1 position={[0.63, 0, -3]} rotation={[0, 0.17, 0]} scale={1.52} />
-      <instances.Object1 position={[-2.36, 0.32, -2.02]} rotation={[0, 0.53, -Math.PI / 2]} scale={1.52} />
-      <mesh castShadow receiveShadow geometry={n.Object_24.geometry} material={m.Texture} position={[-2.42, 0.94, -2.25]} rotation={[0, 0.14, Math.PI / 2]} scale={-1.52} />
-      <instances.Object1 position={[-3.53, 0, 0.59]} rotation={[Math.PI, -1.09, Math.PI]} scale={1.52} />
-      <instances.Object1 position={[-3.53, 1.53, 0.59]} rotation={[0, 0.91, 0]} scale={1.52} />
-      <instances.Object1 position={[3.42, 0, 0]} rotation={[-Math.PI, 1.13, -Math.PI]} scale={1.52} />
-      <instances.Object1 position={[4.09, 2.18, 2.41]} rotation={[0, -1.55, 1.57]} scale={1.52} />
-      <instances.Object3 position={[4.31, 1.57, 2.34]} rotation={[0, -1.15, -Math.PI / 2]} scale={-1.52} />
-      <instances.Object3 position={[-3.79, 0, 1.66]} rotation={[Math.PI, -1.39, 0]} scale={-1.52} />
-      <instances.Object3 position={[-3.79, 1.53, 1.66]} rotation={[0, 1.22, -Math.PI]} scale={-1.52} />
-      <instances.Object1 position={[-3.69, 0, 2.59]} rotation={[0, -1.57, 0]} scale={1.52} />
-      <instances.Object1 position={[-5.36, 2.18, 0.81]} rotation={[0, 0.77, Math.PI / 2]} scale={1.52} />
-      <instances.Object3 position={[-5.56, 1.57, 0.69]} rotation={[0, 1.17, -Math.PI / 2]} scale={-1.52} />
-      <instances.Object1 position={[-5.47, 2.79, 0.74]} rotation={[Math.PI, -1.16, Math.PI / 2]} scale={1.52} />
-      <instances.Object3 position={[-5.29, 3.41, 0.89]} rotation={[Math.PI, -0.76, -Math.PI / 2]} scale={-1.52} />
-      <instances.Object1 position={[-5.28, 0, -2.33]} rotation={[0, 0.75, 0]} scale={1.52} />
-      <instances.Object1 position={[-5.49, 0, -1.38]} rotation={[Math.PI, -0.99, Math.PI]} scale={1.52} />
-      <instances.Object1 position={[-3.01, 0, -3.79]} rotation={[0, 0.6, 0]} scale={1.52} />
-      <instances.Object1 position={[-2.08, 0, -4.32]} rotation={[Math.PI, -0.6, Math.PI]} scale={1.52} />
-      <instances.Object1 position={[-1.02, 0, -4.49]} rotation={[0, 0.31, 0]} scale={1.52} />
-      <instances.Object1 position={[-5.31, 1.83, -1.41]} rotation={[0, 1.06, Math.PI / 2]} scale={1.52} />
-      <instances.Object1 position={[-4.18, 1.83, -3.06]} rotation={[-Math.PI, -0.46, -Math.PI / 2]} scale={1.52} />
-      <instances.Object1 position={[-1.76, 1.83, -3.6]} rotation={[0, -1.16, Math.PI / 2]} scale={1.52} />
-      <instances.Object1 position={[-0.25, 1.83, -5.54]} rotation={[0, 1.55, 1.57]} scale={1.52} />
-      <instances.Object1 position={[-5.28, 2.14, -2.33]} rotation={[Math.PI, -0.75, Math.PI]} scale={1.52} />
-      <instances.Object1 position={[-5.49, 2.14, -1.38]} rotation={[0, 0.99, 0]} scale={1.52} />
-      <instances.Object1 position={[-3.01, 2.14, -3.79]} rotation={[Math.PI, -0.6, Math.PI]} scale={1.52} />
-      <instances.Object1 position={[-2.08, 2.14, -4.32]} rotation={[0, 0.6, 0]} scale={1.52} />
-      <instances.Object1 position={[-1.02, 2.14, -4.49]} rotation={[Math.PI, -0.31, Math.PI]} scale={1.52} />
-      <instances.Object1 position={[-5.31, 3.98, -1.41]} rotation={[0, 1.06, Math.PI / 2]} scale={1.52} />
-      <instances.Object1 position={[-4.18, 3.98, -3.06]} rotation={[-Math.PI, -0.46, -Math.PI / 2]} scale={1.52} />
-      <instances.Object1 position={[-1.17, 3.98, -4.45]} rotation={[0, 0.17, Math.PI / 2]} scale={1.52} />
-      <instances.Object1 position={[-0.94, 3.98, -4.66]} rotation={[Math.PI, 0.02, -Math.PI / 2]} scale={1.52} />
-      <mesh castShadow receiveShadow geometry={n.Object_140.geometry} material={m.Texture} position={[5.53, 2.18, 0.17]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_144.geometry} material={m.Texture} position={[5.74, 1.57, 0.05]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_148.geometry} material={m.Texture} position={[5.65, 2.79, 0.11]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_152.geometry} material={m.Texture} position={[5.46, 3.41, 0.26]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_156.geometry} material={m.Texture} position={[4.86, 0, -2.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_160.geometry} material={m.Texture} position={[5.06, 0, -1.6]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_164.geometry} material={m.Texture} position={[2.59, 0, -4]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_168.geometry} material={m.Texture} position={[1.66, 0, -4.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_170.geometry} material={m.Texture} position={[0.59, 0, -4.7]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <instances.Object13 position={[4.89, 1.83, -1.62]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <instances.Object14 position={[3.75, 1.83, -3.28]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_176.geometry} material={m.Texture} position={[1.33, 1.83, -3.82]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_180.geometry} material={m.Texture} position={[4.86, 2.14, -2.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_184.geometry} material={m.Texture} position={[5.06, 2.14, -1.6]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_188.geometry} material={m.Texture} position={[2.59, 2.14, -4]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_192.geometry} material={m.Texture} position={[1.66, 2.14, -4.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_194.geometry} material={m.Texture} position={[0.59, 2.14, -4.7]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <instances.Object13 position={[4.89, 3.98, -1.62]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <instances.Object14 position={[3.75, 3.98, -3.28]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_200.geometry} material={m.Texture} position={[0.75, 3.98, -4.66]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_18.geometry} material={m.Texture} position={[-0.19, 0, -2.96]} rotation={[0, -0.06, 0]} scale={1.52} />
-      <instances.Object23 position={[-2.29, 1.56, -2.26]} rotation={[0, -0.005, -Math.PI / 2]} scale={1.52} />
-      <instances.Object24 position={[-2.19, 2.19, -1.87]} rotation={[0, 0.51, Math.PI / 2]} scale={-1.52} />
-      <instances.Object23 position={[-2.9, 0.3, -1.47]} rotation={[Math.PI, -1.35, Math.PI / 2]} scale={1.52} />
-      <instances.Object23 position={[3.22, 0, -0.8]} rotation={[0, -1.32, 0]} scale={1.52} />
-      <instances.Object23 position={[3.53, 1.83, 0.44]} rotation={[-Math.PI, 1.32, Math.PI / 2]} scale={1.52} />
-      <instances.Object23 position={[4.26, 0.94, 2.22]} rotation={[0, -1, Math.PI / 2]} scale={1.52} />
-      <instances.Object24 position={[3.87, 0.32, 2.35]} rotation={[0, -1.53, -1.57]} scale={-1.52} />
-      <instances.Object23 position={[-5.61, 0.94, 0.82]} rotation={[0, 1.32, 1.57]} scale={1.52} />
-      <instances.Object24 position={[-5.26, 0.32, 1.01]} rotation={[0, 0.79, -Math.PI / 2]} scale={-1.52} />
-      <instances.Object23 position={[-5.39, 4.03, 0.99]} rotation={[Math.PI, -0.61, Math.PI / 2]} scale={1.52} />
-      <instances.Object24 position={[-5.7, 4.66, 0.72]} rotation={[Math.PI, -1.13, -Math.PI / 2]} scale={-1.52} />
-      <instances.Object23 position={[-5.95, 0, -0.64]} rotation={[0, 0.95, 0]} scale={1.52} />
-      <instances.Object23 position={[-4.48, 0, -2.75]} rotation={[Math.PI, -0.57, Math.PI]} scale={1.52} />
-      <instances.Object23 position={[-3.72, 0, -2.89]} rotation={[0, 0.64, 0]} scale={1.52} />
-      <instances.Object23 position={[-0.08, 0, -5.03]} rotation={[Math.PI, -0.04, Math.PI]} scale={1.52} />
-      <instances.Object24 position={[-4.19, 1.84, -2.77]} rotation={[Math.PI, -0.66, -Math.PI / 2]} scale={-1.52} />
-      <instances.Object23 position={[-5.95, 2.14, -0.64]} rotation={[Math.PI, -0.95, Math.PI]} scale={1.52} />
-      <instances.Object23 position={[-4.48, 2.14, -2.75]} rotation={[0, 0.57, 0]} scale={1.52} />
-      <instances.Object23 position={[-3.73, 2.14, -3.1]} rotation={[Math.PI, -0.64, Math.PI]} scale={1.52} />
-      <instances.Object23 position={[-0.08, 2.14, -5.03]} rotation={[0, 0.04, 0]} scale={1.52} />
-      <instances.Object24 position={[-4.19, 3.98, -2.77]} rotation={[Math.PI, -0.66, -Math.PI / 2]} scale={-1.52} />
-      <mesh castShadow receiveShadow geometry={n.Object_142.geometry} material={m.Texture} position={[5.79, 0.94, 0.18]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_146.geometry} material={m.Texture} position={[5.43, 0.32, 0.37]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_150.geometry} material={m.Texture} position={[5.56, 4.03, 0.35]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_154.geometry} material={m.Texture} position={[5.87, 4.66, 0.08]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_158.geometry} material={m.Texture} position={[5.53, 0, -0.85]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_162.geometry} material={m.Texture} position={[4.05, 0, -2.96]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_166.geometry} material={m.Texture} position={[3.29, 0, -3.1]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <instances.Object32 position={[3.77, 1.84, -2.98]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_182.geometry} material={m.Texture} position={[5.53, 2.14, -0.85]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_186.geometry} material={m.Texture} position={[4.05, 2.14, -2.96]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <mesh castShadow receiveShadow geometry={n.Object_190.geometry} material={m.Texture} position={[3.3, 2.14, -3.31]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <instances.Object32 position={[3.77, 3.98, -2.98]} rotation={[-Math.PI, 0, 0]} scale={-1} />
-      <instances.Object36 position={[0.35, 2.35, -3.34]} rotation={[-0.26, 0, 0]} />
-      <instances.Object36 position={[0.18, 2.8, -2.85]} rotation={[0.09, 0.15, -0.005]} />
-      <instances.Object36 position={[1.89, 0, -1.94]} rotation={[0, -0.44, 0]} scale={[1.5, 1, 1.5]} />
-      <instances.Object36 position={[1.86, 1.61, -1.81]} rotation={[0, -Math.PI / 3, 0]} />
-      <instances.Object36 position={[3.95, 2.49, 1.61]} rotation={[0, -Math.PI / 3, 0]} />
-      <instances.Object36 position={[-1.1, 4.29, -4.43]} rotation={[0, 0.36, 0]} />
-      <instances.Object36 position={[-5.25, 4.29, -1.47]} rotation={[0, 1.25, 0]} />
-      <mesh castShadow receiveShadow geometry={n.Object_204.geometry} material={m.Texture} position={[3.2, 4.29, -3.09]} rotation={[-Math.PI, 0.56, 0]} scale={-1} />
-      <ScreenInteractive frame="Object_206" panel="Object_207" position={[0.27, 1.53, -2.61]} handleScreenClick={ handleScreenClick} />
-      <ScreenText frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} handleScreenClick={ handleScreenClick}/>
-      {/* <ScreenText invert frame="Object_212" panel="Object_213" x={-5} y={5} position={[-2.73, 0.63, -0.52]} rotation={[0, 1.09, 0]} onScreenClick={handleScreenClick}/>
-      <ScreenText invert frame="Object_215" panel="Object_216" position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]} onScreenClick={handleScreenClick} />
-      <ScreenText invert frame="Object_218" panel="Object_219" x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81} onScreenClick={handleScreenClick}/>
-      <ScreenText frame="Object_221" panel="Object_222" y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9} />
-      <ScreenText invert frame="Object_224" panel="Object_225" position={[-3.9, 4.29, -2.64]} rotation={[0, 0.54, 0]} onScreenClick={handleScreenClick}/>
-      <ScreenText frame="Object_227" panel="Object_228" position={[0.96, 4.28, -4.2]} rotation={[0, -0.65, 0]} onScreenClick={handleScreenClick}/>
-      <ScreenText frame="Object_230" panel="Object_231" position={[4.68, 4.29, -1.56]} rotation={[0, -Math.PI / 3, 0]} onScreenClick={handleScreenClick}/> */}
-      <Leds instances={instances} />
-    
-    </group>
-  
-  )
+        // Option 1 - Manual rotation without lookAt:
+        gsap.to(camera.rotation, {
+            x: targetRot[0],
+            y: targetRot[1],
+            z: targetRot[2],
+            duration: 1,
+            ease: "power2.inOut"
+        });
+
+        gsap.to(camera.position, {
+            x: targetPos[0],
+            y: targetPos[1],
+            z: targetPos[2],
+            duration: 1,
+            ease: "power2.inOut"
+            // Removed lookAt to allow manual rotation
+        });
+
+        // Option 2 would be to keep just the position animation with lookAt:
+        /*
+        gsap.to(camera.position, {
+          x: targetPos[0],
+          y: targetPos[1], 
+          z: targetPos[2],
+          duration: 1,
+          ease: "power2.inOut",
+          onUpdate: () => {
+            camera.lookAt(0, 0, 0);
+          }
+        });
+        */
+    }
+
+
+
+    // Example usage in JSX return:
+    // <instances.Object 
+    //   position={[0.16, 0.79, -1.97]} 
+    //   rotation={[-0.54, 0.93, -1.12]} 
+    //   scale={0.5}
+    //   onClick={(e) => handleClick(e, [1, 2, 3])} // Custom target position per object
+    // />
+
+    // For ScreenInteractive components:
+    // <ScreenInteractive 
+    //   frame="Object_206" 
+    //   panel="Object_207" 
+    //   position={[0.27, 1.53, -2.61]}
+    //   onClick={(e) => handleClick(e, [0.27, 2, -1])} 
+    // />
+
+    useEffect(() => {
+        const gui = new dat.GUI();
+
+        // Add camera position controls
+        const cameraFolder = gui.addFolder('Camera');
+        cameraFolder.add(camera.position, 'x', -20, 20).name('Position X');
+        cameraFolder.add(camera.position, 'y', -20, 20).name('Position Y');
+        cameraFolder.add(camera.position, 'z', -20, 20).name('Position Z');
+
+        // Add camera rotation controls
+        cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI).name('Rotation X');
+        cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI).name('Rotation Y');
+        cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI).name('Rotation Z');
+
+        // Add camera FOV control
+        cameraFolder.add(camera, 'fov', 30, 120).name('FOV').onChange(() => {
+            camera.updateProjectionMatrix();
+        });
+
+        cameraFolder.open();
+
+        return () => {
+            gui.destroy(); // Clean up on unmount
+        };
+    }, [camera]);
+
+    console.log("instances", instances);
+
+
+    return (
+        <group {...props} dispose={null}>
+            <instances.Object position={[0.16, 0.79, -1.97]} rotation={[-0.54, 0.93, -1.12]} scale={0.5} />
+            <instances.Object position={[-2.79, 0.27, 1.82]} rotation={[-1.44, 1.22, 1.43]} scale={0.5} />
+            <instances.Object position={[-5.6, 4.62, -0.03]} rotation={[-1.96, 0.16, 1.2]} scale={0.5} />
+            <instances.Object position={[2.62, 1.98, -2.47]} rotation={[-0.42, -0.7, -1.85]} scale={0.5} />
+            <instances.Object position={[4.6, 3.46, 1.19]} rotation={[-1.24, -0.72, 0.48]} scale={0.5} />
+            <instances.Object1 position={[0.63, 0, -3]} rotation={[0, 0.17, 0]} scale={1.52} />
+            <instances.Object1 position={[-2.36, 0.32, -2.02]} rotation={[0, 0.53, -Math.PI / 2]} scale={1.52} />
+            <mesh castShadow receiveShadow geometry={n.Object_24.geometry} material={m.Texture} position={[-2.42, 0.94, -2.25]} rotation={[0, 0.14, Math.PI / 2]} scale={-1.52} />
+            <instances.Object1 position={[-3.53, 0, 0.59]} rotation={[Math.PI, -1.09, Math.PI]} scale={1.52} />
+            <instances.Object1 position={[-3.53, 1.53, 0.59]} rotation={[0, 0.91, 0]} scale={1.52} />
+            <instances.Object1 position={[3.42, 0, 0]} rotation={[-Math.PI, 1.13, -Math.PI]} scale={1.52} />
+            <instances.Object1 position={[4.09, 2.18, 2.41]} rotation={[0, -1.55, 1.57]} scale={1.52} />
+            <instances.Object3 position={[4.31, 1.57, 2.34]} rotation={[0, -1.15, -Math.PI / 2]} scale={-1.52} />
+            <instances.Object3 position={[-3.79, 0, 1.66]} rotation={[Math.PI, -1.39, 0]} scale={-1.52} />
+            <instances.Object3 position={[-3.79, 1.53, 1.66]} rotation={[0, 1.22, -Math.PI]} scale={-1.52} />
+            <instances.Object1 position={[-3.69, 0, 2.59]} rotation={[0, -1.57, 0]} scale={1.52} />
+            <instances.Object1 position={[-5.36, 2.18, 0.81]} rotation={[0, 0.77, Math.PI / 2]} scale={1.52} />
+            <instances.Object3 position={[-5.56, 1.57, 0.69]} rotation={[0, 1.17, -Math.PI / 2]} scale={-1.52} />
+            <instances.Object1 position={[-5.47, 2.79, 0.74]} rotation={[Math.PI, -1.16, Math.PI / 2]} scale={1.52} />
+            <instances.Object3 position={[-5.29, 3.41, 0.89]} rotation={[Math.PI, -0.76, -Math.PI / 2]} scale={-1.52} />
+            <instances.Object1 position={[-5.28, 0, -2.33]} rotation={[0, 0.75, 0]} scale={1.52} />
+            <instances.Object1 position={[-5.49, 0, -1.38]} rotation={[Math.PI, -0.99, Math.PI]} scale={1.52} />
+            <instances.Object1 position={[-3.01, 0, -3.79]} rotation={[0, 0.6, 0]} scale={1.52} />
+            <instances.Object1 position={[-2.08, 0, -4.32]} rotation={[Math.PI, -0.6, Math.PI]} scale={1.52} />
+            <instances.Object1 position={[-1.02, 0, -4.49]} rotation={[0, 0.31, 0]} scale={1.52} />
+            <instances.Object1 position={[-5.31, 1.83, -1.41]} rotation={[0, 1.06, Math.PI / 2]} scale={1.52} />
+            <instances.Object1 position={[-4.18, 1.83, -3.06]} rotation={[-Math.PI, -0.46, -Math.PI / 2]} scale={1.52} />
+            <instances.Object1 position={[-1.76, 1.83, -3.6]} rotation={[0, -1.16, Math.PI / 2]} scale={1.52} />
+            <instances.Object1 position={[-0.25, 1.83, -5.54]} rotation={[0, 1.55, 1.57]} scale={1.52} />
+            <instances.Object1 position={[-5.28, 2.14, -2.33]} rotation={[Math.PI, -0.75, Math.PI]} scale={1.52} />
+            <instances.Object1 position={[-5.49, 2.14, -1.38]} rotation={[0, 0.99, 0]} scale={1.52} />
+            <instances.Object1 position={[-3.01, 2.14, -3.79]} rotation={[Math.PI, -0.6, Math.PI]} scale={1.52} />
+            <instances.Object1 position={[-2.08, 2.14, -4.32]} rotation={[0, 0.6, 0]} scale={1.52} />
+            <instances.Object1 position={[-1.02, 2.14, -4.49]} rotation={[Math.PI, -0.31, Math.PI]} scale={1.52} />
+            <instances.Object1 position={[-5.31, 3.98, -1.41]} rotation={[0, 1.06, Math.PI / 2]} scale={1.52} />
+            <instances.Object1 position={[-4.18, 3.98, -3.06]} rotation={[-Math.PI, -0.46, -Math.PI / 2]} scale={1.52} />
+            <instances.Object1 position={[-1.17, 3.98, -4.45]} rotation={[0, 0.17, Math.PI / 2]} scale={1.52} />
+            <instances.Object1 position={[-0.94, 3.98, -4.66]} rotation={[Math.PI, 0.02, -Math.PI / 2]} scale={1.52} />
+            <mesh castShadow receiveShadow geometry={n.Object_140.geometry} material={m.Texture} position={[5.53, 2.18, 0.17]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_144.geometry} material={m.Texture} position={[5.74, 1.57, 0.05]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_148.geometry} material={m.Texture} position={[5.65, 2.79, 0.11]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_152.geometry} material={m.Texture} position={[5.46, 3.41, 0.26]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_156.geometry} material={m.Texture} position={[4.86, 0, -2.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_160.geometry} material={m.Texture} position={[5.06, 0, -1.6]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_164.geometry} material={m.Texture} position={[2.59, 0, -4]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_168.geometry} material={m.Texture} position={[1.66, 0, -4.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_170.geometry} material={m.Texture} position={[0.59, 0, -4.7]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <instances.Object13 position={[4.89, 1.83, -1.62]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <instances.Object14 position={[3.75, 1.83, -3.28]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_176.geometry} material={m.Texture} position={[1.33, 1.83, -3.82]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_180.geometry} material={m.Texture} position={[4.86, 2.14, -2.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_184.geometry} material={m.Texture} position={[5.06, 2.14, -1.6]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_188.geometry} material={m.Texture} position={[2.59, 2.14, -4]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_192.geometry} material={m.Texture} position={[1.66, 2.14, -4.54]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_194.geometry} material={m.Texture} position={[0.59, 2.14, -4.7]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <instances.Object13 position={[4.89, 3.98, -1.62]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <instances.Object14 position={[3.75, 3.98, -3.28]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_200.geometry} material={m.Texture} position={[0.75, 3.98, -4.66]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_18.geometry} material={m.Texture} position={[-0.19, 0, -2.96]} rotation={[0, -0.06, 0]} scale={1.52} />
+            <instances.Object23 position={[-2.29, 1.56, -2.26]} rotation={[0, -0.005, -Math.PI / 2]} scale={1.52} />
+            <instances.Object24 position={[-2.19, 2.19, -1.87]} rotation={[0, 0.51, Math.PI / 2]} scale={-1.52} />
+            <instances.Object23 position={[-2.9, 0.3, -1.47]} rotation={[Math.PI, -1.35, Math.PI / 2]} scale={1.52} />
+            <instances.Object23 position={[3.22, 0, -0.8]} rotation={[0, -1.32, 0]} scale={1.52} />
+            <instances.Object23 position={[3.53, 1.83, 0.44]} rotation={[-Math.PI, 1.32, Math.PI / 2]} scale={1.52} />
+            <instances.Object23 position={[4.26, 0.94, 2.22]} rotation={[0, -1, Math.PI / 2]} scale={1.52} />
+            <instances.Object24 position={[3.87, 0.32, 2.35]} rotation={[0, -1.53, -1.57]} scale={-1.52} />
+            <instances.Object23 position={[-5.61, 0.94, 0.82]} rotation={[0, 1.32, 1.57]} scale={1.52} />
+            <instances.Object24 position={[-5.26, 0.32, 1.01]} rotation={[0, 0.79, -Math.PI / 2]} scale={-1.52} />
+            <instances.Object23 position={[-5.39, 4.03, 0.99]} rotation={[Math.PI, -0.61, Math.PI / 2]} scale={1.52} />
+            <instances.Object24 position={[-5.7, 4.66, 0.72]} rotation={[Math.PI, -1.13, -Math.PI / 2]} scale={-1.52} />
+            <instances.Object23 position={[-5.95, 0, -0.64]} rotation={[0, 0.95, 0]} scale={1.52} />
+            <instances.Object23 position={[-4.48, 0, -2.75]} rotation={[Math.PI, -0.57, Math.PI]} scale={1.52} />
+            <instances.Object23 position={[-3.72, 0, -2.89]} rotation={[0, 0.64, 0]} scale={1.52} />
+            <instances.Object23 position={[-0.08, 0, -5.03]} rotation={[Math.PI, -0.04, Math.PI]} scale={1.52} />
+            <instances.Object24 position={[-4.19, 1.84, -2.77]} rotation={[Math.PI, -0.66, -Math.PI / 2]} scale={-1.52} />
+            <instances.Object23 position={[-5.95, 2.14, -0.64]} rotation={[Math.PI, -0.95, Math.PI]} scale={1.52} />
+            <instances.Object23 position={[-4.48, 2.14, -2.75]} rotation={[0, 0.57, 0]} scale={1.52} />
+            <instances.Object23 position={[-3.73, 2.14, -3.1]} rotation={[Math.PI, -0.64, Math.PI]} scale={1.52} />
+            <instances.Object23 position={[-0.08, 2.14, -5.03]} rotation={[0, 0.04, 0]} scale={1.52} />
+            <instances.Object24 position={[-4.19, 3.98, -2.77]} rotation={[Math.PI, -0.66, -Math.PI / 2]} scale={-1.52} />
+            <mesh castShadow receiveShadow geometry={n.Object_142.geometry} material={m.Texture} position={[5.79, 0.94, 0.18]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_146.geometry} material={m.Texture} position={[5.43, 0.32, 0.37]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_150.geometry} material={m.Texture} position={[5.56, 4.03, 0.35]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_154.geometry} material={m.Texture} position={[5.87, 4.66, 0.08]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_158.geometry} material={m.Texture} position={[5.53, 0, -0.85]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_162.geometry} material={m.Texture} position={[4.05, 0, -2.96]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_166.geometry} material={m.Texture} position={[3.29, 0, -3.1]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <instances.Object32 position={[3.77, 1.84, -2.98]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_182.geometry} material={m.Texture} position={[5.53, 2.14, -0.85]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_186.geometry} material={m.Texture} position={[4.05, 2.14, -2.96]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <mesh castShadow receiveShadow geometry={n.Object_190.geometry} material={m.Texture} position={[3.3, 2.14, -3.31]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <instances.Object32 position={[3.77, 3.98, -2.98]} rotation={[-Math.PI, 0, 0]} scale={-1} />
+            <instances.Object36 position={[0.35, 2.35, -3.34]} rotation={[-0.26, 0, 0]} />
+            <instances.Object36 position={[0.18, 2.8, -2.85]} rotation={[0.09, 0.15, -0.005]} />
+            <instances.Object36 position={[1.89, 0, -1.94]} rotation={[0, -0.44, 0]} scale={[1.5, 1, 1.5]} />
+            <instances.Object36 position={[1.86, 1.61, -1.81]} rotation={[0, -Math.PI / 3, 0]} />
+            <instances.Object36 position={[3.95, 2.49, 1.61]} rotation={[0, -Math.PI / 3, 0]} />
+            <instances.Object36 position={[-1.1, 4.29, -4.43]} rotation={[0, 0.36, 0]} />
+            <instances.Object36 position={[-5.25, 4.29, -1.47]} rotation={[0, 1.25, 0]} />
+            <mesh castShadow receiveShadow geometry={n.Object_204.geometry} material={m.Texture} position={[3.2, 4.29, -3.09]} rotation={[-Math.PI, 0.56, 0]} scale={-1} />
+            <AboutScreen frame="Object_206" panel="Object_207" position={[0.27, 1.53, -2.61]} onClick={(e) => handleClick(e, [0.1, 0.15, 0.89], [0, -0.01, 0])} htmlPos={[0.3,-0.8,0]}/>
+            <ProjectScreen frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} onClick={(e) => {
+                handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0]) 
+              
+            }} htmlPos={[-1.7,0.6,0]} htmlRot={[0, -0.1, 0]}/>
+             {/* <ScreenText frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} onClick={(e) => {
+                handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0])
+              
+            }} />
+              */}
+             
+
+            <Leds instances={instances} />
+
+        </group>
+
+    )
 }
 
 /* This component renders a monitor (taken out of the gltf model)
    It renders a custom scene into a texture and projects it onto monitors screen */
-// function Screen({ frame, panel, children, ...props }) {
-//   const { nodes, materials } = useGLTF('/computers_1-transformed.glb')
-//   return (
-//     <group {...props}>
-//       <mesh castShadow receiveShadow geometry={nodes[frame].geometry} material={materials.Texture} />
-//       <mesh geometry={nodes[panel].geometry}>
-//         <meshBasicMaterial toneMapped={false}>
-//           <RenderTexture width={512} height={512} attach="map" anisotropy={16}>
-//             {children}
-//           </RenderTexture>
-//         </meshBasicMaterial>
-//       </mesh>
-//     </group>
-//   )
-// }
-
-
-function Screen({ frame, panel, children, onScreenClick,handleScreenClick, ...props }) {
-  const { nodes, materials } = useGLTF('/computers_1-transformed.glb');
-  const screenRef = useRef();
-
-  return (
-    <group {...props} ref={screenRef} onClick={() => { handleScreenClick(props.position,props.rotation)}} >
-      <mesh castShadow receiveShadow geometry={nodes[frame].geometry} material={materials.Texture} />
-      <mesh geometry={nodes[panel].geometry}>
-        <meshBasicMaterial toneMapped={false}>
-          <RenderTexture width={512} height={512} attach="map" anisotropy={16}>
-            {children}
-          </RenderTexture>
-        </meshBasicMaterial>
-      </mesh>
-    </group>
-  );
+function Screen({ frame, panel, children, ...props }) {
+    const { nodes, materials } = useGLTF('/computers_1-transformed.glb')
+    return (
+        <group {...props}>
+            <mesh castShadow receiveShadow geometry={nodes[frame].geometry} material={materials.Texture} />
+            <mesh geometry={nodes[panel].geometry}>
+                <meshBasicMaterial toneMapped={false}>
+                    <RenderTexture attach="map" anisotropy={16} height={512} width={512}>
+                        {children}
+                    </RenderTexture>
+                </meshBasicMaterial>
+            </mesh>
+        </group>
+    )
 }
+
+
+
+
+
+
+
+
 
 
 /* Renders a monitor with some text */
 function ScreenText({ invert, x = 0, y = 1.2, ...props }) {
-  const textRef = useRef()
-  const rand = Math.random() * 10000
-  useFrame((state) => (textRef.current.position.x = x + Math.sin(rand + state.clock.elapsedTime / 4) * 8))
-  return (
-    <Screen {...props} >
-      <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 15]} />
-      <color attach="background" args={[invert ? 'black' : '#35c19f']} />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} />
-      <Text font="/Inter-Medium.woff" position={[x, y, 0]} ref={textRef} fontSize={2} letterSpacing={-0.1} color={!invert ? 'black' : '#35c19f'}>
-        Hishita Gupta
-      </Text>
-    </Screen>
-  )
+    const textRef = useRef()
+    const rand = Math.random() * 10000
+    useFrame((state) => (textRef.current.position.x = x + Math.sin(rand + state.clock.elapsedTime / 4) * 8))
+    return (
+        <Screen {...props} >
+            <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 15]} />
+            <color attach="background" args={[invert ? 'black' : '#35c19f']} />
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[10, 10, 5]} />
+            <Text font="/Inter-Medium.woff" position={[x, y, 0]} ref={textRef} fontSize={2} letterSpacing={-0.1} color={!invert ? 'black' : '#35c19f'}>
+                Hishita Gupta
+            </Text>
+
+        </Screen>
+    )
 }
 
-/* Renders a monitor with a spinning box */
-function ScreenInteractive(props) {
-  return (
-    <Screen {...props}>
-      <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
-      <color attach="background" args={['orange']} />
-      <ambientLight intensity={Math.PI / 2} />
-      <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
-      <pointLight decay={0} position={[-10, -10, -10]} />
-      <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} />
-    </Screen>
-  )
+/* Renders a monitor with a spinning box or HTML content */
+function AboutScreen(props) {
+    const [showHtml, setShowHtml] = useState(false)
+    const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 })
+    const [htmlScale, setHtmlScale] = useState(1)
+    const [isTransitioning, setIsTransitioning] = useState(false)
+
+    // useEffect(() => {
+    //     if (showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
+            
+    //         const posFolder = gui.addFolder('HTML Position');
+            
+    //         posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'y', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, z: value }));
+    //         });
+            
+    //         const scaleFolder = gui.addFolder('HTML Scale');
+    //         scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //             setHtmlScale(value);
+    //         });
+
+    //         posFolder.open();
+    //         scaleFolder.open();
+
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [showHtml]);
+
+    const handleScreenClick = (e) => {
+        if (!isTransitioning) {
+            setIsTransitioning(true);
+            if (props.onClick) {
+                props.onClick(e);
+                // Wait for camera animation to complete before showing HTML
+                setTimeout(() => {
+                    setShowHtml(true);
+                    setIsTransitioning(false);
+                }, 1000); // Yes, this is one second (1000 milliseconds)
+            }
+        }
+    };
+
+    return (
+        <Screen {...props} onClick={handleScreenClick}>
+            <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
+            <color attach="background" args={['black']} />
+            {showHtml && !isTransitioning ? (
+                <group>
+                    <Html
+                        transform
+                        scale={htmlScale}
+                        position={props.htmlPos || [htmlPosition.x, htmlPosition.y, htmlPosition.z]}
+                        style={{
+                            width: '245px',
+                            height: '180px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            backdropFilter: 'blur(8px)',
+                            transformOrigin: 'center',
+                            borderRadius: '10px',
+                            border: '2px solid white',
+                            mixBlendMode: 'difference',
+                        }}
+                    >
+                        <div style={{ 
+                            textAlign: 'center',
+                            color: 'white',
+                            fontSize: '4px',
+                            padding: '2px',
+                        }}>
+                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta</h2>
+                            <p style={{ margin: '0 0 3px 0', fontSize: '8px' }}>Full Stack Developer</p>
+                            <div style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
+                                <a 
+                                    href="https://github.com/yourusername" 
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        border: '2px solid white',
+                                        // padding: '15px 30px',
+                                        borderRadius: '8px',
+                                        fontSize: '6px'
+                                    }}
+                                >
+                                    GitHub
+                                </a>
+                                <a 
+                                    href="https://linkedin.com/in/yourusername" 
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        border: '2px solid white',
+                                        padding: '1px 3px',
+                                        borderRadius: '8px',
+                                        fontSize: '3px'
+                                    }}
+                                >
+                                    LinkedIn
+                                </a>
+                            </div>
+                        </div>
+                    </Html>
+                </group>
+            ) : (
+                <>
+                    <ambientLight intensity={Math.PI / 2} />
+                    <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
+                    <pointLight decay={0} position={[-10, -10, -10]} />
+                    <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} />
+                </>
+            )}
+        </Screen>
+    )
 }
+
+function ProjectScreen(props) {
+    const [showHtml, setShowHtml] = useState(false)
+    const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 })
+    const [htmlRotation, setHtmlRotation] = useState({ x: 0, y: 0, z: 0 })
+    const [htmlScale, setHtmlScale] = useState(1)
+    const [isTransitioning, setIsTransitioning] = useState(false)
+
+    useEffect(() => {
+        if (showHtml) {
+            const gui = new dat.GUI({ name: 'HTML Controls' });
+            
+            const posFolder = gui.addFolder('HTML Position');
+            
+            posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, x: value }));
+            });
+            posFolder.add(htmlPosition, 'y', -3, 3, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, y: value }));
+            });
+            posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, z: value }));
+            });
+
+            const rotFolder = gui.addFolder('HTML Rotation');
+            rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, x: value }));
+            });
+            rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, y: value }));
+            });
+            rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, z: value }));
+            });
+            
+            const scaleFolder = gui.addFolder('HTML Scale');
+            scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+                setHtmlScale(value);
+            });
+
+            posFolder.open();
+            scaleFolder.open();
+
+            return () => {
+                gui.destroy();
+            };
+        }
+    }, [showHtml]);
+
+    const handleScreenClick = (e) => {
+        if (!isTransitioning) {
+            setIsTransitioning(true);
+            if (props.onClick) {
+                props.onClick(e);
+                // Wait for camera animation to complete before showing HTML
+                setTimeout(() => {
+                    setShowHtml(true);
+                    setIsTransitioning(false);
+                }, 1000); // Yes, this is one second (1000 milliseconds)
+            }
+        }
+    };
+
+    return (
+        <Screen {...props} onClick={handleScreenClick}>
+            <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
+            <color attach="background" args={['black']} />
+            {showHtml && !isTransitioning ? (
+                <group>
+                    <Html
+                        transform
+                        scale={htmlScale}
+                        position={props.htmlPos || [htmlPosition.x, htmlPosition.y, htmlPosition.z]}
+                        rotation={props.htmlRot || [htmlRotation.x, htmlRotation.y, htmlRotation.z]}
+                        style={{
+                            width: '245px',
+                            height: '180px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            backdropFilter: 'blur(8px)',
+                            transformOrigin: 'center',
+                            borderRadius: '10px',
+                            border: '2px solid white',
+                            mixBlendMode: 'difference',
+                        }}
+                    >
+                        <div style={{ 
+                            textAlign: 'center',
+                            color: 'white',
+                            fontSize: '4px',
+                            padding: '2px',
+                        }}>
+                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta</h2>
+                            <p style={{ margin: '0 0 3px 0', fontSize: '8px' }}>Full Stack Developer</p>
+                            <div style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
+                                <a 
+                                    href="https://github.com/yourusername" 
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        border: '2px solid white',
+                                        // padding: '15px 30px',
+                                        borderRadius: '8px',
+                                        fontSize: '6px'
+                                    }}
+                                >
+                                    GitHub
+                                </a>
+                                <a 
+                                    href="https://linkedin.com/in/yourusername" 
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        border: '2px solid white',
+                                        padding: '1px 3px',
+                                        borderRadius: '8px',
+                                        fontSize: '3px'
+                                    }}
+                                >
+                                    LinkedIn
+                                </a>
+                            </div>
+                        </div>
+                    </Html>
+                </group>
+            ) : (
+                <>
+                    <ambientLight intensity={Math.PI / 2} />
+                    <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
+                    <pointLight decay={0} position={[-10, -10, -10]} />
+                    <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} />
+                </>
+            )}
+        </Screen>
+    )
+}
+
+
+
+
 
 // Renders flashing LED's
 function Leds({ instances }) {
-  const ref = useRef()
-  const { nodes } = useGLTF('/computers_1-transformed.glb')
-  useMemo(() => {
-    nodes.Sphere.material = new THREE.MeshBasicMaterial()
-    nodes.Sphere.material.toneMapped = false
-  }, [])
-  useFrame((state) => {
-    ref.current.children.forEach((instance) => {
-      const rand = Math.abs(2 + instance.position.x)
-      const t = Math.round((1 + Math.sin(rand * 10000 + state.clock.elapsedTime * rand)) / 2)
-      instance.color.setRGB(0, t * 1.1, t)
+    const ref = useRef()
+    const { nodes } = useGLTF('/computers_1-transformed.glb')
+    useMemo(() => {
+        nodes.Sphere.material = new THREE.MeshBasicMaterial()
+        nodes.Sphere.material.toneMapped = false
+    }, [])
+    useFrame((state) => {
+        ref.current.children.forEach((instance) => {
+            const rand = Math.abs(2 + instance.position.x)
+            const t = Math.round((1 + Math.sin(rand * 10000 + state.clock.elapsedTime * rand)) / 2)
+            instance.color.setRGB(0, t * 1.1, t)
+        })
     })
-  })
-  return (
-    <group ref={ref}>
-      <instances.Sphere position={[-0.41, 1.1, -2.21]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[0.59, 1.32, -2.22]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[1.77, 1.91, -1.17]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[2.44, 1.1, -0.79]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[4.87, 3.8, -0.1]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[1.93, 3.8, -3.69]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[-2.35, 3.8, -3.48]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[-4.71, 4.59, -1.81]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[-3.03, 2.85, 1.19]} scale={0.005} color={[1, 2, 1]} />
-      <instances.Sphere position={[-1.21, 1.73, -1.49]} scale={0.005} color={[1, 2, 1]} />
-    </group>
-  )
+    return (
+        <group ref={ref}>
+            <instances.Sphere position={[-0.41, 1.1, -2.21]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[0.59, 1.32, -2.22]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[1.77, 1.91, -1.17]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[2.44, 1.1, -0.79]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[4.87, 3.8, -0.1]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[1.93, 3.8, -3.69]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[-2.35, 3.8, -3.48]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[-4.71, 4.59, -1.81]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[-3.03, 2.85, 1.19]} scale={0.005} color={[1, 2, 1]} />
+            <instances.Sphere position={[-1.21, 1.73, -1.49]} scale={0.005} color={[1, 2, 1]} />
+        </group>
+    )
 }
+
 
 
 

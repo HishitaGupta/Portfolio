@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useCursor } from '@react-three/drei'
+import { Html, useCursor } from '@react-three/drei'
 
 export function SpinningBox({ scale, ...props }) {
   // This reference gives us direct access to the THREE.Mesh object
@@ -22,6 +22,7 @@ export function SpinningBox({ scale, ...props }) {
       onPointerOut={(event) => hover(false)}>
       <boxGeometry />
       <meshStandardMaterial color={hovered ? 'hotpink' : 'indianred'} />
+      
     </mesh>
   )
 }
