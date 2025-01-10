@@ -68,9 +68,8 @@ export function Computers(props) {
     const instances = useContext(context)
     const { camera } = useThree() // Yes, this gets the camera instance that was set up in the Canvas component in App.jsx with position: [0, 0, 4.5], fov: 45, etc.
 
-    const handleClick = (event, targetPos, targetRot) => {
+    const handleClick = (event, targetPos, targetRot, targetFov = 45) => {
         event.stopPropagation();
-
 
         // The rotation animation isn't working because camera.lookAt() in the position
         // animation is overriding any manual rotation we set.
@@ -94,6 +93,15 @@ export function Computers(props) {
             duration: 1,
             ease: "power2.inOut"
             // Removed lookAt to allow manual rotation
+        });
+
+        gsap.to(camera, {
+            fov: targetFov,
+            duration: 1,
+            ease: "power2.inOut",
+            onUpdate: () => {
+                camera.updateProjectionMatrix();
+            }
         });
 
         // Option 2 would be to keep just the position animation with lookAt:
@@ -134,14 +142,14 @@ export function Computers(props) {
 
         // Add camera position controls
         const cameraFolder = gui.addFolder('Camera');
-        cameraFolder.add(camera.position, 'x', -20, 20).name('Position X');
-        cameraFolder.add(camera.position, 'y', -20, 20).name('Position Y');
-        cameraFolder.add(camera.position, 'z', -20, 20).name('Position Z');
+        cameraFolder.add(camera.position, 'x', -5, 5,0.1).name('Position X');
+        cameraFolder.add(camera.position, 'y', -5, 5,0.1).name('Position Y');
+        cameraFolder.add(camera.position, 'z', -5, 10,0.1).name('Position Z');
 
         // Add camera rotation controls
-        cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI).name('Rotation X');
-        cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI).name('Rotation Y');
-        cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI).name('Rotation Z');
+        cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X').listen();
+        cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y').listen();
+        cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z').listen();
 
         // Add camera FOV control
         cameraFolder.add(camera, 'fov', 30, 120).name('FOV').onChange(() => {
@@ -260,17 +268,27 @@ export function Computers(props) {
             <instances.Object36 position={[-1.1, 4.29, -4.43]} rotation={[0, 0.36, 0]} />
             <instances.Object36 position={[-5.25, 4.29, -1.47]} rotation={[0, 1.25, 0]} />
             <mesh castShadow receiveShadow geometry={n.Object_204.geometry} material={m.Texture} position={[3.2, 4.29, -3.09]} rotation={[-Math.PI, 0.56, 0]} scale={-1} />
-            <AboutScreen frame="Object_206" panel="Object_207" position={[0.27, 1.53, -2.61]} onClick={(e) => handleClick(e, [0.1, 0.15, 0.89], [0, -0.01, 0])} htmlPos={[0.3,-0.8,0]}/>
+            <AboutScreen frame="Object_206" panel="Object_207" position={[0.27, 1.53, -2.61]} onClick={(e) => handleClick(e, [0.1, 0.15, 0.89], [0, -0.01, 0])} htmlPos={[0.3, -0.8, 0]} />
             <ProjectScreen frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} onClick={(e) => {
-                handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0]) 
-              
-            }} htmlPos={[-1.7,0.6,0]} htmlRot={[0, -0.1, 0]}/>
-             {/* <ScreenText frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} onClick={(e) => {
+                handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0])
+
+            }} htmlPos={[-1.7, 0.6, 0]} htmlRot={[0, -0.1, 0]} />
+            {/* <ScreenText frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} onClick={(e) => {
                 handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0])
               
             }} />
               */}
-             
+
+
+            <ServicesScreen invert frame="Object_212" panel="Object_213" x={-5} y={5} position={[-2.73, 0.63, -0.52]} rotation={[0, 1.09, 0]} onClick={(e) => {
+                handleClick(e, [-0.1,-0.4, 1.4], [0, 1.09, 0],30)}} htmlPos={[0,0.2, 1.4]} htmlRot={[0, 0, 0]} />
+            {/* <ScreenText invert frame="Object_215" panel="Object_216" position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]} />
+            <ScreenText invert frame="Object_218" panel="Object_219" x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81} />
+            <ScreenText frame="Object_221" panel="Object_222" y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9} />
+            <ScreenText invert frame="Object_224" panel="Object_225" position={[-3.9, 4.29, -2.64]} rotation={[0, 0.54, 0]} />
+            <ScreenText frame="Object_227" panel="Object_228" position={[0.96, 4.28, -4.2]} rotation={[0, -0.65, 0]} />
+            <ScreenText frame="Object_230" panel="Object_231" position={[4.68, 4.29, -1.56]} rotation={[0, -Math.PI / 3, 0]} /> */}
+
 
             <Leds instances={instances} />
 
@@ -335,9 +353,9 @@ function AboutScreen(props) {
     // useEffect(() => {
     //     if (showHtml) {
     //         const gui = new dat.GUI({ name: 'HTML Controls' });
-            
+
     //         const posFolder = gui.addFolder('HTML Position');
-            
+
     //         posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
     //             setHtmlPosition(prev => ({ ...prev, x: value }));
     //         });
@@ -347,7 +365,7 @@ function AboutScreen(props) {
     //         posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
     //             setHtmlPosition(prev => ({ ...prev, z: value }));
     //         });
-            
+
     //         const scaleFolder = gui.addFolder('HTML Scale');
     //         scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
     //             setHtmlScale(value);
@@ -379,7 +397,7 @@ function AboutScreen(props) {
     return (
         <Screen {...props} onClick={handleScreenClick}>
             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
-            <color attach="background" args={['black']} />
+            <color attach="background" args={['#35c19f']} />
             {showHtml && !isTransitioning ? (
                 <group>
                     <Html
@@ -401,17 +419,17 @@ function AboutScreen(props) {
                             mixBlendMode: 'difference',
                         }}
                     >
-                        <div style={{ 
+                        <div style={{
                             textAlign: 'center',
-                            color: 'white',
+                            color: '#FF6F61',
                             fontSize: '4px',
                             padding: '2px',
                         }}>
-                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta</h2>
+                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta About</h2>
                             <p style={{ margin: '0 0 3px 0', fontSize: '8px' }}>Full Stack Developer</p>
                             <div style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
-                                <a 
-                                    href="https://github.com/yourusername" 
+                                <a
+                                    href="https://github.com/yourusername"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
@@ -425,8 +443,8 @@ function AboutScreen(props) {
                                 >
                                     GitHub
                                 </a>
-                                <a 
-                                    href="https://linkedin.com/in/yourusername" 
+                                <a
+                                    href="https://linkedin.com/in/yourusername"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
@@ -466,9 +484,9 @@ function ProjectScreen(props) {
     useEffect(() => {
         if (showHtml) {
             const gui = new dat.GUI({ name: 'HTML Controls' });
-            
+
             const posFolder = gui.addFolder('HTML Position');
-            
+
             posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
                 setHtmlPosition(prev => ({ ...prev, x: value }));
             });
@@ -489,7 +507,7 @@ function ProjectScreen(props) {
             rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
                 setHtmlRotation(prev => ({ ...prev, z: value }));
             });
-            
+
             const scaleFolder = gui.addFolder('HTML Scale');
             scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
                 setHtmlScale(value);
@@ -521,7 +539,7 @@ function ProjectScreen(props) {
     return (
         <Screen {...props} onClick={handleScreenClick}>
             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
-            <color attach="background" args={['black']} />
+            <color attach="background" args={['#C084FC']} />
             {showHtml && !isTransitioning ? (
                 <group>
                     <Html
@@ -536,25 +554,25 @@ function ProjectScreen(props) {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            background: 'rgba(255, 255, 255, 0.1)',
+                            // background: 'rgba(255, 255, 255, 0.1)',
                             backdropFilter: 'blur(8px)',
                             transformOrigin: 'center',
                             borderRadius: '10px',
-                            border: '2px solid white',
+                            // border: '2px solid white',
                             mixBlendMode: 'difference',
                         }}
                     >
-                        <div style={{ 
+                        <div style={{
                             textAlign: 'center',
                             color: 'white',
                             fontSize: '4px',
                             padding: '2px',
                         }}>
-                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta</h2>
+                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta Projects</h2>
                             <p style={{ margin: '0 0 3px 0', fontSize: '8px' }}>Full Stack Developer</p>
                             <div style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
-                                <a 
-                                    href="https://github.com/yourusername" 
+                                <a
+                                    href="https://github.com/yourusername"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
@@ -568,8 +586,8 @@ function ProjectScreen(props) {
                                 >
                                     GitHub
                                 </a>
-                                <a 
-                                    href="https://linkedin.com/in/yourusername" 
+                                <a
+                                    href="https://linkedin.com/in/yourusername"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
@@ -599,6 +617,148 @@ function ProjectScreen(props) {
     )
 }
 
+function ServicesScreen(props) {
+    const [showHtml, setShowHtml] = useState(false)
+    const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 })
+    const [htmlRotation, setHtmlRotation] = useState({ x: 0, y: 0, z: 0 })
+    const [htmlScale, setHtmlScale] = useState(1)
+    const [isTransitioning, setIsTransitioning] = useState(false)
+
+    useEffect(() => {
+        if (showHtml) {
+            const gui = new dat.GUI({ name: 'HTML Controls' });
+
+            const posFolder = gui.addFolder('HTML Position');
+
+            posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, x: value }));
+            });
+            posFolder.add(htmlPosition, 'y', -3, 3, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, y: value }));
+            });
+            posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, z: value }));
+            });
+
+            const rotFolder = gui.addFolder('HTML Rotation');
+            rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, x: value }));
+            });
+            rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, y: value }));
+            });
+            rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, z: value }));
+            });
+
+            const scaleFolder = gui.addFolder('HTML Scale');
+            scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+                setHtmlScale(value);
+            });
+
+            posFolder.open();
+            scaleFolder.open();
+
+            return () => {
+                gui.destroy();
+            };
+        }
+    }, [showHtml]);
+
+    const handleScreenClick = (e) => {
+        if (!isTransitioning) {
+            setIsTransitioning(true);
+            if (props.onClick) {
+                props.onClick(e);
+                // Wait for camera animation to complete before showing HTML
+                setTimeout(() => {
+                    setShowHtml(true);
+                    setIsTransitioning(false);
+                }, 1000); // Yes, this is one second (1000 milliseconds)
+            }
+        }
+    };
+
+    return (
+        <Screen {...props} onClick={handleScreenClick}>
+            <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
+            <color attach="background" args={['#FFC857']} />
+            {showHtml && !isTransitioning ? (
+                <group>
+                    <Html
+                        transform
+                        scale={props.htmlScale || htmlScale}
+                        position={props.htmlPos || [htmlPosition.x, htmlPosition.y, htmlPosition.z]}
+                        rotation={props.htmlRot || [htmlRotation.x, htmlRotation.y, htmlRotation.z]}
+                        style={{
+                            width: '270px',
+                            height: '200px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            // background: 'rgba(255, 255, 255, 0.1)',
+                            backdropFilter: 'blur(8px)',
+                            transformOrigin: 'center',
+                            borderRadius: '10px',
+                            border: '2px solid white',
+                            mixBlendMode: 'difference',
+                        }}
+                    >
+                        <div style={{
+                            textAlign: 'center',
+                            color: 'white',
+                            fontSize: '4px',
+                            padding: '2px',
+                        }}>
+                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta Services</h2>
+                            <p style={{ margin: '0 0 3px 0', fontSize: '8px' }}>Full Stack Developer</p>
+                            <div style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
+                                <a
+                                    href="https://github.com/yourusername"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        border: '2px solid white',
+                                        // padding: '15px 30px',
+                                        borderRadius: '8px',
+                                        fontSize: '6px'
+                                    }}
+                                >
+                                    GitHub
+                                </a>
+                                <a
+                                    href="https://linkedin.com/in/yourusername"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        border: '2px solid white',
+                                        padding: '1px 3px',
+                                        borderRadius: '8px',
+                                        fontSize: '3px'
+                                    }}
+                                >
+                                    LinkedIn
+                                </a>
+                            </div>
+                        </div>
+                    </Html>
+                </group>
+            ) : (
+                <>
+                    <ambientLight intensity={Math.PI / 2} />
+                    <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
+                    <pointLight decay={0} position={[-10, -10, -10]} />
+                    <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} />
+                </>
+            )}
+        </Screen>
+    )
+}
 
 
 
