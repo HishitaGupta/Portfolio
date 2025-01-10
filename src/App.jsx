@@ -5,8 +5,11 @@ import { easing } from 'maath'
 import { suspend } from 'suspend-react'
 import { Instances, Computers } from './Computers'
 import * as easingnew from "maath/easing"
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as dat from 'dat.gui'
+
+const suzi = import('@pmndrs/assets/models/bunny.glb')
+
 
 function Telephone(props) {
   const groupRef = useRef()
@@ -86,11 +89,13 @@ function Telephone(props) {
 }
 
 export default function App() {
+  // Add state for viewport dimensions
   const [viewport, setViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight
   })
 
+  // Update dimensions on window resize
   useEffect(() => {
     const handleResize = () => {
       setViewport({
@@ -103,9 +108,10 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Adjust camera settings based on viewport
   const cameraSettings = {
-    position: [0, 0, viewport.width < 768 ? 6.5 : 4.5],
-    fov: viewport.width < 768 ? 60 : 45,
+    position: [0, 0, viewport.width < 768 ? 6.5 : 4.5], // Move camera back on mobile
+    fov: viewport.width < 768 ? 60 : 45, // Wider FOV on mobile
     near: 1,
     far: 20
   }
@@ -113,34 +119,41 @@ export default function App() {
   return (
     <Canvas 
       shadows 
-      dpr={[1, Math.min(2, window.devicePixelRatio)]}
+      dpr={[1, Math.min(2, window.devicePixelRatio)]} // Limit DPR for performance
       camera={cameraSettings}
-      style={{height: '100vh', width: '100vw'}}
+      style={{height: '100vh', width: '100vw'}} // Responsive canvas size
       eventSource={document.getElementById('root')} 
       eventPrefix="client"
     >
+      
+      {/* Lights */}
       <color attach="background" args={['black']} />
       <hemisphereLight intensity={0.15} groundColor="black" />
       <spotLight decay={0} position={[10, 20, 10]} angle={0.12} penumbra={1} intensity={1} castShadow shadow-mapSize={1024} />
       
+      {/* Main scene */}
       <group position={[0, -1, 1]}>
+        {/* Auto-instanced sketchfab model */}
         <Instances>
-          <Computers scale={viewport.width < 768 ? 0.35 : 0.5} />
+          <Computers scale={viewport.width < 768 ? 0.35 : 0.5} /> {/* Scale down model on mobile */}
         </Instances>
-        
+
+
         <Telephone 
-          position={[0, 1, 0]}
-          scale={0.2}
-          rotation={[0, 0, 0]}
+          position={[0.1, 0, 0]}
+          scale={2}
+          rotation={[0, 3.1, 0]}
         />
          {/* <Bun scale={0.4} position={[0, 0.3, 0.5]} rotation={[0, -Math.PI * 0.85, 0]} /> */}
          <pointLight distance={1.5} intensity={1} position={[-0.15, 0.7, 0]} color="#35c19f" />
 
+        
+        {/* Plane reflections + distance blur */}
         <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[50, 50]} />
           <MeshReflectorMaterial
             blur={[300, 30]}
-            resolution={Math.min(2048, viewport.width)}
+            resolution={Math.min(2048, viewport.width)} // Lower resolution on mobile
             mixBlur={1}
             mixStrength={180}
             roughness={1}
@@ -153,6 +166,7 @@ export default function App() {
         </mesh>
       </group>
 
+      {/* Postprocessing - Adjust quality based on viewport */}
       <EffectComposer disableNormalPass>
         <Bloom 
           luminanceThreshold={0} 
@@ -169,19 +183,16 @@ export default function App() {
       </EffectComposer>
 
       <BakeShadows />
-      <OrbitControls 
-        enableZoom={true}
-        enablePan={true}
-        enableRotate={true}
-        zoomSpeed={0.5}
-        panSpeed={0.5}
-        rotateSpeed={0.5}
-        minDistance={2}
-        maxDistance={20}
-      />
       <axesHelper args={[5]} />
     </Canvas>
   )
 }
 
-useGLTF.preload('/landline_phone.glb')
+function Bun(props) {
+  const { nodes } = useGLTF(suspend(suzi).default)
+  return (
+    <mesh receiveShadow castShadow geometry={nodes.mesh.geometry} {...props}>
+      <meshStandardMaterial color="#222" roughness={0.5} />
+    </mesh>
+  )
+}
