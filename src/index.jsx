@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import './styles.css'
+import './index.css'
 import App from './App'
 import { Logo } from '@pmndrs/branding'
 

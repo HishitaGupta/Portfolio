@@ -1,4 +1,11 @@
-@import url('https://rsms.me/inter/inter.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+/* @import url('https://rsms.me/inter/inter.css'); */
 
 * {
   box-sizing: border-box;
@@ -45,7 +52,7 @@ svg {
 canvas {
   opacity: 0;
   touch-action: none;
-  animation: fade-in 5s ease 1s forwards;
+  animation: fade-in 1s ease 1s forwards;
 }
 
 input {
