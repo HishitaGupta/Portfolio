@@ -59,11 +59,11 @@ export function Instances({ children, ...props }) {
         [nodes]
     )
 
-    useEffect(() => {
-        console.log("nodes", nodes);
-        console.log("instances", instances)
+    // useEffect(() => {
+    //     console.log("nodes", nodes);
+    //     console.log("instances", instances)
 
-    }, [])
+    // }, [])
 
 
 
@@ -174,7 +174,7 @@ export function Computers(props) {
         };
     }, [camera]);
 
-    console.log("instances", instances);
+    // console.log("instances", instances);
 
 
     return (
@@ -322,50 +322,7 @@ export function Computers(props) {
     )
 }
 
-/* This component renders a monitor (taken out of the gltf model)
-   It renders a custom scene into a texture and projects it onto monitors screen */
 
-
-
-
-
-
-
-
-
-
-
-/* Renders a monitor with some text */
-// function ScreenText({ invert, x = 0, y = 1.2, ...props }) {
-//     const textRef = useRef()
-//     const rand = Math.random() * 10000
-//     useFrame((state) => (textRef.current.position.x = x + Math.sin(rand + state.clock.elapsedTime / 4) * 8))
-//     return (
-//         <Screen {...props} >
-//             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 15]} />
-//             <color attach="background" args={[invert ? 'black' : '#35c19f']} />
-//             <ambientLight intensity={0.5} />
-//             <directionalLight position={[10, 10, 5]} />
-//             <Text font="/Inter-Medium.woff" position={[x, y, 0]} ref={textRef} fontSize={2} letterSpacing={-0.1} color={!invert ? 'black' : '#35c19f'}>
-//                 Hishita Gupta
-//             </Text>
-
-//         </Screen>
-//     )
-// }
-
-/* Renders a monitor with a spinning box or HTML content */
-
-
-
-
-
-
-
-
-
-
-/* Renders a monitor with a spinning box */
 
 // function ScreenTextScreen(props) {
 //     const textRef = useRef()
@@ -548,12 +505,6 @@ function Leds({ instances }) {
 
 
 
-// import { Html } from '@react-three/drei';
-
-
-
-
-// 
 
 
 
