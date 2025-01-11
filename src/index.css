@@ -73,3 +73,53 @@ input:focus {
   outline: none;
   box-shadow: none !important;
 }
+
+.screen-cycle-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #35c19f;
+  color: #35c19f;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.screen-cycle-button:hover {
+  background: rgba(53, 193, 159, 0.2);
+  transform: scale(1.05);
+}
+
+.screen-cycle-button:active {
+  transform: scale(0.95);
+}
+
+.reset-view-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #35c19f;
+  color: #35c19f;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.reset-view-button:hover {
+  background: rgba(53, 193, 159, 0.2);
+  transform: scale(1.05);
+}
+
+.reset-view-button:active {
+  transform: scale(0.95);
+}

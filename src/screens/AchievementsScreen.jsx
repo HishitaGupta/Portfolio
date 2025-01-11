@@ -10,6 +10,24 @@ export const AchievementsScreen = (props) => {
     const [htmlScale, setHtmlScale] = useState(1)
     const [isTransitioning, setIsTransitioning] = useState(false)
 
+    // Add event listener for screen changes
+    useEffect(() => {
+        const handleScreenChange = (event) => {
+            if (event.detail.screenName === 'Achievements') {
+                setIsTransitioning(true);
+                setTimeout(() => {
+                    setShowHtml(true);
+                    setIsTransitioning(false);
+                }, 1000);
+            } else {
+                setShowHtml(false);
+            }
+        };
+
+        window.addEventListener('changeScreen', handleScreenChange);
+        return () => window.removeEventListener('changeScreen', handleScreenChange);
+    }, []);
+
     useEffect(() => {
         if (showHtml) {
             const gui = new dat.GUI({ name: 'HTML Controls' });
@@ -51,22 +69,8 @@ export const AchievementsScreen = (props) => {
         }
     }, [showHtml]);
 
-    const handleScreenClick = (e) => {
-        if (!isTransitioning) {
-            setIsTransitioning(true);
-            if (props.onClick) {
-                props.onClick(e);
-                // Wait for camera animation to complete before showing HTML
-                setTimeout(() => {
-                    setShowHtml(true);
-                    setIsTransitioning(false);
-                }, 1000); // Yes, this is one second (1000 milliseconds)
-            }
-        }
-    };
-
     return (
-        <Screen {...props} onClick={handleScreenClick}>
+        <Screen {...props} onClick={props.onClick}>
             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
             <color attach="background" args={['#6C63FF']} />
             {showHtml && !isTransitioning ? (
@@ -83,7 +87,6 @@ export const AchievementsScreen = (props) => {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            // background: 'rgba(255, 255, 255, 0.1)',
                             backdropFilter: 'blur(8px)',
                             transformOrigin: 'center',
                             borderRadius: '10px',
@@ -108,7 +111,6 @@ export const AchievementsScreen = (props) => {
                                         color: 'white',
                                         textDecoration: 'none',
                                         border: '2px solid white',
-                                        // padding: '15px 30px',
                                         borderRadius: '8px',
                                         fontSize: '6px'
                                     }}
@@ -139,7 +141,6 @@ export const AchievementsScreen = (props) => {
                     <ambientLight intensity={Math.PI / 2} />
                     <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
                     <pointLight decay={0} position={[-10, -10, -10]} />
-                    {/* <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} /> */}
                 </>
             )}
         </Screen>

@@ -11,6 +11,24 @@ export const HobbiesScreen = (props) => {
     const [htmlScale, setHtmlScale] = useState(1)
     const [isTransitioning, setIsTransitioning] = useState(false)
 
+    // Add event listener for screen changes
+    useEffect(() => {
+        const handleScreenChange = (event) => {
+            if (event.detail.screenName === 'Hobbies') {
+                setIsTransitioning(true);
+                setTimeout(() => {
+                    setShowHtml(true);
+                    setIsTransitioning(false);
+                }, 1000);
+            } else {
+                setShowHtml(false);
+            }
+        };
+
+        window.addEventListener('changeScreen', handleScreenChange);
+        return () => window.removeEventListener('changeScreen', handleScreenChange);
+    }, []);
+
     useEffect(() => {
         if (showHtml) {
             const gui = new dat.GUI({ name: 'HTML Controls' });

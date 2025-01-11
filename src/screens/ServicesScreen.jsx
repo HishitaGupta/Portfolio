@@ -11,6 +11,24 @@ export const ServicesScreen = (props) => {
     const [htmlScale, setHtmlScale] = useState(1)
     const [isTransitioning, setIsTransitioning] = useState(false)
 
+    // Add event listener for screen changes
+    useEffect(() => {
+        const handleScreenChange = (event) => {
+            if (event.detail.screenName === 'Services') {
+                setIsTransitioning(true);
+                setTimeout(() => {
+                    setShowHtml(true);
+                    setIsTransitioning(false);
+                }, 1000);
+            } else {
+                setShowHtml(false);
+            }
+        };
+
+        window.addEventListener('changeScreen', handleScreenChange);
+        return () => window.removeEventListener('changeScreen', handleScreenChange);
+    }, []);
+
     useEffect(() => {
         if (showHtml) {
             const gui = new dat.GUI({ name: 'HTML Controls' });
@@ -52,22 +70,8 @@ export const ServicesScreen = (props) => {
         }
     }, [showHtml]);
 
-    const handleScreenClick = (e) => {
-        if (!isTransitioning) {
-            setIsTransitioning(true);
-            if (props.onClick) {
-                props.onClick(e);
-                // Wait for camera animation to complete before showing HTML
-                setTimeout(() => {
-                    setShowHtml(true);
-                    setIsTransitioning(false);
-                }, 1000); // Yes, this is one second (1000 milliseconds)
-            }
-        }
-    };
-
     return (
-        <Screen {...props} onClick={handleScreenClick}>
+        <Screen {...props} onClick={props.onClick}>
             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
             <color attach="background" args={['#FFC857']} />
             {showHtml && !isTransitioning ? (

@@ -11,82 +11,7 @@ import * as dat from 'dat.gui'
 const suzi = import('@pmndrs/assets/models/bunny.glb')
 
 
-function Telephone(props) {
-  const groupRef = useRef()
-  const { nodes, materials } = useGLTF('/landline_phone.glb')
-  useEffect(() => {
-    console.log(nodes)
-  }, [nodes])
 
-  useEffect(() => {
-    if (groupRef.current) {
-      const gui = new dat.GUI();
-      const telephoneFolder = gui.addFolder('Telephone');
-      
-      telephoneFolder.add(groupRef.current.position, 'x', -5, 5, 0.1).name('Position X');
-      telephoneFolder.add(groupRef.current.position, 'y', -5, 5, 0.1).name('Position Y'); 
-      telephoneFolder.add(groupRef.current.position, 'z', -5, 5, 0.1).name('Position Z');
-
-      telephoneFolder.add(groupRef.current.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X');
-      telephoneFolder.add(groupRef.current.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y');
-      telephoneFolder.add(groupRef.current.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z');
-
-      telephoneFolder.add(groupRef.current.scale, 'x', 0.1, 2, 0.1).name('Scale X');
-      telephoneFolder.add(groupRef.current.scale, 'y', 0.1, 2, 0.1).name('Scale Y');
-      telephoneFolder.add(groupRef.current.scale, 'z', 0.1, 2, 0.1).name('Scale Z');
-
-      telephoneFolder.open();
-
-      return () => gui.destroy();
-    }
-  }, []);
-
-  return (
-    <group ref={groupRef} {...props} dispose={null}>
-      <group name="Sketchfab_Scene">
-        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
-          <group
-            name="cdcf7ac8e07d4c23be3953b14a3746ddfbx"
-            rotation={[Math.PI / 2, 0, 0]}
-            scale={0.01}>
-            <group name="RootNode">
-              <group name="Landline_Low" position={[11.012, 0.505, -15.864]} scale={100}>
-                <mesh
-                  name="Landline_Low_Landline_Phone_0"
-                  castShadow
-                  receiveShadow
-                  geometry={nodes.Landline_Low_Landline_Phone_0.geometry}
-                  material={materials.Landline_Phone}
-                />
-                <mesh
-                  name="Landline_Low_Landline_Phone_0_1"
-                  castShadow
-                  receiveShadow
-                  geometry={nodes.Landline_Low_Landline_Phone_0_1.geometry}
-                  material={materials.Landline_Phone}
-                />
-                <mesh
-                  name="Landline_Low_Landline_Phone_0_2"
-                  castShadow
-                  receiveShadow
-                  geometry={nodes.Landline_Low_Landline_Phone_0_2.geometry}
-                  material={materials.Landline_Phone}
-                />
-                <mesh
-                  name="Landline_Low_Landline_Phone_0_3"
-                  castShadow
-                  receiveShadow
-                  geometry={nodes.Landline_Low_Landline_Phone_0_3.geometry}
-                  material={materials.Landline_Phone}
-                />
-              </group>
-            </group>
-          </group>
-        </group>
-      </group>
-    </group>
-  )
-}
 
 export default function App() {
   // Add state for viewport dimensions
@@ -139,11 +64,7 @@ export default function App() {
         </Instances>
 
 
-        <Telephone 
-          position={[0.1, 0, 0]}
-          scale={2}
-          rotation={[0, 3.1, 0]}
-        />
+        
          {/* <Bun scale={0.4} position={[0, 0.3, 0.5]} rotation={[0, -Math.PI * 0.85, 0]} /> */}
          <pointLight distance={1.5} intensity={1} position={[-0.15, 0.7, 0]} color="#35c19f" />
 
@@ -183,7 +104,7 @@ export default function App() {
       </EffectComposer>
 
       <BakeShadows />
-      <axesHelper args={[5]} />
+      {/* <axesHelper args={[5]} /> */}
     </Canvas>
   )
 }

@@ -20,6 +20,7 @@ import { ExperienceScreen } from './screens/ExperienceScreen'
 import { AchievementsScreen } from './screens/AchievementsScreen'
 import { HobbiesScreen } from './screens/HobbiesScreen'
 import { ScreenInteractive } from './screens/ScreenInteractive'
+import Telephone, { Robot } from './Telephone'
 
 
 
@@ -77,18 +78,20 @@ export function Instances({ children, ...props }) {
 export function Computers(props) {
     const { nodes: n, materials: m } = useGLTF('/computers_1-transformed.glb')
     const instances = useContext(context)
-    const { camera } = useThree() // Yes, this gets the camera instance that was set up in the Canvas component in App.jsx with position: [0, 0, 4.5], fov: 45, etc.
+    const { camera } = useThree()
 
-    const handleClick = (event, targetPos, targetRot, targetFov = 45) => {
+    const handleClick = (event, targetPos, targetRot, targetFov = 45, screenName) => {
         event.stopPropagation();
 
-        // The rotation animation isn't working because camera.lookAt() in the position
-        // animation is overriding any manual rotation we set.
-        // We need to either:
-        // 1. Remove the lookAt if we want manual rotation control
-        // 2. Or remove the rotation animation since lookAt handles orientation
+        window.dispatchEvent(new CustomEvent('changeScreen', {
+            detail: {
+                position: targetPos,
+                rotation: targetRot,
+                fov: targetFov,
+                screenName: screenName
+            }
+        }));
 
-        // Option 1 - Manual rotation without lookAt:
         gsap.to(camera.rotation, {
             x: targetRot[0],
             y: targetRot[1],
@@ -103,7 +106,6 @@ export function Computers(props) {
             z: targetPos[2],
             duration: 1,
             ease: "power2.inOut"
-            // Removed lookAt to allow manual rotation
         });
 
         gsap.to(camera, {
@@ -114,39 +116,7 @@ export function Computers(props) {
                 camera.updateProjectionMatrix();
             }
         });
-
-        // Option 2 would be to keep just the position animation with lookAt:
-        /*
-        gsap.to(camera.position, {
-          x: targetPos[0],
-          y: targetPos[1], 
-          z: targetPos[2],
-          duration: 1,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            camera.lookAt(0, 0, 0);
-          }
-        });
-        */
     }
-
-
-
-    // Example usage in JSX return:
-    // <instances.Object 
-    //   position={[0.16, 0.79, -1.97]} 
-    //   rotation={[-0.54, 0.93, -1.12]} 
-    //   scale={0.5}
-    //   onClick={(e) => handleClick(e, [1, 2, 3])} // Custom target position per object
-    // />
-
-    // For ScreenInteractive components:
-    // <ScreenInteractive 
-    //   frame="Object_206" 
-    //   panel="Object_207" 
-    //   position={[0.27, 1.53, -2.61]}
-    //   onClick={(e) => handleClick(e, [0.27, 2, -1])} 
-    // />
 
     useEffect(() => {
         const gui = new dat.GUI();
@@ -154,7 +124,7 @@ export function Computers(props) {
         // Add camera position controls
         const cameraFolder = gui.addFolder('Camera');
         cameraFolder.add(camera.position, 'x', -5, 5, 0.1).name('Position X');
-        cameraFolder.add(camera.position, 'y', -5, 5, 0.1).name('Position Y');
+        cameraFolder.add(camera.position, 'y', -10, 10, 0.1).name('Position Y');
         cameraFolder.add(camera.position, 'z', -5, 10, 0.1).name('Position Z');
 
         // Add camera rotation controls
@@ -172,6 +142,44 @@ export function Computers(props) {
         return () => {
             gui.destroy(); // Clean up on unmount
         };
+    }, [camera]);
+
+    // Add event listener for screen changes
+    useEffect(() => {
+        const handleScreenChange = (event) => {
+            const { position, rotation, fov } = event.detail;
+            
+            // Animate camera position
+            gsap.to(camera.position, {
+                x: position[0],
+                y: position[1],
+                z: position[2],
+                duration: 1,
+                ease: "power2.inOut"
+            });
+
+            // Animate camera rotation
+            gsap.to(camera.rotation, {
+                x: rotation[0],
+                y: rotation[1],
+                z: rotation[2],
+                duration: 1,
+                ease: "power2.inOut"
+            });
+
+            // Animate camera FOV
+            gsap.to(camera, {
+                fov: fov,
+                duration: 1,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                    camera.updateProjectionMatrix();
+                }
+            });
+        };
+
+        window.addEventListener('changeScreen', handleScreenChange);
+        return () => window.removeEventListener('changeScreen', handleScreenChange);
     }, [camera]);
 
     // console.log("instances", instances);
@@ -279,46 +287,97 @@ export function Computers(props) {
             <instances.Object36 position={[-1.1, 4.29, -4.43]} rotation={[0, 0.36, 0]} />
             <instances.Object36 position={[-5.25, 4.29, -1.47]} rotation={[0, 1.25, 0]} />
             <mesh castShadow receiveShadow geometry={n.Object_204.geometry} material={m.Texture} position={[3.2, 4.29, -3.09]} rotation={[-Math.PI, 0.56, 0]} scale={-1} />
-            <AboutScreen frame="Object_206" panel="Object_207" position={[0.27, 1.53, -2.61]} onClick={(e) => handleClick(e, [0.1, 0.15, 0.89], [0, -0.01, 0])} htmlPos={[0.3, -0.8, 0]} />
-            <ProjectScreen frame="Object_209" panel="Object_210" y={5} position={[-1.43, 2.5, -1.8]} rotation={[0, 1, 0]} onClick={(e) => {
-                handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0])
-
-            }} htmlPos={[-1.7, 0.6, 0]} htmlRot={[0, -0.1, 0]} />
-
-
-            <ServicesScreen invert frame="Object_212" panel="Object_213" x={-5} y={5} position={[-2.73, 0.63, -0.52]} rotation={[0, 1.09, 0]} onClick={(e) => {
-                handleClick(e, [-0.1, -0.4, 1.4], [0, 1.09, 0], 30)
-            }} htmlPos={[0, 0.2, 1.4]} htmlRot={[0, 0, 0]} />
-            <ExperienceScreen invert frame="Object_215" panel="Object_216" position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]}
-                onClick={(e) => {
-                    handleClick(e, [0.4, -0.5, 1.5], [0, -0.4, 0], 30)
-                }} htmlPos={[-0.6, 0, 1.8]} htmlRot={[0, 0, 0]} />
-            <AchievementsScreen invert frame="Object_218" panel="Object_219" x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81} onClick={(e) => {
-                handleClick(e, [0.4, 0.3, 2.1], [0, -0.8, 0], 20)
-            }} htmlPos={[-0.7, 0.3, 1.7]} htmlRot={[0, 0, 0]} />
-            <HobbiesScreen frame="Object_221" panel="Object_222" y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9}
-                onClick={(e) => {
-                    handleClick(e, [-0.2, 0.8, 2.1], [0, 1.3, 0], 23)
-                }} htmlPos={[0.4, 0.1, 0]} htmlRot={[0, 0, 0]} htmlScale={1.2}
+            <AboutScreen 
+                frame="Object_206" 
+                panel="Object_207" 
+                position={[0.27, 1.53, -2.61]} 
+                onClick={(e) => handleClick(e, [0.1, 0.15, 0.89], [0, -0.01, 0], 45, 'About')}
+                htmlPos={[0.3, -0.8, 0]}
             />
-            <ScreenText invert frame="Object_224" panel="Object_225" position={[-3.9, 4.29, -2.64]} rotation={[0, 0.54, 0]}
-                onClick={(e) => {
-                    handleClick(e, [-1, 1.5, 1.5], [0, 0.5, 0], 20)
-                }} />
-            <ScreenInteractive frame="Object_227" panel="Object_228" position={[0.96, 4.28, -4.2]} rotation={[0, -0.65, 0]}
-                onClick={(e) => {
-                    handleClick(e, [0.4, 1.4, 0.2], [0, -0.1, 0], 31)
-                }} />
-            <ScreenText frame="Object_230" panel="Object_231" position={[4.68, 4.29, -1.56]} rotation={[0, -Math.PI / 3, 0]}
-                onClick={(e) => {
-                    handleClick(e, [-1.3, 1.4, 2.1], [0, -1.1, 0], 10)
-                }} />
 
+            <ProjectScreen 
+                frame="Object_209" 
+                panel="Object_210" 
+                y={5} 
+                position={[-1.43, 2.5, -1.8]} 
+                rotation={[0, 1, 0]} 
+                onClick={(e) => handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0], 45, 'Projects')}
+                htmlPos={[-1.7, 0.6, 0]} 
+                htmlRot={[0, -0.1, 0]}
+            />
+
+            <ServicesScreen 
+                invert 
+                frame="Object_212" 
+                panel="Object_213" 
+                x={-5} 
+                y={5} 
+                position={[-2.73, 0.63, -0.52]} 
+                rotation={[0, 1.09, 0]} 
+                onClick={(e) => handleClick(e, [-0.1, -0.4, 1.4], [0, 1.09, 0], 30, 'Services')}
+                htmlPos={[0, 0.2, 1.4]} 
+                htmlRot={[0, 0, 0]}
+            />
+
+            <ExperienceScreen 
+                frame="Object_215" 
+                panel="Object_216" 
+                position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]}
+                onClick={(e) => handleClick(e, [0.4, -0.5, 1.5], [0, -0.4, 0], 30, 'Experience')}
+                htmlPos={[-0.6, 0, 1.8]} 
+                htmlRot={[0, 0, 0]}
+            />
+
+            <AchievementsScreen 
+                frame="Object_218" 
+                panel="Object_219" 
+                x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81}
+                onClick={(e) => handleClick(e, [0.4, 0.3, 2.1], [0, -0.8, 0], 20, 'Achievements')}
+                htmlPos={[-0.7, 0.3, 1.7]} 
+                htmlRot={[0, 0, 0]}
+            />
+
+            <HobbiesScreen 
+                frame="Object_221" 
+                panel="Object_222" 
+                y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9}
+                onClick={(e) => handleClick(e, [-0.2, 0.8, 2.1], [0, 1.3, 0], 23, 'Hobbies')}
+                htmlPos={[0.4, 0.1, 0]} 
+                htmlRot={[0, 0, 0]} 
+                htmlScale={1.2}
+            />
+
+            <ScreenText 
+                frame="Object_224" 
+                panel="Object_225" 
+                position={[-3.9, 4.29, -2.64]} 
+                rotation={[0, 0.54, 0]}
+                onClick={(e) => handleClick(e, [-1, 1.5, 1.5], [0, 0.5, 0], 20, 'ScreenText')}
+            />
+
+            <ScreenInteractive 
+                frame="Object_227" 
+                panel="Object_228" 
+                position={[0.96, 4.28, -4.2]} 
+                rotation={[0, -0.65, 0]}
+                onClick={(e) => handleClick(e, [0.4, 1.4, 0.2], [0, -0.1, 0], 31, 'ScreenInteractive')}
+            />
+
+            <ScreenText 
+                frame="Object_230" 
+                panel="Object_231" 
+                position={[4.68, 4.29, -1.56]} 
+                rotation={[0, -Math.PI / 3, 0]}
+                onClick={(e) => handleClick(e, [-1.3, 1.4, 2.1], [0, -1.1, 0], 10, 'ScreenText')}
+            />
 
             <Leds instances={instances} />
-
+            <Robot
+          position={[0.1, 0.2, 1]}
+          scale={0.9}
+          rotation={[0, 0, 0]}
+        />
         </group>
-
     )
 }
 

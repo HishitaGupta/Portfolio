@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PerspectiveCamera, Html } from '@react-three/drei';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Screen } from './Screen';
@@ -9,25 +9,26 @@ export const AboutScreen = (props) => {
     const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 })
     const [htmlScale, setHtmlScale] = useState(1)
     const [isTransitioning, setIsTransitioning] = useState(false)
-    const [hasClicked, setHasClicked] = useState(false)
 
-    const handleScreenClick = (e) => {
-        if (!isTransitioning && !hasClicked) {
-            setIsTransitioning(true);
-            setHasClicked(true);
-            if (props.onClick) {
-                props.onClick(e);
-                // Wait for camera animation to complete before showing HTML
+    useEffect(() => {
+        const handleScreenChange = (event) => {
+            if (event.detail.screenName === 'About') {
+                setIsTransitioning(true);
                 setTimeout(() => {
                     setShowHtml(true);
                     setIsTransitioning(false);
-                }, 1000); // Yes, this is one second (1000 milliseconds)
+                }, 1000);
+            } else {
+                setShowHtml(false);
             }
-        }
-    };
+        };
+
+        window.addEventListener('changeScreen', handleScreenChange);
+        return () => window.removeEventListener('changeScreen', handleScreenChange);
+    }, []);
 
     return (
-        <Screen {...props} onClick={handleScreenClick}>
+        <Screen {...props} onClick={props.onClick}>
             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
             <color attach="background" args={['#35c19f']} />
             {showHtml && !isTransitioning ? (
