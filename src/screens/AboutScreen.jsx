@@ -216,22 +216,48 @@ export const AboutScreen = (props) => {
                                     boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
                                     height: '300px',
                                     scrollbarWidth: 'thin', // Makes scrollbar narrower,
-                                    height: '300px',
+                                
                                 }}
                                 
                             >
-                                <section>
+                                <section style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                                     <div style={{
                                         display: 'flex',
                                         justifyContent: 'center',
                                         alignItems: 'center',
-                                        height: '100%',
+                                        height: '200px',
                                         width: '100%',
+                                        border: '1px solid #000'
                                     }}>
                                     <img src={Heading} alt="" style={{width: '100%', height: '100%'}}/>
                                     </div>
                                 
-                                   
+                                   <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        
+                                        width: '100%',
+                                        border: '1px solid #000',
+                                        gap: '10px',
+                                        height: '200px',
+                                    }}>
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            border: '1px solid #000'
+                                        }}>
+                                            Hiiiiiiiii
+                                        </div>
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            border: '1px solid #000'
+                                        }}>
+                                            Hello
+                                        </div>
+
+                                    </div>
                                 </section>
                                 
                             </div>

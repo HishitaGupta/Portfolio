@@ -3,6 +3,11 @@ import { PerspectiveCamera, Html } from '@react-three/drei';
 import * as dat from 'dat.gui';
 import { Screen } from './Screen';
 import { SpinningBox } from './SpinningBox';
+import { FaRegWindowMaximize, FaRegWindowMinimize } from 'react-icons/fa';
+import { IoMdClose } from 'react-icons/io';
+import Heading from '../assets/Text.png';
+import Hishita from '../assets/Hishita.jpg';
+
 
 export const HobbiesScreen = (props) => {
     const [showHtml, setShowHtml] = useState(false)
@@ -106,50 +111,282 @@ export const HobbiesScreen = (props) => {
                             backdropFilter: 'blur(8px)',
                             transformOrigin: 'center',
                             borderRadius: '10px',
-                            border: '2px solid white',
+                            // border: '2px solid white',
                             mixBlendMode: 'difference',
+                            padding: '8px',
                         }}
                     >
-                        <div style={{
-                            textAlign: 'center',
-                            color: 'white',
-                            fontSize: '4px',
-                            padding: '2px',
-                        }}>
-                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta Hobbies</h2>
-                            <p style={{ margin: '0 0 3px 0', fontSize: '8px' }}>Full Stack Developer</p>
-                            <div style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
-                                <a
-                                    href="https://github.com/yourusername"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                backgroundColor: '#C0C0C0',
+                                border: '1px solid #000',
+                                fontFamily: 'Tahoma, sans-serif',
+                                fontSize: '10px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                padding: '1.5px',
+                            }}
+                        >
+                            {/* Title Bar */}
+                            <div
+                                style={{
+                                    backgroundColor: '#000080',
+                                    color: '#FFFFFF',
+                                    padding: '1.5px 2px',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <span
                                     style={{
-                                        color: 'white',
-                                        textDecoration: 'none',
-                                        border: '2px solid white',
-                                        // padding: '15px 30px',
-                                        borderRadius: '8px',
-                                        fontSize: '6px'
+                                        padding: '0',
+                                        fontSize: '6px',
                                     }}
                                 >
-                                    GitHub
-                                </a>
-                                <a
-                                    href="https://linkedin.com/in/yourusername"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    C:\Users\Hishita Gupta\Life\About.txt
+                                </span>
+
+                                {/* Title Bar Buttons */}
+                                <div
                                     style={{
-                                        color: 'white',
-                                        textDecoration: 'none',
-                                        border: '2px solid white',
-                                        padding: '1px 3px',
-                                        borderRadius: '8px',
-                                        fontSize: '3px'
+                                        display: 'flex',
+                                        gap: '2px',
                                     }}
                                 >
-                                    LinkedIn
-                                </a>
+                                    {/* Minimize Button */}
+                                    <div
+                                        style={{
+                                            width: '10px',
+                                            height: '10px',
+                                            backgroundColor: '#C0C0C0',
+                                            border: '1px solid #808080',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        {/* <div
+                                            style={{
+                                                width: '6px',
+                                                height: '1px',
+                                                backgroundColor: '#000',
+                                            }}
+                                        ></div> */}
+                                        <FaRegWindowMinimize style={{
+                                            width: '6px',
+                                            height: '1px',
+                                            backgroundColor: '#fff',
+                                        }} />
+                                    </div>
+
+                                    {/* Maximize Button */}
+                                    <div
+                                        style={{
+                                            width: '10px',
+                                            height: '10px',
+                                            backgroundColor: '#C0C0C0',
+                                            border: '1px solid #808080',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        {/* <div
+                                            style={{
+                                                width: '6px',
+                                                height: '6px',
+                                                border: '1px solid #000',
+                                            }}
+                                        ></div> */}
+                                        <FaRegWindowMaximize
+                                            style={{
+                                                width: '6px',
+                                                height: '6px',
+                                                color: 'black',
+                                                // backgroundColor: '#000'
+                                            }} />
+                                    </div>
+
+                                    {/* Close Button */}
+                                    <div
+                                        style={{
+                                            width: '10px',
+                                            height: '10px',
+                                            backgroundColor: '#C0C0C0',
+                                            border: '1px solid #808080',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            cursor: 'pointer',
+
+                                        }}
+                                    >
+                                        {/* <div
+                                            style={{
+                                                width: '6px',
+                                                height: '6px',
+                                                backgroundColor: '#FF0000',
+                                            }}
+                                        ></div> */}
+                                        <IoMdClose
+                                            style={{
+                                                width: '6px',
+                                                height: '6px',
+                                                color: '#000000',
+                                                //  backgroundColor: '#000'
+                                            }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
+
+                            {/* Menu Bar */}
+                            <div
+                                style={{
+                                    backgroundColor: '#C0C0C0',
+                                    color: '#000000',
+                                    padding: '1.5px 1px',
+                                    fontSize: '5px',
+                                    display: 'flex',
+                                    gap: '4px',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <span>Me</span>
+                                <span>Edit</span>
+                                <span>Search</span>
+                                <span>Help</span>
+                            </div>
+
+                            {/* Content Area */}
+                            <div
+                                style={{
+                                    backgroundColor: '#FFFFFF',
+                                    color: '#000000',
+                                    padding: '5px',
+                                    overflowY: 'scroll', // Enables vertical scrollbar only
+                                    overflowX: 'hidden', // Prevents horizontal scrollbar
+                                    whiteSpace: 'pre-wrap', // Allows text to wrap if necessary
+                                    flexGrow: 1,
+                                    border: '1px solid #808080',
+                                    boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
+                                    height: '300px',
+                                    // scrollbarWidth: 'thin', // Makes scrollbar narrower
+                                    // '&::-webkit-scrollbar': {
+                                    //     width: 'thin' // Makes scrollbar narrower for webkit browsers
+                                    msOverflowStyle: 'none', // Hide scrollbar for IE/Edge
+                                    scrollbarWidth: 'none', // Hide scrollbar for Firefox
+                                    '&::-webkit-scrollbar': { // Hide scrollbar for Chrome/Safari/Opera
+                                        display: 'none'
+                                    }
+                                }}
+                            >
+                                <section style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        height: '150px',
+                                        width: '100%',
+                                        border: '0.5px solid #000'
+                                    }}>
+                                        <img src={Heading} alt="" style={{ width: '100%', height: '100%' }} />
+                                    </div>
+
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+
+                                        width: '100%',
+                                        // border: '1px solid #000',
+                                        gap: '10px',
+                                        height: '150px',
+                                    }}>
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            border: '0.5px solid #000',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '0px'
+                                        }}>
+
+                                            <div style={{
+                                                width: '100%',
+                                                height: '80%',
+                                                // padding: '2px',
+                                                // border: '1px solid #000'
+                                            }}>
+                                                <img src={Hishita} alt="" style={{ width: '100%', height: '100%' }} />
+
+                                            </div>
+                                            <div style={{
+                                                width: '100%',
+                                                height: '20%',
+                                                borderTop: '0.5px solid #000',
+                                                padding: '3px',
+                                            }} >
+                                                <p class="bungee-regular" style={{ fontSize: '8px', margin: '0px', padding: '0px' }}>Fun Facts</p>
+                                                <p class="cousine-regular" style={{ fontSize: '5.5px', margin: '0px', padding: '0px' }}>I can solve a Rubik's cube in under 2 minutes!</p>
+                                            </div>
+
+                                        </div>
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            border: '0.5px solid #000',
+                                            padding: '3px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '2px',
+                                            overflowY: 'scroll',
+                                            overflowX: 'hidden',
+                                            whiteSpace: 'pre-wrap',
+                                            flexGrow: 1,
+                                            msOverflowStyle: 'none', // Hide scrollbar for IE/Edge
+                                            scrollbarWidth: 'none', // Hide scrollbar for Firefox
+                                            '&::-webkit-scrollbar': { // Hide scrollbar for Chrome/Safari/Opera
+                                                display: 'none'
+                                            },
+                                        }}>
+                                            <p class="cousine-bold" style={{ fontSize: '8px', padding: '2px', textAlign: 'center', margin: '0px', paddingTop: '0px' }}>Master of controlled chaos</p>
+                                            <p class="cousine-regular" style={{ fontSize: '6px', margin: '0px', padding: '0px' }}>24 years old
+                                            </p>
+                                            <p class="cousine-regular" style={{ fontSize: '6px', margin: '0px', padding: '0px' }}>Greater Philadelphia, USA
+                                            </p>
+                                            <p class="cousine-regular" style={{ fontSize: '5.5px', marginTop: '2px', padding: '0px' }}>I have been drawing and creating since I was physically capable of grasping a pencil. From the age of 12, I began indulging in digital illustration.​ I decided to pursue my passion in design graduated in 2017 at the top of my class with an Associate's Degree in Interactive Design.
+                                                <br />To quench my hunger for web development knowledge, I kickstarted my web design journey in 2020 and haven't looked back. In my free time, I love to learn new tools and technologies to make far-out websites and help bring others' visions to life. I also like to sprinkle a little rollerskating & anime in between.
+
+                                                
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                    <div style={
+                                        {
+                                            display: 'flex',
+                                            // justifyContent: 'center',
+                                            // alignItems: 'center',
+
+                                            width: '100%',
+                                            border: '0.5px solid #000',
+                                            gap: '10px',
+                                            height: '80px',
+                                            padding: '2px'
+                                        }}>
+                                            <p class="bungee-regular" style={{ fontSize: '8px', margin: '0px', padding: '0px' }}>Education</p>
+                                        </div>
+                                </section>
+
+                            </div>
+
                         </div>
                     </Html>
                 </group>
