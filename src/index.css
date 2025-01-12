@@ -1,18 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
 
 
 /* @import url('https://rsms.me/inter/inter.css'); */
 
 * {
   box-sizing: border-box;
+
 }
 
 html,
 body,
+Html,
 #root {
   width: 100%;
   height: 100%;
@@ -24,6 +21,13 @@ body {
   background: black;
   color: #f0f0f0;
   font-family: 'Inter';
+}
+@font-face {
+  font-family: 'Magic Retro';
+  src: url('MagicRetroRegular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 a {
@@ -122,4 +126,12 @@ input:focus {
 
 .reset-view-button:active {
   transform: scale(0.95);
+}
+.retro-heading {
+  font-family: 'Magic Retro';
+  font-weight: normal;
+  font-style: normal;
+}
+Html::-webkit-scrollbar {
+  width: 2px;
 }

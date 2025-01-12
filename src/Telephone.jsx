@@ -92,7 +92,7 @@ Title: Futuristic flying animated Robot - Low Poly
 */
 
 import React, { useRef, useEffect } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF, useAnimations, OrbitControls } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import * as dat from 'dat.gui'
 
@@ -293,6 +293,7 @@ export function Robot(props) {
           </group>
         </group>
       </group>
+      {/* <OrbitControls/> */}
     </group>
   )
 }

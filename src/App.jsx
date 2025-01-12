@@ -98,7 +98,7 @@ export default function App() {
         <DepthOfField 
           target={[0, 0, 13]} 
           focalLength={0.3} 
-          bokehScale={1} 
+          bokehScale={0} 
           height={viewport.height} 
         />
       </EffectComposer>
