@@ -8,7 +8,13 @@ export function Screen({ frame, panel, children, ...props }) {
             <mesh castShadow receiveShadow geometry={nodes[frame].geometry} material={materials.Texture} />
             <mesh geometry={nodes[panel].geometry}>
                 <meshBasicMaterial toneMapped={false}>
-                    <RenderTexture attach="map" anisotropy={16} height={512} width={512}>
+                    <RenderTexture 
+                        attach="map" 
+                        anisotropy={16} 
+                        height={1024} 
+                        width={1024}
+                        encoding={3} // sRGB encoding
+                    >
                         {children}
                     </RenderTexture>
                 </meshBasicMaterial>

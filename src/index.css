@@ -1,4 +1,4 @@
-
+@import url("https://fonts.googleapis.com/css?family=Poppins|Lato|Roboto+Mono&display=swap");
 
 /* @import url('https://rsms.me/inter/inter.css'); */
 
@@ -166,3 +166,5 @@ Html::-webkit-scrollbar {
   font-weight: 700;
   font-style: italic;
 }
+
+

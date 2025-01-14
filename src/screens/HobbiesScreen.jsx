@@ -16,6 +16,8 @@ export const HobbiesScreen = (props) => {
     const [htmlScale, setHtmlScale] = useState(1)
     const [isTransitioning, setIsTransitioning] = useState(false)
 
+
+
     // Add event listener for screen changes
     useEffect(() => {
         const handleScreenChange = (event) => {
@@ -363,30 +365,89 @@ export const HobbiesScreen = (props) => {
                                             <p class="cousine-regular" style={{ fontSize: '5.5px', marginTop: '2px', padding: '0px' }}>I have been drawing and creating since I was physically capable of grasping a pencil. From the age of 12, I began indulging in digital illustration.​ I decided to pursue my passion in design graduated in 2017 at the top of my class with an Associate's Degree in Interactive Design.
                                                 <br />To quench my hunger for web development knowledge, I kickstarted my web design journey in 2020 and haven't looked back. In my free time, I love to learn new tools and technologies to make far-out websites and help bring others' visions to life. I also like to sprinkle a little rollerskating & anime in between.
 
-                                                
+
                                             </p>
                                         </div>
 
                                     </div>
 
-                                    <div style={
+                                    {/* <div style={
                                         {
                                             display: 'flex',
-                                            // justifyContent: 'center',
-                                            // alignItems: 'center',
-
+                                            flexDirection: 'column',
                                             width: '100%',
                                             border: '0.5px solid #000',
-                                            gap: '10px',
+                                            gap: '0px',
                                             height: '80px',
                                             padding: '2px'
                                         }}>
-                                            <p class="bungee-regular" style={{ fontSize: '8px', margin: '0px', padding: '0px' }}>Education</p>
+                                        <p class="bungee-regular" style={{ fontSize: '8px', margin: '0px', padding: '0px' }}>Education</p>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            width: '100%',
+                                            padding: '0px 2px'
+                                        }}>
+                                            {/* timeline 
+                                            <div style={{ width: '40%', height: '0.1px', padding: '0px ', backgroundColor: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                                                <div style={{ position: 'absolute', left: '-2px', width: '2px', height: '2px', borderRadius: '50%', backgroundColor: 'black' }}></div>
+                                            </div>
+                                            <p class="cousine-regular" style={{ fontSize: '6px', margin: '0px', padding: '0px' }}>
+                                                2020-2021</p>
+                                            <div style={{ width: '40%', height: '0.1px', padding: '0px ', backgroundColor: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                                                <div style={{ position: 'absolute', right: '-1px', width: '2px', height: '2px', borderRadius: '50%', backgroundColor: 'black' }}></div>
+                                            </div>
                                         </div>
+                                        <div style={
+                                            {
+                                                display: 'flex',
+                                                // flexDirection: 'column',
+                                                width: '100%',
+                                                // border: '0.5px solid #000',
+                                                gap: '10px',
+                                                // height: '80px',
+                                                padding: '2px'
+                                            }}>
+                                            <div style={
+                                                {
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    width: '60%',
+                                                    border: '0.5px solid #000',
+                                                    gap: '0px',
+                                                    // height: '80px',
+                                                    padding: '2px'
+                                                }}>
+                                                <p class="cousine-bold" style={{ fontSize: '6px', margin: '0px', padding: '0px' }}>Primary to Senior Secondary</p>
+                                                <p class="cousine-regular" style={{ fontSize: '5px', margin: '0px', padding: '2px' }}>
+                                                    <ul>
+                                                        <li>Mukat Public School,Rajpura</li>
+                                                        <li>Central Board of Secondary Education</li>
+                                                        <li>Top Academic Achiever</li>
+                                                        <li>10th Grade: 95%</li>
+                                                        <li>12th Grade: 96%</li>
+                                                    </ul>
+                                                </p>
+                                            </div>
+                                            <div style={
+                                                {
+                                                    display: 'flex',
+                                                    // flexDirection: 'column',
+                                                    width: '50%',
+                                                    border: '0.5px solid #000',
+                                                    gap: '0px',
+                                                    // height: '80px',
+                                                    padding: '2px'
+                                                }}>
+                                                Hello
+                                            </div>
+
+                                        </div>
+
+                                    </div> */}
                                 </section>
-
                             </div>
-
                         </div>
                     </Html>
                 </group>
@@ -395,7 +456,7 @@ export const HobbiesScreen = (props) => {
                     <ambientLight intensity={Math.PI / 2} />
                     <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
                     <pointLight decay={0} position={[-10, -10, -10]} />
-                    <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} />
+                    {/* <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} /> */}
                 </>
             )}
         </Screen>
