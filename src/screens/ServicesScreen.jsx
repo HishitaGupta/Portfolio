@@ -33,46 +33,46 @@ export const ServicesScreen = (props) => {
         return () => window.removeEventListener('changeScreen', handleScreenChange);
     }, []);
 
-    useEffect(() => {
-        if (showHtml) {
-            const gui = new dat.GUI({ name: 'HTML Controls' });
+    // useEffect(() => {
+    //     if (showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
 
-            const posFolder = gui.addFolder('HTML Position');
+    //         const posFolder = gui.addFolder('HTML Position');
 
-            posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, x: value }));
-            });
-            posFolder.add(htmlPosition, 'y', -3, 3, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, y: value }));
-            });
-            posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, z: value }));
-            });
+    //         posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'y', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, z: value }));
+    //         });
 
-            const rotFolder = gui.addFolder('HTML Rotation');
-            rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, x: value }));
-            });
-            rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, y: value }));
-            });
-            rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, z: value }));
-            });
+    //         const rotFolder = gui.addFolder('HTML Rotation');
+    //         rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, x: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, y: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, z: value }));
+    //         });
 
-            const scaleFolder = gui.addFolder('HTML Scale');
-            scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
-                setHtmlScale(value);
-            });
+    //         const scaleFolder = gui.addFolder('HTML Scale');
+    //         scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //             setHtmlScale(value);
+    //         });
 
-            posFolder.open();
-            scaleFolder.open();
+    //         posFolder.open();
+    //         scaleFolder.open();
 
-            return () => {
-                gui.destroy();
-            };
-        }
-    }, [showHtml]);
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [showHtml]);
 
     return (
         <Screen {...props} onClick={props.onClick}>
@@ -131,7 +131,7 @@ export const ServicesScreen = (props) => {
                                         fontSize: '6px',
                                     }}
                                 >
-                                    C:\Users\Hishita Gupta\Life\About.txt
+                                    C:\Users\Hishita Gupta\Life\Experience.txt
                                 </span>
 
                                 {/* Title Bar Buttons */}
@@ -272,43 +272,49 @@ export const ServicesScreen = (props) => {
                                 }}
                             >
                                 <div style={{ display: 'flex', gap: '10px', width: '100%', height: '70px' }}>
-                                    <div style={{ border: '1px solid #000', width: '70%', padding: '2px', gap: '2px', display: 'flex', flexDirection: 'column' ,justifyContent:'center',alignItems:'center'}}>
-                                        <p class="bungee-regular" style={{ fontSize: '8px', margin: '0px', padding: '0px' }}>Tech Stack</p>
-                                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px',alignItems:'center'}}>
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="C" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Typescript.svg" alt="TypeScript" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg" alt="Bootstrap" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://cdn.worldvectorlogo.com/logos/fastapi-1.svg" alt="FastAPI" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" alt="Next.js" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Redux.png" alt="Redux" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Three.js_Icon.svg" alt="Three.js" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="TensorFlow" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="PyTorch" style={{ width: '15px', height: '15px' }} />
-                                            
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Vercel_logo_black.svg" alt="Vercel" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" alt="Git" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" alt="GitHub Actions" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Docker_%28container_engine%29_logo.svg" alt="Docker" style={{ width: '15px', height: '15px' }} />
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino" style={{ width: '15px', height: '15px' }} />
-                                        </div>
+                                    <div style={{ border: '1px solid #000', width: '70%', padding: '2px', gap: '2px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                        <p class="bungee-regular" style={{ fontSize: '7px', marginBottom: '1px', padding: '0px' }}>Tech Stack</p>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px', alignItems: 'center', justifyContent: 'center' }}>
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="C" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Typescript.svg" alt="TypeScript" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg" alt="Bootstrap" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://cdn.worldvectorlogo.com/logos/fastapi-1.svg" alt="FastAPI" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" alt="Next.js" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Redux.png" alt="Redux" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Three.js_Icon.svg" alt="Three.js" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="TensorFlow" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="PyTorch" style={{ width: '15px', height: '15px' }} />
+
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Vercel_logo_black.svg" alt="Vercel" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" alt="Git" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" alt="GitHub Actions" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Docker_%28container_engine%29_logo.svg" alt="Docker" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino" style={{ width: '15px', height: '15px' }} />
+                                            </div>
                                         </div>
 
-                                        
+
 
                                     </div>
                                     <div style={{ width: '30%', display: 'flex', gap: '10px', flexDirection: 'column' }}>
-                                        <div style={{ border: '1px solid #000', width: '100%', height: '50%' }}></div>
-                                        <div style={{ border: '1px solid #000', width: '100%', height: '50%' }}></div>
+                                        <div style={{ border: '1px solid #000', width: '100%', height: '50%', display: 'flex', alignContent: 'space-between', justifyContent: 'center', flexDirection: 'column' }}>
+                                            <p class="bungee-regular" style={{ fontSize: '6px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>LinkedIn </p>
+                                            <p class="cousine-regular" style={{ fontSize: '11px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'end', justifyContent: 'center', height: '50%' }}>1K+</p>
+                                        </div>
+                                        <div style={{ border: '1px solid #000', width: '100%', height: '50%', display: 'flex', alignContent: 'space-between', justifyContent: 'center', flexDirection: 'column' }}>
+                                            <p class="bungee-regular" style={{ fontSize: '6px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Current CGPA</p>
+                                            <p class="cousine-regular" style={{ fontSize: '11px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'end', justifyContent: 'center', height: '50%' }}>10</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
