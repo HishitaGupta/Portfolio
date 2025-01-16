@@ -104,12 +104,12 @@ export function Robot(props) {
   const { actions } = useAnimations(animations, group)
   const { camera } = useThree()
 
-  useEffect(() => {
-    // Play all animations
-    Object.values(actions).forEach(action => {
-      action.play()
-    })
-  }, [actions])
+  // useEffect(() => {
+  //   // Play all animations
+  //   Object.values(actions).forEach(action => {
+  //     action.play()
+  //   })
+  // }, [actions])
 
 //   useEffect(() => {
 //     const gui = new dat.GUI()
@@ -160,7 +160,7 @@ export function Robot(props) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group name="Sketchfab_Scene">
+      {/* <group name="Sketchfab_Scene">
         <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={0.246}>
           <group
             name="a45b6f53b9cc462a82863bb5898bf730fbx"
@@ -292,12 +292,12 @@ export function Robot(props) {
             </group>
           </group>
         </group>
-      </group>
+      </group> */}
       {/* <OrbitControls/> */}
     </group>
   )
 }
 
-useGLTF.preload('/futuristic_flying_animated_robot_-_low_poly.glb')
+// useGLTF.preload('/futuristic_flying_animated_robot_-_low_poly.glb')
 
 export default Robot
