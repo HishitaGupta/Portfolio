@@ -168,3 +168,14 @@ Html::-webkit-scrollbar {
 }
 
 
+.header {
+  font-family: "Bungee", serif !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+
+svg.stat.bold {
+  font-family: "Cousine", serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+}

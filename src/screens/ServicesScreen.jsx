@@ -131,7 +131,7 @@ export const ServicesScreen = (props) => {
                                         fontSize: '6px',
                                     }}
                                 >
-                                    C:\Users\Hishita Gupta\Life\Experience.txt
+                                    C:\Users\Hishita Gupta\Life\SkillsAndTech.txt
                                 </span>
 
                                 {/* Title Bar Buttons */}
@@ -268,38 +268,41 @@ export const ServicesScreen = (props) => {
                                     scrollbarWidth: 'none', // Hide scrollbar for Firefox
                                     '&::-webkit-scrollbar': { // Hide scrollbar for Chrome/Safari/Opera
                                         display: 'none'
-                                    }
+                                    },
+                                    display: 'flex', gap: '10px',
+                                    flexDirection: 'column'
                                 }}
                             >
-                                <div style={{ display: 'flex', gap: '10px', width: '100%', height: '70px' }}>
-                                    <div style={{ border: '1px solid #000', width: '70%', padding: '2px', gap: '2px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                        <p class="bungee-regular" style={{ fontSize: '7px', marginBottom: '1px', padding: '0px' }}>Tech Stack</p>
+                                <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+                                    <div style={{ border: '1px solid #000', width: '70%', padding: '2px', gap: '5px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '120px' }}>
+                                        <p class="bungee-regular" style={{ fontSize: '10px', marginBottom: '1px', padding: '0px' }}>Tech Stack</p>
                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px', alignItems: 'center', justifyContent: 'center' }}>
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="C" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Typescript.svg" alt="TypeScript" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg" alt="Bootstrap" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://cdn.worldvectorlogo.com/logos/fastapi-1.svg" alt="FastAPI" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" alt="Next.js" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Redux.png" alt="Redux" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Three.js_Icon.svg" alt="Three.js" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="TensorFlow" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="PyTorch" style={{ width: '15px', height: '15px' }} />
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', alignItems: 'center', justifyContent: 'start', padding: '2px' }}>
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="C" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Typescript.svg" alt="TypeScript" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg" alt="Bootstrap" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://cdn.worldvectorlogo.com/logos/fastapi-1.svg" alt="FastAPI" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" alt="Next.js" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Redux.png" alt="Redux" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Three.js_Icon.svg" alt="Three.js" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="TensorFlow" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="PyTorch" style={{ width: '20px', height: '20px' }} />
 
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Vercel_logo_black.svg" alt="Vercel" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" alt="Git" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" alt="GitHub Actions" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Docker_%28container_engine%29_logo.svg" alt="Docker" style={{ width: '15px', height: '15px' }} />
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino" style={{ width: '15px', height: '15px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Vercel_logo_black.svg" alt="Vercel" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" alt="Git" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://avatars.githubusercontent.com/u/44036562?s=200&v=4" alt="GitHub Actions" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Docker_%28container_engine%29_logo.svg" alt="Docker" style={{ width: '20px', height: '20px' }} />
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino" style={{ width: '20px', height: '20px' }} />
+
                                             </div>
                                         </div>
 
@@ -308,15 +311,45 @@ export const ServicesScreen = (props) => {
                                     </div>
                                     <div style={{ width: '30%', display: 'flex', gap: '10px', flexDirection: 'column' }}>
                                         <div style={{ border: '1px solid #000', width: '100%', height: '50%', display: 'flex', alignContent: 'space-between', justifyContent: 'center', flexDirection: 'column' }}>
-                                            <p class="bungee-regular" style={{ fontSize: '6px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>LinkedIn </p>
-                                            <p class="cousine-regular" style={{ fontSize: '11px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'end', justifyContent: 'center', height: '50%' }}>1K+</p>
+                                            <p class="bungee-regular" style={{ fontSize: '8px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>LinkedIn </p>
+                                            <p class="cousine-regular" style={{ fontSize: '20px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'end', justifyContent: 'center', height: '50%' }}>1K+</p>
                                         </div>
                                         <div style={{ border: '1px solid #000', width: '100%', height: '50%', display: 'flex', alignContent: 'space-between', justifyContent: 'center', flexDirection: 'column' }}>
-                                            <p class="bungee-regular" style={{ fontSize: '6px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Current CGPA</p>
-                                            <p class="cousine-regular" style={{ fontSize: '11px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'end', justifyContent: 'center', height: '50%' }}>10</p>
+                                            <p class="bungee-regular" style={{ fontSize: '8px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>Current CGPA</p>
+                                            <p class="cousine-regular" style={{ fontSize: '20px', margin: '1px', padding: '0px', display: 'flex', alignItems: 'end', justifyContent: 'center', height: '50%' }}>10</p>
                                         </div>
                                     </div>
                                 </div>
+                                <div style={{ display: 'flex', gap: '10px', width: '73%', height: '73%' }}>
+
+                                    {/* <img src="https://github-readme-stats.vercel.app/api?username=HishitaGupta&theme=transparent&hide_border=false&title_color=000000&text_color=000000&icon_color=000000&text_bold=true&ring_color=000000"
+                                        alt="GitHub Streak"
+                                        style={{  display: 'flex',justifyContent:'start',alignItems:'start',border:'1px solid #000' , width: '67%'}}/> */}
+
+                                    <object data="https://github-readme-stats.vercel.app/api?username=HishitaGupta&theme=transparent&hide_border=false&title_color=000000&text_color=000000&icon_color=000000&text_bold=true&ring_color=000000&rank_icon=github" type="image/svg+xml" style={{ display: 'flex', justifyContent: 'start', alignItems: 'start', border: '1px solid #000' }} class='header' ></object>
+
+
+                                </div>
+
+
+
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'start', alignItems: 'start', height: '100%', border: '1px solid #000' }}>
+
+
+                                    <object data="https://github-readme-stats.vercel.app/api/top-langs/?username=HishitaGupta&layout=donut&theme=transparent&hide_border=true&title_color=000000&text_color=000000&icon_color=000000&text_bold=true&ring_color=000000" type="image/svg+xml" style={{ display: 'flex', justifyContent: 'start', alignItems: 'start', width: '90%', height: '90%', fontFamily: 'teko' }}  ></object>
+
+                                </div>
+
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'start', alignItems: 'start', height: '100%', border: '1px solid #000' }}>
+
+
+                                    <object data="https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs&layout=compact&theme=transparent&hide_border=true&title_color=000000&text_color=000000&icon_color=000000&text_bold=true&ring_color=000000" type="image/svg+xml" style={{ display: 'flex', justifyContent: 'start', alignItems: 'start', width: '100%', height: '100%', fontFamily: 'teko' }}  ></object>
+
+                                </div>
+
+                                
+
+
                             </div>
                         </div>
                     </Html>

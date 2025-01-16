@@ -6,7 +6,7 @@ import { SpinningBox } from './screens/SpinningBox'
 import { BoxHelper } from 'three'
 import React from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { animated, useSpring } from '@react-spring/three';
+
 import * as dat from 'dat.gui'
 import gsap from 'gsap'
 // import React, { useState } from 'react';
@@ -20,7 +20,7 @@ import { ExperienceScreen } from './screens/ExperienceScreen'
 import { AchievementsScreen } from './screens/AchievementsScreen'
 import { HobbiesScreen } from './screens/HobbiesScreen'
 import { ScreenInteractive } from './screens/ScreenInteractive'
-import Telephone, { Robot } from './Telephone'
+import { Robot } from './Telephone'
 
 
 
