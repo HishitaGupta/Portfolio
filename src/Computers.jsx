@@ -569,7 +569,7 @@
 
 import * as THREE from 'three'
 import { useMemo, useContext, createContext, useRef, useEffect, useState, useCallback } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useLoader } from '@react-three/fiber'
 import { useGLTF, Merged, RenderTexture, PerspectiveCamera, Text } from '@react-three/drei'
 import React from 'react'
 import { useThree } from '@react-three/fiber'
@@ -707,7 +707,8 @@ function Leds() {
 
 // Main Computers component with optimizations
 export function Computers(props) {
-    const { nodes:n, materials:m } = useGLTF('/computers_1-transformed.glb')
+    // const { nodes:n, materials:m } = useGLTF('/computers_1-transformed.glb')
+    const {nodes:n, materials:m } = useLoader(GLTFLoader, "https://hishitagupta-tech.vercel.app/models/computers_1-transformed.glb");
     const instances = useContext(InstancesContext)
     const { camera } = useThree()
 
