@@ -21,7 +21,7 @@ Html,
 body {
   background: black;
   color: #f0f0f0;
-  font-family: 'Inter';
+  /* font-family: 'Inter'; */
 }
 @font-face {
   font-family: 'Magic Retro';
@@ -178,4 +178,8 @@ svg.stat.bold {
   font-family: "Cousine", serif !important;
   font-weight: 400 !important;
   font-style: italic !important;
+}
+
+.vertical-timeline-element-content-arrow{
+  color:'red'
 }
