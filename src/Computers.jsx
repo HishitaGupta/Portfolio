@@ -587,6 +587,7 @@ import { AchievementsScreen } from './screens/AchievementsScreen'
 import { HobbiesScreen } from './screens/HobbiesScreen'
 import { ScreenInteractive } from './screens/ScreenInteractive'
 import { Robot } from './Telephone'
+import Hishita from "./assets/Hishita.jpg"
 
 // Remove unused imports to reduce bundle size
 THREE.ColorManagement.legacyMode = false
@@ -918,6 +919,7 @@ export function Computers(props) {
                 onClick={(e) => handleClick(e, [0.4, 0.3, 2.1], [0, -0.8, 0], 20, 'Achievements')}
                 htmlPos={[-0.7, 0.3, 1.7]}
                 htmlRot={[0, 0, 0]}
+                images={{ Hishita: Hishita }} 
             />
 
             <HobbiesScreen

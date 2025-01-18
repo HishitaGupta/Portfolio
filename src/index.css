@@ -183,3 +183,15 @@ svg.stat.bold {
 .vertical-timeline-element-content-arrow{
   color:'red'
 }
+
+.hover-item:hover {
+  transform: scale(1.1); /* Scales the text */
+}
+
+.hover-item:hover .hover-image {
+  opacity: 1; /* Shows the image with opacity change */
+}
+
+.hover-image {
+  opacity: 0; /* Initially hidden */
+}
