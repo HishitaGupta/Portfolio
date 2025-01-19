@@ -518,10 +518,11 @@
 
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { PerspectiveCamera, Html } from '@react-three/drei';
+import { PerspectiveCamera, Html, Text } from '@react-three/drei';
 import { FaRegWindowMaximize, FaRegWindowMinimize } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { Screen } from './Screen';
+import * as dat from 'dat.gui';
 
 // Separate components for better code organization and performance
 const TitleBarButton = React.memo(({ Icon, style }) => (
@@ -553,7 +554,7 @@ const ProjectCard = React.memo(({
   onClick 
 }) => {
   const cardStyle = useMemo(() => ({
-    borderBottom: '1px solid #000',
+    borderBottom: '0.1px solid #000',
     padding: '2px',
     cursor: 'pointer',
     position: 'relative',
@@ -614,6 +615,8 @@ export const AchievementsScreen = React.memo((props) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [expanded, setExpanded] = useState(null);
+  const [textPosition,setTextPosition] = useState({ x: -3.2, y: 0.8, z: 0 });
+  const [textRotation,setTextRotation] = useState({ x: 0, y: 0, z: 0 });
 
   // Memoized project data
   const projects = useMemo(() => [
@@ -713,7 +716,15 @@ export const AchievementsScreen = React.memo((props) => {
   }), []);
 
   const contentAreaStyles = useMemo(() => ({
-    backgroundColor: '#FFFFFF',
+    backgroundImage: `
+    linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+    url("../src/assets/round.png")
+  ` ,  // Replace with your image URL
+    backgroundSize: 'cover', // Ensures the image covers the entire background
+    backgroundPosition: 'center', // Centers the imag
+    backgroundRepeat: 'no-repeat', // Prevents the image from repeating
+    backgroundColor: '#FFFFFF', // Fallback background color
+    backgroundOpacity:'0.1',
     color: '#000000',
     padding: '20px',
     overflowY: 'scroll',
@@ -723,7 +734,7 @@ export const AchievementsScreen = React.memo((props) => {
     border: '1px solid #808080',
     boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
     display: 'flex',
-    gap: '10px',
+    gap: '8px',
     flexDirection: 'column',
     width: '100%',
     msOverflowStyle: 'none',
@@ -732,10 +743,56 @@ export const AchievementsScreen = React.memo((props) => {
     alignItems: 'center'
   }), []);
 
+
   const buttonContainerStyles = useMemo(() => ({
     display: 'flex',
     gap: '2px',
   }), []);
+
+   
+
+    
+    //     // text controls
+    // useEffect(() => { 
+    //     if (!showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
+
+    //         const posFolder = gui.addFolder('HTML Position');
+
+    //         posFolder.add(textPosition, 'x', -3, 20, 0.1).onChange((value) => {
+    //             setTextPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(textPosition, 'y', -3, 20, 0.1).onChange((value) => {
+    //             setTextPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(textPosition, 'z', -3, 20, 0.1).onChange((value) => {
+    //             setTextPosition(prev => ({ ...prev, z: value }));
+    //         });
+
+    //         const rotFolder = gui.addFolder('HTML Rotation');
+    //         rotFolder.add(textRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setTextRotation(prev => ({ ...prev, x: value }));
+    //         });
+    //         rotFolder.add(textRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setTextRotation(prev => ({ ...prev, y: value }));
+    //         });
+    //         rotFolder.add(textRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setTextRotation(prev => ({ ...prev, z: value }));
+    //         });
+
+    //         // const scaleFolder = gui.addFolder('HTML Scale');
+    //         // scaleFolder.add({ scale: textScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //         //     setTextScale(value);
+    //         // });
+
+    //         posFolder.open();
+    //         // scaleFolder.open();
+
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [!showHtml]);
 
   return (
     <Screen {...props}>
@@ -793,7 +850,7 @@ export const AchievementsScreen = React.memo((props) => {
 
             {/* Content Area */}
             <div style={contentAreaStyles}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', width: '100%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', width: '100%' }}>
                 {projects.map(project => (
                   <ProjectCard
                     key={project.id}
@@ -814,8 +871,21 @@ export const AchievementsScreen = React.memo((props) => {
           <ambientLight intensity={Math.PI / 2} />
           <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
           <pointLight decay={0} position={[-10, -10, -10]} />
+          <Text
+                                  fontSize={0.4}
+                                  letterSpacing={-0.1}
+                                  color='black'
+                                  scale={props.textScale || 1}
+                                  position={[textPosition.x, textPosition.y, textPosition.z]}
+                                  rotation={[textRotation.x, textRotation.y, textRotation.z]}
+                                  font="/Inter-Medium.woff"
+                              >
+                                  Projects
+                              </Text>
         </>
       )}
     </Screen>
   );
 });
+
+
