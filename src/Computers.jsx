@@ -909,6 +909,7 @@ export function Computers(props) {
                 position={[0.27, 1.53, -2.61]}
                 onClick={(e) => handleClick(e, [0.1, 0.1, 0.89], [0, -0.01, 0], 32, 'About')}
                 htmlPos={[0.3, -0.3, 2.5]}
+                images={{ Hishita: Hishita }} 
             />
 
             <ProjectScreen
