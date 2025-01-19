@@ -589,6 +589,11 @@ import { ScreenInteractive } from './screens/ScreenInteractive'
 import { Robot } from './Telephone'
 import Hishita from "./assets/Hishita.jpg"
 
+
+
+
+
+
 // Remove unused imports to reduce bundle size
 THREE.ColorManagement.legacyMode = false
 
@@ -711,6 +716,33 @@ export function Computers(props) {
     const { nodes:n, materials:m } = useGLTF('/computers_1-transformed.glb')
     const instances = useContext(InstancesContext)
     const { camera } = useThree()
+
+
+    //     useEffect(() => {
+    //     const gui = new dat.GUI();
+
+    //     // Add camera position controls
+    //     const cameraFolder = gui.addFolder('Camera');
+    //     cameraFolder.add(camera.position, 'x', -5, 5, 0.1).name('Position X');
+    //     cameraFolder.add(camera.position, 'y', -10, 10, 0.1).name('Position Y');
+    //     cameraFolder.add(camera.position, 'z', -5, 10, 0.1).name('Position Z');
+
+    //     // Add camera rotation controls
+    //     cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X').listen();
+    //     cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y').listen();
+    //     cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z').listen();
+
+    //     // Add camera FOV control
+    //     cameraFolder.add(camera, 'fov', 0, 120).name('FOV').onChange(() => {
+    //         camera.updateProjectionMatrix();
+    //     });
+
+    //     cameraFolder.open();
+
+    //     return () => {
+    //         gui.destroy(); // Clean up on unmount
+    //     };
+    // }, [camera]);
 
     const handleScreenTransition = useScreenTransition(camera)
 
@@ -875,8 +907,8 @@ export function Computers(props) {
                 frame="Object_206"
                 panel="Object_207"
                 position={[0.27, 1.53, -2.61]}
-                onClick={(e) => handleClick(e, [0.1, 0.15, 0.89], [0, -0.01, 0], 45, 'About')}
-                htmlPos={[0.3, -0.8, 0]}
+                onClick={(e) => handleClick(e, [0.1, 0.1, 0.89], [0, -0.01, 0], 32, 'About')}
+                htmlPos={[0.3, -0.3, 2.5]}
             />
 
             <ProjectScreen

@@ -10,9 +10,9 @@ function Overlay() {
   const screens = [
     {
       name: 'About',
-      position: [0.1, 0.15, 0.89],
+      position: [0.1, 0.1, 0.89],
       rotation: [0, -0.01, 0],
-      fov: 45
+      fov: 32
     },
     {
       name: 'Projects',
