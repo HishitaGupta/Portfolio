@@ -918,9 +918,9 @@ export function Computers(props) {
                 y={5}
                 position={[-1.43, 2.5, -1.8]}
                 rotation={[0, 1, 0]}
-                onClick={(e) => handleClick(e, [0.4, 0.5, 0.5], [0, 1.1, 0], 45, 'Projects')}
-                htmlPos={[-1.7, 0.6, 0]}
-                htmlRot={[0, -0.1, 0]}
+                onClick={(e) => handleClick(e, [0.4, 0.6, 0.8], [0, 1, 0], 30, 'Projects')}
+                htmlPos={[-0.2, -0.6, 0]}
+                htmlRot={[0, 0, 0]}
             />
 
             <ServicesScreen

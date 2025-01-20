@@ -16,9 +16,9 @@ function Overlay() {
     },
     {
       name: 'Projects',
-      position: [0.4, 0.5, 0.5],
-      rotation: [0, 1.1, 0],
-      fov: 45
+      position: [0.4, 0.6, 0.8],
+      rotation: [0, 1, 0],
+      fov: 30
     },
     {
       name: 'Services',

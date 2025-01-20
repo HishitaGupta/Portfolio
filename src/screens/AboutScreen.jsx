@@ -466,46 +466,46 @@ export const AboutScreen = React.memo((props) => {
 
 
     //   text controls
-    useEffect(() => { 
-        if (!showHtml) {
-            const gui = new dat.GUI({ name: 'HTML Controls' });
+    // useEffect(() => { 
+    //     if (!showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
 
-            const posFolder = gui.addFolder('HTML Position');
+    //         const posFolder = gui.addFolder('HTML Position');
 
-            posFolder.add(htmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
-                setTextPosition(prev => ({ ...prev, x: value }));
-            });
-            posFolder.add(htmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
-                setTextPosition(prev => ({ ...prev, y: value }));
-            });
-            posFolder.add(htmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
-                setTextPosition(prev => ({ ...prev, z: value }));
-            });
+    //         posFolder.add(htmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
+    //             setTextPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
+    //             setTextPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
+    //             setTextPosition(prev => ({ ...prev, z: value }));
+    //         });
 
-            const rotFolder = gui.addFolder('HTML Rotation');
-            rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setTextRotation(prev => ({ ...prev, x: value }));
-            });
-            rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setTextRotation(prev => ({ ...prev, y: value }));
-            });
-            rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setTextRotation(prev => ({ ...prev, z: value }));
-            });
+    //         const rotFolder = gui.addFolder('HTML Rotation');
+    //         rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setTextRotation(prev => ({ ...prev, x: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setTextRotation(prev => ({ ...prev, y: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setTextRotation(prev => ({ ...prev, z: value }));
+    //         });
 
-            const scaleFolder = gui.addFolder('HTML Scale');
-            scaleFolder.add({ scale: textScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
-                setTextScale(value);
-            });
+    //         const scaleFolder = gui.addFolder('HTML Scale');
+    //         scaleFolder.add({ scale: textScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //             setTextScale(value);
+    //         });
 
-            posFolder.open();
-            scaleFolder.open();
+    //         posFolder.open();
+    //         scaleFolder.open();
 
-            return () => {
-                gui.destroy();
-            };
-        }
-    }, [!showHtml]);
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [!showHtml]);
 
   // Memoize the HTML content
   const htmlContent = useMemo(() => (
@@ -601,15 +601,15 @@ export const AboutScreen = React.memo((props) => {
           <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
           <pointLight decay={0} position={[-10, -10, -10]} />
           <Text
-                  fontSize={0.4}
+                  fontSize={0.38}
                   letterSpacing={-0.1}
                   color="black"
                   scale={props.textScale || 1}
-                  position={[textPosition.x, textPosition.y, textPosition.z]}
+                  position={[-3.1, 0.75, textPosition.z]}
                   rotation={[textRotation.x, textRotation.y, textRotation.z]}
                   font="/Inter-Medium.woff"
                 >
-                  Skills & Tech
+                  Achievements
                 </Text>
         </>
       )}

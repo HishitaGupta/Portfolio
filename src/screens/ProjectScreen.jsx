@@ -29,46 +29,46 @@ export const ProjectScreen = (props) => {
         return () => window.removeEventListener('changeScreen', handleScreenChange);
     }, []);
 
-    useEffect(() => {
-        if (showHtml) {
-            const gui = new dat.GUI({ name: 'HTML Controls' });
+    // useEffect(() => {
+    //     if (showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
 
-            const posFolder = gui.addFolder('HTML Position');
+    //         const posFolder = gui.addFolder('HTML Position');
 
-            posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, x: value }));
-            });
-            posFolder.add(htmlPosition, 'y', -3, 3, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, y: value }));
-            });
-            posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, z: value }));
-            });
+    //         posFolder.add(htmlPosition, 'x', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'y', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'z', -3, 3, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, z: value }));
+    //         });
 
-            const rotFolder = gui.addFolder('HTML Rotation');
-            rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, x: value }));
-            });
-            rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, y: value }));
-            });
-            rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, z: value }));
-            });
+    //         const rotFolder = gui.addFolder('HTML Rotation');
+    //         rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, x: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, y: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, z: value }));
+    //         });
 
-            const scaleFolder = gui.addFolder('HTML Scale');
-            scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
-                setHtmlScale(value);
-            });
+    //         const scaleFolder = gui.addFolder('HTML Scale');
+    //         scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //             setHtmlScale(value);
+    //         });
 
-            posFolder.open();
-            scaleFolder.open();
+    //         posFolder.open();
+    //         scaleFolder.open();
 
-            return () => {
-                gui.destroy();
-            };
-        }
-    }, [showHtml]);
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [showHtml]);
 
     return (
         <Screen {...props} onClick={props.onClick}>
@@ -80,19 +80,19 @@ export const ProjectScreen = (props) => {
                         transform
                         scale={htmlScale}
                         position={props.htmlPos || [htmlPosition.x, htmlPosition.y, htmlPosition.z]}
-                        rotation={props.htmlRot || [htmlRotation.x, htmlRotation.y, htmlRotation.z]}
+                        rotation={ props.htmlRot || [htmlRotation.x, htmlRotation.y, htmlRotation.z]}
                         style={{
-                            width: '245px',
-                            height: '180px',
+                            width: '330px',
+                            height: '240px',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            // background: 'rgba(255, 255, 255, 0.1)',
+                            background: 'rgba(255, 255, 255, 0.1)',
                             backdropFilter: 'blur(8px)',
                             transformOrigin: 'center',
                             borderRadius: '10px',
-                            // border: '2px solid white',
+                            border: '2px solid white',
                             mixBlendMode: 'difference',
                         }}
                     >
