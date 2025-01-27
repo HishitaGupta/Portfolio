@@ -643,7 +643,8 @@ export const AchievementsScreen = React.memo((props) => {
       title: 'Frontend',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet, consectetur adipisicing elit Lorem ipsum dolor sit amet, consectetur adipisicing elit',
       image: props.images.Hishita
-    }
+    },
+    
   ], [props.images]);
 
   // Memoized handlers
@@ -850,7 +851,7 @@ export const AchievementsScreen = React.memo((props) => {
 
             {/* Content Area */}
             <div style={contentAreaStyles}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', width: '100%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', width: '100%'}}>
                 {projects.map(project => (
                   <ProjectCard
                     key={project.id}

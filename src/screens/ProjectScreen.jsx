@@ -4,6 +4,7 @@ import * as dat from 'dat.gui';
 import { Screen } from './Screen';
 import { SpinningBox } from './SpinningBox';
 
+
 export const ProjectScreen = (props) => {
     const [showHtml, setShowHtml] = useState(false)
     const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 })
@@ -102,40 +103,9 @@ export const ProjectScreen = (props) => {
                             fontSize: '4px',
                             padding: '2px',
                         }}>
-                            <h2 style={{ margin: '0 0 2px 0', fontSize: '4px' }}>Hishita Gupta Projects</h2>
-                            <p style={{ margin: '0 0 3px 0', fontSize: '8px' }}>Full Stack Developer</p>
-                            <div style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
-                                <a
-                                    href="https://github.com/yourusername"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        color: 'white',
-                                        textDecoration: 'none',
-                                        border: '2px solid white',
-                                        // padding: '15px 30px',
-                                        borderRadius: '8px',
-                                        fontSize: '6px'
-                                    }}
-                                >
-                                    GitHub
-                                </a>
-                                <a
-                                    href="https://linkedin.com/in/yourusername"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        color: 'white',
-                                        textDecoration: 'none',
-                                        border: '2px solid white',
-                                        padding: '1px 3px',
-                                        borderRadius: '8px',
-                                        fontSize: '3px'
-                                    }}
-                                >
-                                    LinkedIn
-                                </a>
-                            </div>
+                            
+                            
+                           
                         </div>
                     </Html>
                 </group>
@@ -150,3 +120,6 @@ export const ProjectScreen = (props) => {
         </Screen>
     )
 }
+
+
+
