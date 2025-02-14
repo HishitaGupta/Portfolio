@@ -746,17 +746,32 @@ export function Computers(props) {
 
     const handleScreenTransition = useScreenTransition(camera)
 
-    const handleClick = useCallback((event, targetPos, targetRot, targetFov = 45, screenName) => {
+    const handleClick =useCallback((event, targetPos, targetRot, targetFov = 45, screenName, mobileTargetPos, mobileTargetRot, mobileTargetFov) => {
         event.stopPropagation()
-        handleScreenTransition(targetPos, targetRot, targetFov)
+        const isMobile = window.innerWidth <= 768
+        console.log(mobileTargetPos, mobileTargetRot, mobileTargetFov)
+        const finalTargetPos = isMobile && mobileTargetPos ? mobileTargetPos : targetPos
+        const finalTargetRot = isMobile && mobileTargetRot ? mobileTargetRot : targetRot
+        const finalTargetFov = isMobile && mobileTargetFov ? mobileTargetFov : targetFov
+
+        // const finalTargetPos = [1.1,0.2,0.9]
+        // const finalTargetRot = [0,1.3,0]
+        // const finalTargetFov = 20
+
+        console.log(finalTargetPos, finalTargetRot, finalTargetFov)
+
+        handleScreenTransition(finalTargetPos, finalTargetRot, finalTargetFov)
         window.dispatchEvent(new CustomEvent('changeScreen', {
-            detail: { position: targetPos, rotation: targetRot, fov: targetFov, screenName }
+            detail: { position: finalTargetPos, rotation: finalTargetRot, fov: finalTargetFov,screenName: screenName}
         }))
     }, [handleScreenTransition])
 
     useEffect(() => {
                 const handleScreenChange = (event) => {
                     const { position, rotation, fov } = event.detail;
+                    console.log(position,rotation,fov)
+
+                    console.log(camera.position)
         
                     // Animate camera position
                     gsap.to(camera.position, {
@@ -766,6 +781,8 @@ export function Computers(props) {
                         duration: 1,
                         ease: "power2.inOut"
                     });
+
+                    // console.log("Camera Pos",camera.po)
         
                     // Animate camera rotation
                     gsap.to(camera.rotation, {
@@ -789,6 +806,33 @@ export function Computers(props) {
         
                 window.addEventListener('changeScreen', handleScreenChange);
                 return () => window.removeEventListener('changeScreen', handleScreenChange);
+            }, [camera]);
+
+
+            useEffect(() => {
+                const gui = new dat.GUI();
+
+                // Add camera position controls
+                const cameraFolder = gui.addFolder('Camera');
+                cameraFolder.add(camera.position, 'x', -5, 5, 0.1).name('Position X');
+                cameraFolder.add(camera.position, 'y', -10, 10, 0.1).name('Position Y');
+                cameraFolder.add(camera.position, 'z', -5, 10, 0.1).name('Position Z');
+
+                // Add camera rotation controls
+                cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X').listen();
+                cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y').listen();
+                cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z').listen();
+
+                // Add camera FOV control
+                cameraFolder.add(camera, 'fov', 0, 120).name('FOV').onChange(() => {
+                    camera.updateProjectionMatrix();
+                });
+
+                cameraFolder.open();
+
+                return () => {
+                    gui.destroy(); // Clean up on unmount
+                };
             }, [camera]);
 
     // Use React.memo for screen components to prevent unnecessary rerenders
@@ -903,15 +947,24 @@ export function Computers(props) {
             <instances.Object36 position={[-1.1, 4.29, -4.43]} rotation={[0, 0.36, 0]} />
             <instances.Object36 position={[-5.25, 4.29, -1.47]} rotation={[0, 1.25, 0]} />
             <mesh castShadow receiveShadow geometry={n.Object_204.geometry} material={m.Texture} position={[3.2, 4.29, -3.09]} rotation={[-Math.PI, 0.56, 0]} scale={-1} />
-            <AboutScreen
+            {/* <AboutScreen
                 frame="Object_206"
                 panel="Object_207"
                 position={[0.27, 1.53, -2.61]}
-                onClick={(e) => handleClick(e, [0.1, 0.1, 0.89], [0, -0.01, 0], 32, 'About')}
+                onClick={(e) => {
+                    handleClick(
+                        e, 
+                        [0.1, 0.1, 0.89],   // targetPos
+                        [0, -0.01, 0],      // targetRot
+                        32,                 // targetFov
+                        "About",            // screenName
+                                         // mobileTargetFov
+                    );
+                }}
                 htmlPos={[0.3, -0.3, 2.5]}
                 images={{ Hishita: Hishita }} 
-            />
-
+            /> */}
+{/* 
             <ProjectScreen
                 frame="Object_209"
                 panel="Object_210"
@@ -934,18 +987,18 @@ export function Computers(props) {
                 onClick={(e) => handleClick(e, [-0.1, -0.4, 1.4], [0, 1.09, 0], 30, 'Services')}
                 htmlPos={[0, 0.2, 1.4]}
                 htmlRot={[0, 0, 0]}
-            />
+            /> */}
 
-            <ExperienceScreen
+            {/* <ExperienceScreen
                 frame="Object_215"
                 panel="Object_216"
                 position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]}
                 onClick={(e) => handleClick(e, [0.4, -0.5, 1.5], [0, -0.4, 0], 30, 'Experience')}
                 htmlPos={[-0.6, 0, 1.8]}
                 htmlRot={[0, 0, 0]}
-            />
+            /> */}
 
-            <AchievementsScreen
+            {/* <AchievementsScreen
                 frame="Object_218"
                 panel="Object_219"
                 x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81}
@@ -953,19 +1006,21 @@ export function Computers(props) {
                 htmlPos={[-0.7, 0.3, 1.7]}
                 htmlRot={[0, 0, 0]}
                 images={{ Hishita: Hishita }} 
-            />
+            /> */}
 
             <HobbiesScreen
                 frame="Object_221"
                 panel="Object_222"
                 y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9}
-                onClick={(e) => handleClick(e, [-0.2, 0.8, 2.1], [0, 1.3, 0], 23, 'Hobbies')}
+                onClick={(e) => handleClick(e, [-0.2, 0.8, 2.1], [0, 1.3, 0], 23, 'Hobbies',[1.1, 0.3, 2.1],    // mobileTargetPos
+                    [0, 1.3, 0],        // mobileTargetRot
+                    24 )}
                 htmlPos={[0.4, 0.1, 0]}
                 htmlRot={[0, 0, 0]}
                 htmlScale={1.2}
             />
 
-            <ScreenText
+            {/* <ScreenText
                 frame="Object_224"
                 panel="Object_225"
                 position={[-3.9, 4.29, -2.64]}
@@ -987,7 +1042,7 @@ export function Computers(props) {
                 position={[4.68, 4.29, -1.56]}
                 rotation={[0, -Math.PI / 3, 0]}
                 onClick={(e) => handleClick(e, [-1.3, 1.4, 2.1], [0, -1.1, 0], 10, 'ScreenText')}
-            />
+            /> */}
 
             {/* Your existing mesh instances here */}
             <Leds />

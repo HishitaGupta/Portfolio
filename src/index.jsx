@@ -53,10 +53,12 @@ function Overlay() {
 
   ]
 
+  const isMobile = window.innerWidth <= 768;
+
   const defaultView = {
     position: [0, 0, 4.5],
     rotation: [0, 0, 0],
-    fov: 45
+    fov: isMobile ? 70 : 45
   }
 
   const handleNextScreen = () => {
@@ -97,6 +99,7 @@ function Overlay() {
       <div style={{ position: 'absolute', bottom: 40, right: 40, fontSize: '13px' }}>
         {new Date().toLocaleDateString()}
       </div>
+      
       
       <button
         onClick={handleNextScreen}

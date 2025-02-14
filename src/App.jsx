@@ -182,13 +182,22 @@ export default function App() {
     isMobile: window.innerWidth < MOBILE_BREAKPOINT
   }))
 
-  // Memoized camera settings
+  
+
   const cameraSettings = useMemo(() => ({
-    position: [0, 0, viewport.isMobile ? 6.5 : 4.5],
+    position: viewport.isMobile ? [0, 0, 6.5] : [0, 0, 4.5],
     fov: viewport.isMobile ? 60 : 45,
     near: 1,
     far: 20
   }), [viewport.isMobile])
+ 
+  // const cameraSettings = {
+  //   position: [0, 0, viewport.width < 768 ? 6.5 : 4.5], // Move camera back on mobile
+  //   fov: viewport.width < 768 ? 60 : 45, // Wider FOV on mobile
+  //   near: 1,
+  //   far: 20
+  // }
+
 
   // Memoized reflection material settings
   const reflectorSettings = useMemo(() => ({
@@ -290,7 +299,7 @@ export default function App() {
       {/* Add cleanup manager */}
       <CleanupManager />
 
-      <Perf position="bottom-right" />
+      {/* <Perf position="bottom-right" /> */}
       <AdaptiveDpr pixelated />
       <AdaptiveEvents />
 
