@@ -964,8 +964,8 @@ export function Computers(props) {
                 htmlPos={[0.3, -0.3, 2.5]}
                 images={{ Hishita: Hishita }} 
             /> */}
-{/* 
-            <ProjectScreen
+
+            {/* <ProjectScreen
                 frame="Object_209"
                 panel="Object_210"
                 y={5}
@@ -974,7 +974,7 @@ export function Computers(props) {
                 onClick={(e) => handleClick(e, [0.4, 0.6, 0.8], [0, 1, 0], 30, 'Projects')}
                 htmlPos={[-0.2, -0.6, 0]}
                 htmlRot={[0, 0, 0]}
-            />
+            /> */}
 
             <ServicesScreen
                 invert
@@ -987,16 +987,19 @@ export function Computers(props) {
                 onClick={(e) => handleClick(e, [-0.1, -0.4, 1.4], [0, 1.09, 0], 30, 'Services')}
                 htmlPos={[0, 0.2, 1.4]}
                 htmlRot={[0, 0, 0]}
-            /> */}
+            />
 
-            <ExperienceScreen
+            {/* <ExperienceScreen
                 frame="Object_215"
                 panel="Object_216"
                 position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]}
-                onClick={(e) => handleClick(e, [0.4, -0.5, 1.5], [0, -0.4, 0], 30, 'Experience')}
+                onClick={(e) => handleClick(e, [0.4, -0.5, 1.5], [0, -0.4, 0], 30, 'Experience',[-1.9,-0.6,6.5],[0,-0.4,0],10)}
                 htmlPos={[-0.6, 0, 1.8]}
                 htmlRot={[0, 0, 0]}
-            />
+                mobileHtmlPos={[-0.4, -0.5, -2.2]}
+                mobileHtmlRot={[0, 0, 0]}
+                mobileHtmlScale={0.7}
+            /> */}
 
             {/* <AchievementsScreen
                 frame="Object_218"

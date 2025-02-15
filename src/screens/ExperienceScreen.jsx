@@ -664,51 +664,11 @@ const ExperienceItem = React.memo(({ experience }) => (
 export const ExperienceScreen = React.memo((props) => {
     const [showHtml, setShowHtml] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
-     const [textPosition] = useState({ x: 0, y: 0.7, z: 0 });
-        const [textRotation] = useState({ x: 0, y: 0, z: 0 });
-
-
-        // text controls
-    // useEffect(() => { 
-    //     if (!showHtml) {
-    //         const gui = new dat.GUI({ name: 'HTML Controls' });
-
-    //         const posFolder = gui.addFolder('HTML Position');
-
-    //         posFolder.add(textPosition, 'x', -3, 20, 0.1).onChange((value) => {
-    //             setTextPosition(prev => ({ ...prev, x: value }));
-    //         });
-    //         posFolder.add(textPosition, 'y', -3, 20, 0.1).onChange((value) => {
-    //             setTextPosition(prev => ({ ...prev, y: value }));
-    //         });
-    //         posFolder.add(textPosition, 'z', -3, 20, 0.1).onChange((value) => {
-    //             setTextPosition(prev => ({ ...prev, z: value }));
-    //         });
-
-    //         const rotFolder = gui.addFolder('HTML Rotation');
-    //         rotFolder.add(textRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
-    //             setTextRotation(prev => ({ ...prev, x: value }));
-    //         });
-    //         rotFolder.add(textRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
-    //             setTextRotation(prev => ({ ...prev, y: value }));
-    //         });
-    //         rotFolder.add(textRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
-    //             setTextRotation(prev => ({ ...prev, z: value }));
-    //         });
-
-    //         // const scaleFolder = gui.addFolder('HTML Scale');
-    //         // scaleFolder.add({ scale: textScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
-    //         //     setTextScale(value);
-    //         // });
-
-    //         posFolder.open();
-    //         // scaleFolder.open();
-
-    //         return () => {
-    //             gui.destroy();
-    //         };
-    //     }
-    // }, [!showHtml]);
+    const [textPosition] = useState({ x: 0, y: 0.7, z: 0 });
+    const [textRotation] = useState({ x: 0, y: 0, z: 0 });
+    const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 });
+    const [htmlRotation, setHtmlRotation] = useState({ x: 0, y: 0, z: 0 });
+    const [htmlScale, setHtmlScale] = useState(1);
 
     // Memoized experiences data
     const experiences = useMemo(() => [
@@ -721,7 +681,6 @@ export const ExperienceScreen = React.memo((props) => {
             points: [
                 "Managing and updating the official website for the Chitkara University Centre for Entrepreneurship Education & Development (CUCEED).",
                 "Implemented responsive design principles to ensure seamless user experiences across different devices and browsers.",
-
             ],
         },
         {
@@ -733,7 +692,6 @@ export const ExperienceScreen = React.memo((props) => {
             points: [
                 "Played a pivotal role in executing technical events and assisting in event planning activities and initiatives",
                 "Contributed fresh ideas and effectively coordinated with the team to ensure successful event management and participant satisfaction",
-
             ],
         },
         {
@@ -746,7 +704,6 @@ export const ExperienceScreen = React.memo((props) => {
                 "Created personal portfolio, landing page, and calculator using HTML, CSS, and JavaScript.",
                 "Initiated academic journey in web development.",
                 " Gained practical skills and insights in coding and design.",
-
             ],
         },
         {
@@ -760,66 +717,9 @@ export const ExperienceScreen = React.memo((props) => {
                 "Oversaw smooth event execution and Curated engaging committees for participants",
                 "Facilitated impactful discussions on pressing global issues and demonstrated strong leadership, communication, and organizational abilities.",
                 "Ensured a positive participant experience throughout the event.",
-
             ],
         },
     ], []);
-
-
-
-    //   const experiences = [
-    //     {
-    //         title: "Web Developer",
-    //         company_name: "Chitkara University Centre Of Enterpreneurship Education and Development",
-    //         icon: Hishita,
-    //         iconBg: "#accbe1",
-    //         date: "March 2024 - present",
-    //         points: [
-    //             "Managing and updating the official website for the Chitkara University Centre for Entrepreneurship Education & Development (CUCEED).",
-    //             "Implemented responsive design principles to ensure seamless user experiences across different devices and browsers.",
-
-    //         ],
-    //     },
-    //     {
-    //         title: "Events Executive",
-    //         company_name: "Coding Ninjas CUIET Chapter- Chitkara University",
-    //         icon: Hishita,
-    //         iconBg: "#fbc3bc",
-    //         date: "March 2024 - present",
-    //         points: [
-    //             "Played a pivotal role in executing technical events and assisting in event planning activities and initiatives",
-    //             "Contributed fresh ideas and effectively coordinated with the team to ensure successful event management and participant satisfaction",
-
-    //         ],
-    //     },
-    //     {
-    //         title: "Web Developer Intern",
-    //         company_name: "CodSoft",
-    //         icon: Hishita,
-    //         iconBg: "#b7e4c7",
-    //         date: "Jan 2022 - Jan 2023",
-    //         points: [
-    //             "Created personal portfolio, landing page, and calculator using HTML, CSS, and JavaScript.",
-    //             "Initiated academic journey in web development.",
-    //             " Gained practical skills and insights in coding and design.",
-
-    //         ],
-    //     },
-    //     {
-    //         title: "Director General",
-    //         company_name: "Model United Nations - Mukat Public School",
-    //         icon: Hishita,
-    //         iconBg: "#a2d2ff",
-    //         date: "Oct 2023 ",
-    //         points: [
-    //             "Led a team in organizing and executing a successful Model United Nations conference.",
-    //             "Oversaw smooth event execution and Curated engaging committees for participants",
-    //             "Facilitated impactful discussions on pressing global issues and demonstrated strong leadership, communication, and organizational abilities.",
-    //             "Ensured a positive participant experience throughout the event.",
-
-    //         ],
-    //     },
-    // ];
 
     // Memoized event handler
     const handleScreenChange = useCallback((event) => {
@@ -850,14 +750,62 @@ export const ExperienceScreen = React.memo((props) => {
         }
     }, [isTransitioning, props.onClick]);
 
+    useEffect(() => {
+        if (showHtml) {
+            const gui = new dat.GUI({ name: 'HTML Controls' });
+    
+            // Temporary values to sync with state
+            let tempHtmlPosition = { ...htmlPosition };
+            let tempHtmlRotation = { ...htmlRotation };
+            let tempHtmlScale = htmlScale;
+    
+            const posFolder = gui.addFolder('HTML Position');
+            posFolder.add(tempHtmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, x: value }));
+            });
+            posFolder.add(tempHtmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, y: value }));
+            });
+            posFolder.add(tempHtmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, z: value }));
+            });
+    
+            const rotFolder = gui.addFolder('HTML Rotation');
+            rotFolder.add(tempHtmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, x: value }));
+            });
+            rotFolder.add(tempHtmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, y: value }));
+            });
+            rotFolder.add(tempHtmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, z: value }));
+            });
+    
+            const scaleFolder = gui.addFolder('HTML Scale');
+            scaleFolder.add({ scale: tempHtmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+                setHtmlScale(value);
+            });
+    
+            posFolder.open();
+            rotFolder.open();
+            scaleFolder.open();
+    
+            return () => {
+                gui.destroy();
+            };
+        }
+    }, [showHtml]);
+    
+    const isMobile = window.innerWidth <= 768;
+    
     const htmlContent = useMemo(() => (
         showHtml && !isTransitioning && (
             <group>
                 <Html
                     transform
-                    scale={props.htmlScale || 1}
-                    position={props.htmlPos || [0, 0, 0]}
-                    rotation={props.htmlRot || [0, 0, 0]}
+                    scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
+                    position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
+                    rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
                     style={{
                         width: '245px',
                         height: '180px',
@@ -911,7 +859,21 @@ export const ExperienceScreen = React.memo((props) => {
                 </Html>
             </group>
         )
-    ), [showHtml, isTransitioning, props.htmlScale, props.htmlPos, props.htmlRot, experiences]);
+    ), [
+        showHtml, 
+        isTransitioning, 
+        // htmlScale,
+        // htmlPosition,
+        // htmlRotation,
+        props.htmlScale,
+        props.htmlPos,
+        props.htmlRot,
+        props.mobileHtmlPos,
+        props.mobileHtmlRot,
+        props.mobileHtmlScale,
+        experiences
+    ]);
+
 
     return (
         <Screen {...props} onClick={handleScreenClick}>
@@ -923,7 +885,6 @@ export const ExperienceScreen = React.memo((props) => {
                     <ambientLight intensity={Math.PI / 2} />
                     <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
                     <pointLight decay={0} position={[-10, -10, -10]} />
-                    {/* <SpinningBox position={[-3.15, 0.75, 0]} scale={0.5} /> */}
                     <Text
                         fontSize={0.4}
                         letterSpacing={-0.1}
