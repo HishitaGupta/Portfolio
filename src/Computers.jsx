@@ -1013,7 +1013,20 @@ export function Computers(props) {
                 images={{ Hishita: Hishita }} 
             />
 
-            
+            <HobbiesScreen
+                frame="Object_221"
+                panel="Object_222"
+                y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9}
+                onClick={(e) => handleClick(e, [-0.2, 0.8, 2.1], [0, 1.3, 0], 23, 'Hobbies',[1.1, 0.3, 2.1],    // mobileTargetPos
+                    [0, 1.3, 0],        // mobileTargetRot
+                    24 )}
+                htmlPos={[0.4, 0.1, 0]}
+                htmlRot={[0, 0, 0]}
+                htmlScale={1.2}
+                mobileHtmlPos={[0, -0.3, 0.4]}
+                mobileHtmlRot={[0, 0, 0]}
+                mobileHtmlScale={0.5}
+            />
 
             {/* <ScreenText
                 frame="Object_224"
