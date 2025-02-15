@@ -418,9 +418,13 @@ export const AboutScreen = React.memo((props) => {
   const [enlarged, setEnlarged] = useState(3);
 
   // Memoize static values
-  const htmlPosition = useMemo(() => ({ x: 0, y: 0, z: 0 }), []);
-  const htmlRotation = useMemo(() => ({ x: 0, y: 0, z: 0 }), []);
-  const htmlScale = useMemo(() => 1, []);
+  // const htmlPosition = useMemo(() => ({ x: 0, y: 0, z: 0 }), []);
+  // const htmlRotation = useMemo(() => ({ x: 0, y: 0, z: 0 }), []);
+  // const htmlScale = useMemo(() => 1, []);
+
+  const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 });
+  const [htmlRotation, setHtmlRotation] = useState({ x: 0, y: 0, z: 0 });
+  const [htmlScale, setHtmlScale] = useState(1);
 
   const [textScale, setTextScale] = useState(1)
       const [textPosition, setTextPosition] = useState({ x: 0, y: 0, z: 0 })
@@ -507,13 +511,59 @@ export const AboutScreen = React.memo((props) => {
     //     }
     // }, [!showHtml]);
 
+
+         // text controls
+    useEffect(() => { 
+        if (showHtml) {
+            const gui = new dat.GUI({ name: 'HTML Controls' });
+
+            const posFolder = gui.addFolder('HTML Position');
+
+            posFolder.add(htmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, x: value }));
+            });
+            posFolder.add(htmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, y: value }));
+            });
+            posFolder.add(htmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
+                setHtmlPosition(prev => ({ ...prev, z: value }));
+            });
+
+            const rotFolder = gui.addFolder('HTML Rotation');
+            rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, x: value }));
+            });
+            rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, y: value }));
+            });
+            rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+                setHtmlRotation(prev => ({ ...prev, z: value }));
+            });
+
+            const scaleFolder = gui.addFolder('HTML Scale');
+            scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+                setHtmlScale(value);
+            });
+
+            posFolder.open();
+            rotFolder.open();
+            scaleFolder.open();
+
+            return () => {
+                gui.destroy();
+            };
+        }
+    }, [showHtml]);
+
+    const isMobile = window.innerWidth <= 768;
+
   // Memoize the HTML content
   const htmlContent = useMemo(() => (
     <Html
       transform
-      scale={props.htmlScale || htmlScale}
-      position={props.htmlPos || [htmlPosition.x, htmlPosition.y, htmlPosition.z]}
-      rotation={props.htmlRot || [htmlRotation.x, htmlRotation.y, htmlRotation.z]}
+      scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
+      position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
+      rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
       style={{
         width: '270px',
         height: '200px',
@@ -585,7 +635,7 @@ export const AboutScreen = React.memo((props) => {
         </ContentArea>
       </WindowContainer>
     </Html>
-  ), [developers, enlarged, handleEnlarge, handleMouseLeave, htmlPosition, htmlRotation, htmlScale, props.htmlPos, props.htmlRot, props.htmlScale]);
+  ), [developers, enlarged, handleEnlarge, handleMouseLeave, htmlPosition, htmlRotation, htmlScale, props.htmlPos, props.htmlRot, props.htmlScale, props.mobileHtmlPos,props.mobileHtmlRot,props.mobileHtmlScale]);
 
   return (
     <Screen {...props} onClick={props.onClick}>

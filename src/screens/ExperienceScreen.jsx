@@ -750,51 +750,51 @@ export const ExperienceScreen = React.memo((props) => {
         }
     }, [isTransitioning, props.onClick]);
 
-    useEffect(() => {
-        if (showHtml) {
-            const gui = new dat.GUI({ name: 'HTML Controls' });
+    // useEffect(() => {
+    //     if (showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
     
-            // Temporary values to sync with state
-            let tempHtmlPosition = { ...htmlPosition };
-            let tempHtmlRotation = { ...htmlRotation };
-            let tempHtmlScale = htmlScale;
+    //         // Temporary values to sync with state
+    //         let tempHtmlPosition = { ...htmlPosition };
+    //         let tempHtmlRotation = { ...htmlRotation };
+    //         let tempHtmlScale = htmlScale;
     
-            const posFolder = gui.addFolder('HTML Position');
-            posFolder.add(tempHtmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, x: value }));
-            });
-            posFolder.add(tempHtmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, y: value }));
-            });
-            posFolder.add(tempHtmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
-                setHtmlPosition(prev => ({ ...prev, z: value }));
-            });
+    //         const posFolder = gui.addFolder('HTML Position');
+    //         posFolder.add(tempHtmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(tempHtmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(tempHtmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, z: value }));
+    //         });
     
-            const rotFolder = gui.addFolder('HTML Rotation');
-            rotFolder.add(tempHtmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, x: value }));
-            });
-            rotFolder.add(tempHtmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, y: value }));
-            });
-            rotFolder.add(tempHtmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
-                setHtmlRotation(prev => ({ ...prev, z: value }));
-            });
+    //         const rotFolder = gui.addFolder('HTML Rotation');
+    //         rotFolder.add(tempHtmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, x: value }));
+    //         });
+    //         rotFolder.add(tempHtmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, y: value }));
+    //         });
+    //         rotFolder.add(tempHtmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, z: value }));
+    //         });
     
-            const scaleFolder = gui.addFolder('HTML Scale');
-            scaleFolder.add({ scale: tempHtmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
-                setHtmlScale(value);
-            });
+    //         const scaleFolder = gui.addFolder('HTML Scale');
+    //         scaleFolder.add({ scale: tempHtmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //             setHtmlScale(value);
+    //         });
     
-            posFolder.open();
-            rotFolder.open();
-            scaleFolder.open();
+    //         posFolder.open();
+    //         rotFolder.open();
+    //         scaleFolder.open();
     
-            return () => {
-                gui.destroy();
-            };
-        }
-    }, [showHtml]);
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [showHtml]);
     
     const isMobile = window.innerWidth <= 768;
     

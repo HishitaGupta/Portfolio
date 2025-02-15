@@ -810,8 +810,8 @@ export const ServicesScreen = ({ htmlScale = 1, htmlPos = [0, 0, 0], htmlRot = [
     <Html
       transform
       scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
-        position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
-          rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
+      position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
+      rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
       style={styles.windowContainer}
     >
       <div style={{ 

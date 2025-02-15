@@ -947,7 +947,7 @@ export function Computers(props) {
             <instances.Object36 position={[-1.1, 4.29, -4.43]} rotation={[0, 0.36, 0]} />
             <instances.Object36 position={[-5.25, 4.29, -1.47]} rotation={[0, 1.25, 0]} />
             <mesh castShadow receiveShadow geometry={n.Object_204.geometry} material={m.Texture} position={[3.2, 4.29, -3.09]} rotation={[-Math.PI, 0.56, 0]} scale={-1} />
-            {/* <AboutScreen
+            <AboutScreen
                 frame="Object_206"
                 panel="Object_207"
                 position={[0.27, 1.53, -2.61]}
@@ -958,12 +958,18 @@ export function Computers(props) {
                         [0, -0.01, 0],      // targetRot
                         32,                 // targetFov
                         "About",            // screenName
-                                         // mobileTargetFov
+                        [0.1,-0.2,6.5],
+                        [0,0,0],
+                        9                 // mobileTargetFov
                     );
                 }}
                 htmlPos={[0.3, -0.3, 2.5]}
+                mobileHtmlPos={[-0.1, -0.6, -2.1]}
+                mobileHtmlRot={[0, 0, 0]}
+                mobileHtmlScale={0.7}
+          
                 images={{ Hishita: Hishita }} 
-            /> */}
+            />
 
             <ProjectScreen
                 frame="Object_209"
@@ -971,12 +977,15 @@ export function Computers(props) {
                 y={5}
                 position={[-1.43, 2.5, -1.8]}
                 rotation={[0, 1, 0]}
-                onClick={(e) => handleClick(e, [0.4, 0.6, 0.8], [0, 1, 0], 30, 'Projects')}
+                onClick={(e) => handleClick(e, [0.4, 0.6, 0.8], [0, 1, 0], 30, 'Projects',[1.4,0.1,1.6],[0,1,0],28)}
                 htmlPos={[-0.2, -0.6, 0]}
                 htmlRot={[0, 0, 0]}
+                mobileHtmlPos={[0.1, -0.1, -2]}
+                mobileHtmlRot={[0, 0, 0]}
+                mobileHtmlScale={0.5}
             />
 
-            {/* <ServicesScreen
+            <ServicesScreen
                 invert
                 frame="Object_212"
                 panel="Object_213"
@@ -987,12 +996,13 @@ export function Computers(props) {
                 onClick={(e) => handleClick(e, [-0.1, -0.4, 1.4], [0, 1.09, 0], 30, 'Services',[0.2,-0.6,1.5],[0,1,0],49)}
                 htmlPos={[0, 0.2, 1.4]}
                 htmlRot={[0, 0, 0]}
+                htmlScale={1}
                 mobileHtmlPos={[-0.4, 0.3, -0.1]}
                 mobileHtmlRot={[0, 0.1, 0]}
                 mobileHtmlScale={0.5}
-            /> */}
+            />
 
-            {/* <ExperienceScreen
+            <ExperienceScreen
                 frame="Object_215"
                 panel="Object_216"
                 position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]}
@@ -1002,9 +1012,9 @@ export function Computers(props) {
                 mobileHtmlPos={[-0.4, -0.5, -2.2]}
                 mobileHtmlRot={[0, 0, 0]}
                 mobileHtmlScale={0.7}
-            /> */}
+            />
 
-            {/* <AchievementsScreen
+            <AchievementsScreen
                 frame="Object_218"
                 panel="Object_219"
                 x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81}
@@ -1017,9 +1027,9 @@ export function Computers(props) {
                 mobileHtmlRot={[0, 0, 0]}
                 mobileHtmlScale={0.8}
                 images={{ Hishita: Hishita }} 
-            /> */}
+            />
 
-            {/* <HobbiesScreen
+            <HobbiesScreen
                 frame="Object_221"
                 panel="Object_222"
                 y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9}
@@ -1032,9 +1042,9 @@ export function Computers(props) {
                 mobileHtmlPos={[0, -0.3, 0.4]}
                 mobileHtmlRot={[0, 0, 0]}
                 mobileHtmlScale={0.5}
-            /> */}
+            />
 
-            {/* <ScreenText
+            <ScreenText
                 frame="Object_224"
                 panel="Object_225"
                 position={[-3.9, 4.29, -2.64]}
@@ -1056,7 +1066,7 @@ export function Computers(props) {
                 position={[4.68, 4.29, -1.56]}
                 rotation={[0, -Math.PI / 3, 0]}
                 onClick={(e) => handleClick(e, [-1.3, 1.4, 2.1], [0, -1.1, 0], 10, 'ScreenText')}
-            /> */}
+            />
 
             {/* Your existing mesh instances here */}
             <Leds />

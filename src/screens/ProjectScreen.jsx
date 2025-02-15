@@ -119,7 +119,7 @@ export const ProjectScreen = (props) => {
     //     }
     // }, [!showHtml]);
 
-
+    const isMobile = window.innerWidth <= 768;
 
     return (
         <Screen {...props} onClick={props.onClick}>
@@ -129,9 +129,9 @@ export const ProjectScreen = (props) => {
                 <group>
                     <Html
                         transform
-                        scale={htmlScale}
-                        position={props.htmlPos || [htmlPosition.x, htmlPosition.y, htmlPosition.z]}
-                        rotation={props.htmlRot || [htmlRotation.x, htmlRotation.y, htmlRotation.z]}
+                        scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
+                        position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
+                        rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
                         style={{
                             width: '330px',
                             height: '240px',
