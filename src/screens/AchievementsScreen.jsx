@@ -617,6 +617,9 @@ export const AchievementsScreen = React.memo((props) => {
   const [expanded, setExpanded] = useState(null);
   const [textPosition,setTextPosition] = useState({ x: -3.2, y: 0.8, z: 0 });
   const [textRotation,setTextRotation] = useState({ x: 0, y: 0, z: 0 });
+    // const [htmlPosition,setHtmlPosition] = useState({ x: -0.7, y: 0.3, z: 1.7 });
+    // const [htmlRotation,setHtmlRotation] = useState({ x: 0, y: 0, z: 0 });
+    // const [htmlScale,setHtmlScale] = useState(1);
 
   // Memoized project data
   const projects = useMemo(() => [
@@ -795,6 +798,52 @@ export const AchievementsScreen = React.memo((props) => {
     //     }
     // }, [!showHtml]);
 
+
+      //  text controls
+    // useEffect(() => { 
+    //     if (showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
+
+    //         const posFolder = gui.addFolder('HTML Position');
+
+    //         posFolder.add(htmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, z: value }));
+    //         });
+
+    //         const rotFolder = gui.addFolder('HTML Rotation');
+    //         rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, x: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, y: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, z: value }));
+    //         });
+
+    //         const scaleFolder = gui.addFolder('HTML Scale');
+    //         scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //             setHtmlScale(value);
+    //         });
+
+    //         posFolder.open();
+    //         rotFolder.open()
+    //         scaleFolder.open();
+
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [showHtml]);
+
+    
+    const isMobile = window.innerWidth <= 768;
   return (
     <Screen {...props}>
       <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
@@ -803,9 +852,9 @@ export const AchievementsScreen = React.memo((props) => {
       {showHtml && !isTransitioning ? (
         <Html
           transform
-          scale={props.htmlScale || 1}
-          position={props.htmlPos || [0, 0, 0]}
-          rotation={props.htmlRot || [0, 0, 0]}
+          scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
+          position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
+          rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
           style={{
             width: '270px',
             height: '200px',
@@ -867,6 +916,8 @@ export const AchievementsScreen = React.memo((props) => {
             </div>
           </div>
         </Html>
+
+       
       ) : (
         <>
           <ambientLight intensity={Math.PI / 2} />

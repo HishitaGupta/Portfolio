@@ -809,31 +809,31 @@ export function Computers(props) {
             }, [camera]);
 
 
-            // useEffect(() => {
-            //     const gui = new dat.GUI();
+            useEffect(() => {
+                const gui = new dat.GUI();
 
-            //     // Add camera position controls
-            //     const cameraFolder = gui.addFolder('Camera');
-            //     cameraFolder.add(camera.position, 'x', -5, 5, 0.1).name('Position X');
-            //     cameraFolder.add(camera.position, 'y', -10, 10, 0.1).name('Position Y');
-            //     cameraFolder.add(camera.position, 'z', -5, 10, 0.1).name('Position Z');
+                // Add camera position controls
+                const cameraFolder = gui.addFolder('Camera');
+                cameraFolder.add(camera.position, 'x', -5, 5, 0.1).name('Position X');
+                cameraFolder.add(camera.position, 'y', -10, 10, 0.1).name('Position Y');
+                cameraFolder.add(camera.position, 'z', -5, 10, 0.1).name('Position Z');
 
-            //     // Add camera rotation controls
-            //     cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X').listen();
-            //     cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y').listen();
-            //     cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z').listen();
+                // Add camera rotation controls
+                cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X').listen();
+                cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y').listen();
+                cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z').listen();
 
-            //     // Add camera FOV control
-            //     cameraFolder.add(camera, 'fov', 0, 120).name('FOV').onChange(() => {
-            //         camera.updateProjectionMatrix();
-            //     });
+                // Add camera FOV control
+                cameraFolder.add(camera, 'fov', 0, 120).name('FOV').onChange(() => {
+                    camera.updateProjectionMatrix();
+                });
 
-            //     cameraFolder.open();
+                cameraFolder.open();
 
-            //     return () => {
-            //         gui.destroy(); // Clean up on unmount
-            //     };
-            // }, [camera]);
+                return () => {
+                    gui.destroy(); // Clean up on unmount
+                };
+            }, [camera]);
 
     // Use React.memo for screen components to prevent unnecessary rerenders
     const screenComponents = useMemo(() => ({
@@ -998,17 +998,22 @@ export function Computers(props) {
                 htmlRot={[0, 0, 0]}
             /> */}
 
-            {/* <AchievementsScreen
+            <AchievementsScreen
                 frame="Object_218"
                 panel="Object_219"
                 x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81}
-                onClick={(e) => handleClick(e, [0.4, 0.3, 2.1], [0, -0.8, 0], 20, 'Achievements')}
+                onClick={(e) => handleClick(e, [0.4, 0.3, 2.1], [0, -0.8, 0], 20, 'Achievements',[0, -0.2, 1.8],    // mobileTargetPos
+                    [0, -0.9, 0],        // mobileTargetRot
+                    32 )}
                 htmlPos={[-0.7, 0.3, 1.7]}
                 htmlRot={[0, 0, 0]}
+                mobileHtmlPos={[0.1, 2.1, -3]}
+                mobileHtmlRot={[0, 0, 0]}
+                mobileHtmlScale={0.8}
                 images={{ Hishita: Hishita }} 
-            /> */}
+            />
 
-            <HobbiesScreen
+            {/* <HobbiesScreen
                 frame="Object_221"
                 panel="Object_222"
                 y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9}
@@ -1021,7 +1026,7 @@ export function Computers(props) {
                 mobileHtmlPos={[0, -0.3, 0.4]}
                 mobileHtmlRot={[0, 0, 0]}
                 mobileHtmlScale={0.5}
-            />
+            /> */}
 
             {/* <ScreenText
                 frame="Object_224"
