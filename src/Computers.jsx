@@ -809,31 +809,31 @@ export function Computers(props) {
             }, [camera]);
 
 
-            useEffect(() => {
-                const gui = new dat.GUI();
+            // useEffect(() => {
+            //     const gui = new dat.GUI();
 
-                // Add camera position controls
-                const cameraFolder = gui.addFolder('Camera');
-                cameraFolder.add(camera.position, 'x', -5, 5, 0.1).name('Position X');
-                cameraFolder.add(camera.position, 'y', -10, 10, 0.1).name('Position Y');
-                cameraFolder.add(camera.position, 'z', -5, 10, 0.1).name('Position Z');
+            //     // Add camera position controls
+            //     const cameraFolder = gui.addFolder('Camera');
+            //     cameraFolder.add(camera.position, 'x', -5, 5, 0.1).name('Position X');
+            //     cameraFolder.add(camera.position, 'y', -10, 10, 0.1).name('Position Y');
+            //     cameraFolder.add(camera.position, 'z', -5, 10, 0.1).name('Position Z');
 
-                // Add camera rotation controls
-                cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X').listen();
-                cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y').listen();
-                cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z').listen();
+            //     // Add camera rotation controls
+            //     cameraFolder.add(camera.rotation, 'x', -Math.PI, Math.PI, 0.1).name('Rotation X').listen();
+            //     cameraFolder.add(camera.rotation, 'y', -Math.PI, Math.PI, 0.1).name('Rotation Y').listen();
+            //     cameraFolder.add(camera.rotation, 'z', -Math.PI, Math.PI, 0.1).name('Rotation Z').listen();
 
-                // Add camera FOV control
-                cameraFolder.add(camera, 'fov', 0, 120).name('FOV').onChange(() => {
-                    camera.updateProjectionMatrix();
-                });
+            //     // Add camera FOV control
+            //     cameraFolder.add(camera, 'fov', 0, 120).name('FOV').onChange(() => {
+            //         camera.updateProjectionMatrix();
+            //     });
 
-                cameraFolder.open();
+            //     cameraFolder.open();
 
-                return () => {
-                    gui.destroy(); // Clean up on unmount
-                };
-            }, [camera]);
+            //     return () => {
+            //         gui.destroy(); // Clean up on unmount
+            //     };
+            // }, [camera]);
 
     // Use React.memo for screen components to prevent unnecessary rerenders
     const screenComponents = useMemo(() => ({
@@ -1018,6 +1018,9 @@ export function Computers(props) {
                 htmlPos={[0.4, 0.1, 0]}
                 htmlRot={[0, 0, 0]}
                 htmlScale={1.2}
+                mobileHtmlPos={[0, -0.3, 0.4]}
+                mobileHtmlRot={[0, 0, 0]}
+                mobileHtmlScale={0.5}
             />
 
             {/* <ScreenText

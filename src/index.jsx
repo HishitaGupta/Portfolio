@@ -56,9 +56,9 @@ function Overlay() {
   const isMobile = window.innerWidth <= 768;
 
   const defaultView = {
-    position: [0, 0, 4.5],
+    position:isMobile ? [0,0,6.5] : [0, 0, 4.5],
     rotation: [0, 0, 0],
-    fov: isMobile ? 70 : 45
+    fov: isMobile ? 60 : 45
   }
 
   const handleNextScreen = () => {
@@ -101,19 +101,19 @@ function Overlay() {
       </div>
       
       
-      <button
+      {/* <button
         onClick={handleNextScreen}
         className="screen-cycle-button"
       >
         Next: {screens[(currentScreen + 1) % screens.length].name}
-      </button>
+      </button> */}
 
-      <button
+      {/* <button
         onClick={handleResetView}
         className="reset-view-button"
       >
         Reset View
-      </button>
+      </button> */}
     </div>
   )
 }

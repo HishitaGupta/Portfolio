@@ -485,14 +485,18 @@ import { IoMdClose } from 'react-icons/io';
 import Heading from '../assets/Text.png';
 import Hishita from '../assets/Hishita.jpg';
 import { Screen } from './Screen';
+import * as dat from 'dat.gui';
+import { useThree } from '@react-three/fiber'
 
 export const HobbiesScreen = (props) => {
     const [showHtml, setShowHtml] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [htmlPosition] = useState({ x: 0, y: 0, z: 0 });
-    const [htmlRotation] = useState({ x: 0, y: 0, z: 0 });
+    // const [htmlPosition,setHtmlPosition] = useState({ x: 0, y: 0, z: 0 });
+    // const [htmlRotation,setHtmlRotation] = useState({ x: 0, y: 0, z: 0 });
+    // const [htmlScale,setHtmlScale] = useState(1);
     const [textPosition] = useState({ x: -0.1, y: 3.5, z: 0 });
     const [textRotation] = useState({ x: 0, y: 0, z: 0 });
+    const { viewport } = useThree()
 
     const handleScreenChange = useCallback((event) => {
         if (event.detail.screenName === 'Hobbies') {
@@ -505,6 +509,50 @@ export const HobbiesScreen = (props) => {
             setShowHtml(false);
         }
     }, []);
+
+     // text controls
+    // useEffect(() => { 
+    //     if (showHtml) {
+    //         const gui = new dat.GUI({ name: 'HTML Controls' });
+
+    //         const posFolder = gui.addFolder('HTML Position');
+
+    //         posFolder.add(htmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, x: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, y: value }));
+    //         });
+    //         posFolder.add(htmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
+    //             setHtmlPosition(prev => ({ ...prev, z: value }));
+    //         });
+
+    //         const rotFolder = gui.addFolder('HTML Rotation');
+    //         rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, x: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, y: value }));
+    //         });
+    //         rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+    //             setHtmlRotation(prev => ({ ...prev, z: value }));
+    //         });
+
+    //         const scaleFolder = gui.addFolder('HTML Scale');
+    //         scaleFolder.add({ scale: htmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+    //             setHtmlScale(value);
+    //         });
+
+    //         posFolder.open();
+    //         rotFolder.open()
+    //         // scaleFolder.open();
+
+    //         return () => {
+    //             gui.destroy();
+    //         };
+    //     }
+    // }, [showHtml]);
+
 
     useEffect(() => {
         window.addEventListener('changeScreen', handleScreenChange);
@@ -725,6 +773,8 @@ export const HobbiesScreen = (props) => {
         </div>
     ), []);
 
+    const isMobile = window.innerWidth <= 768;
+
     return (
         <Screen {...props} onClick={handleScreenClick}>
             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
@@ -734,9 +784,9 @@ export const HobbiesScreen = (props) => {
                 <group>
                     <Html
                         transform
-                        scale={props.htmlScale || 1}
-                        position={props.htmlPos || [htmlPosition.x, htmlPosition.y, htmlPosition.z]}
-                        rotation={props.htmlRot || [htmlRotation.x, htmlRotation.y, htmlRotation.z]}
+                        scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
+                        position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
+                        rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
                         style={{
                             width: '270px',
                             height: '200px',
