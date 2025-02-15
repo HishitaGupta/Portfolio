@@ -989,16 +989,16 @@ export function Computers(props) {
                 htmlRot={[0, 0, 0]}
             /> */}
 
-            {/* <ExperienceScreen
+            <ExperienceScreen
                 frame="Object_215"
                 panel="Object_216"
                 position={[1.84, 0.38, -1.77]} rotation={[0, -Math.PI / 9, 0]}
                 onClick={(e) => handleClick(e, [0.4, -0.5, 1.5], [0, -0.4, 0], 30, 'Experience')}
                 htmlPos={[-0.6, 0, 1.8]}
                 htmlRot={[0, 0, 0]}
-            /> */}
+            />
 
-            <AchievementsScreen
+            {/* <AchievementsScreen
                 frame="Object_218"
                 panel="Object_219"
                 x={-5} position={[3.11, 2.15, -0.18]} rotation={[0, -0.79, 0]} scale={0.81}
@@ -1011,9 +1011,9 @@ export function Computers(props) {
                 mobileHtmlRot={[0, 0, 0]}
                 mobileHtmlScale={0.8}
                 images={{ Hishita: Hishita }} 
-            />
+            /> */}
 
-            <HobbiesScreen
+            {/* <HobbiesScreen
                 frame="Object_221"
                 panel="Object_222"
                 y={5} position={[-3.42, 3.06, 1.3]} rotation={[0, 1.22, 0]} scale={0.9}
@@ -1026,7 +1026,7 @@ export function Computers(props) {
                 mobileHtmlPos={[0, -0.3, 0.4]}
                 mobileHtmlRot={[0, 0, 0]}
                 mobileHtmlScale={0.5}
-            />
+            /> */}
 
             {/* <ScreenText
                 frame="Object_224"
