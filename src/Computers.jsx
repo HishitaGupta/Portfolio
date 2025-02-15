@@ -965,7 +965,7 @@ export function Computers(props) {
                 images={{ Hishita: Hishita }} 
             /> */}
 
-            {/* <ProjectScreen
+            <ProjectScreen
                 frame="Object_209"
                 panel="Object_210"
                 y={5}
@@ -974,9 +974,9 @@ export function Computers(props) {
                 onClick={(e) => handleClick(e, [0.4, 0.6, 0.8], [0, 1, 0], 30, 'Projects')}
                 htmlPos={[-0.2, -0.6, 0]}
                 htmlRot={[0, 0, 0]}
-            /> */}
+            />
 
-            <ServicesScreen
+            {/* <ServicesScreen
                 invert
                 frame="Object_212"
                 panel="Object_213"
@@ -984,10 +984,13 @@ export function Computers(props) {
                 y={5}
                 position={[-2.73, 0.63, -0.52]}
                 rotation={[0, 1.09, 0]}
-                onClick={(e) => handleClick(e, [-0.1, -0.4, 1.4], [0, 1.09, 0], 30, 'Services')}
+                onClick={(e) => handleClick(e, [-0.1, -0.4, 1.4], [0, 1.09, 0], 30, 'Services',[0.2,-0.6,1.5],[0,1,0],49)}
                 htmlPos={[0, 0.2, 1.4]}
                 htmlRot={[0, 0, 0]}
-            />
+                mobileHtmlPos={[-0.4, 0.3, -0.1]}
+                mobileHtmlRot={[0, 0.1, 0]}
+                mobileHtmlScale={0.5}
+            /> */}
 
             {/* <ExperienceScreen
                 frame="Object_215"

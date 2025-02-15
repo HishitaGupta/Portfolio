@@ -510,6 +510,7 @@ import { FaRegWindowMaximize, FaRegWindowMinimize } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import Marquee from 'react-fast-marquee';
 import { Screen } from './Screen'; // Make sure this import exists
+import * as dat from 'dat.gui';
 
 const SKILLS = [
             {
@@ -738,6 +739,54 @@ const GitHubStats = React.memo(() => (
 export const ServicesScreen = ({ htmlScale = 1, htmlPos = [0, 0, 0], htmlRot = [0, 0, 0], ...props }) => {
   const [showHtml, setShowHtml] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [htmlPosition, setHtmlPosition] = useState({ x: 0, y: 0, z: 0 });
+  const [htmlRotation, setHtmlRotation] = useState({ x: 0, y: 0, z: 0 });
+  const [localHtmlScale, setLocalHtmlScale] = useState(1);
+
+
+  const isMobile = window.innerWidth <= 768;
+
+  // Add GUI controls when showHtml is true
+  // useEffect(() => {
+  //   if (showHtml) {
+  //     const gui = new dat.GUI({ name: 'HTML Controls' });
+
+  //     const posFolder = gui.addFolder('HTML Position');
+  //     posFolder.add(htmlPosition, 'x', -3, 20, 0.1).onChange((value) => {
+  //       setHtmlPosition(prev => ({ ...prev, x: value }));
+  //     });
+  //     posFolder.add(htmlPosition, 'y', -3, 20, 0.1).onChange((value) => {
+  //       setHtmlPosition(prev => ({ ...prev, y: value }));
+  //     });
+  //     posFolder.add(htmlPosition, 'z', -3, 20, 0.1).onChange((value) => {
+  //       setHtmlPosition(prev => ({ ...prev, z: value }));
+  //     });
+
+  //     const rotFolder = gui.addFolder('HTML Rotation');
+  //     rotFolder.add(htmlRotation, 'x', -Math.PI, Math.PI, 0.1).onChange((value) => {
+  //       setHtmlRotation(prev => ({ ...prev, x: value }));
+  //     });
+  //     rotFolder.add(htmlRotation, 'y', -Math.PI, Math.PI, 0.1).onChange((value) => {
+  //       setHtmlRotation(prev => ({ ...prev, y: value }));
+  //     });
+  //     rotFolder.add(htmlRotation, 'z', -Math.PI, Math.PI, 0.1).onChange((value) => {
+  //       setHtmlRotation(prev => ({ ...prev, z: value }));
+  //     });
+
+  //     const scaleFolder = gui.addFolder('HTML Scale');
+  //     scaleFolder.add({ scale: localHtmlScale }, 'scale', 0.1, 3, 0.1).onChange((value) => {
+  //       setLocalHtmlScale(value);
+  //     });
+
+  //     posFolder.open();
+  //     rotFolder.open();
+  //     scaleFolder.open();
+
+  //     return () => {
+  //       gui.destroy();
+  //     };
+  //   }
+  // }, [showHtml]);
 
   useEffect(() => {
     const handleScreenChange = (event) => {
@@ -760,9 +809,9 @@ export const ServicesScreen = ({ htmlScale = 1, htmlPos = [0, 0, 0], htmlRot = [
   const content = showHtml && !isTransitioning ? (
     <Html
       transform
-      scale={htmlScale}
-      position={htmlPos}
-      rotation={htmlRot}
+      scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
+        position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
+          rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
       style={styles.windowContainer}
     >
       <div style={{ 
