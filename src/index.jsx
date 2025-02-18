@@ -2,10 +2,33 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { Logo } from '@pmndrs/branding'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
+// import { BsMusicNoteBeamed, BsMusicNoteSlash } from 'react-icons/bs'
+import { MdMusicNote, MdMusicOff, MdOutlineMusicOff } from 'react-icons/md'
+import { TbMusicOff } from 'react-icons/tb'
 
 function Overlay() {
   const [currentScreen, setCurrentScreen] = useState(0)
+  const [audio] = useState(new Audio('./src/assets/portfolio-bg-music.mp3'));
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+
+  useEffect(() => {
+    audio.loop = true;
+    audio.volume = 0.5;
+    
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+
+    return () => {
+      audio.pause();
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+    };
+  }, [audio]);
   
   const screens = [
     {
@@ -112,6 +135,14 @@ function Overlay() {
     }))
   }
 
+  const toggleMusic = () => {
+    if (audio.paused) {
+      audio.play().catch(error => console.error("Audio play error:", error));
+    } else {
+      audio.pause();
+    }
+  };
+
   return (
     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',overflow: 'hidden' }}>
       <a href="" style={{ position: 'absolute', bottom: 40, left: 90, fontSize: '13px' }}>
@@ -137,6 +168,12 @@ function Overlay() {
         className="reset-view-button"
       >
         Reset View
+      </button>
+      <button
+        onClick={toggleMusic}
+        className="toggle-music-button"
+      >
+        {isPlaying ? <MdMusicNote size={20} /> : <MdOutlineMusicOff size={20} />}
       </button>
     </div>
   )

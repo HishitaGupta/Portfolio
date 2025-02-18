@@ -104,7 +104,30 @@ input:focus {
 .screen-cycle-button:active {
   transform: scale(0.95);
 }
+.toggle-music-button {
+  position: absolute;
+  top: 20px;
+  right: 150px;  /* Adjust position as needed */
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #35c19f;
+  color: #35c19f;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
 
+.toggle-music-button:hover {
+  background: rgba(53, 193, 159, 0.2);
+}
+
+.toggle-music-button:active {
+  transform: scale(0.95);
+}
 .reset-view-button {
   position: absolute;
   top: 20px;

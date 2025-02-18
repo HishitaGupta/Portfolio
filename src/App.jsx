@@ -299,7 +299,7 @@ export default function App() {
       {/* Add cleanup manager */}
       <CleanupManager />
 
-      {/* <Perf position="bottom-right" /> */}
+      <Perf position="bottom-right" />
       <AdaptiveDpr pixelated />
       <AdaptiveEvents />
 
