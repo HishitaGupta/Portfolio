@@ -107,8 +107,10 @@ input:focus {
 .toggle-music-button {
   position: absolute;
   top: 20px;
-  right: 150px;  /* Adjust position as needed */
-  padding: 10px;
+  right: 90px;  /* Adjusted position */
+  width: 40px;  /* Fixed width for better touch target */
+  height: 40px; /* Fixed height for better touch target */
+  padding: 8px;
   background: rgba(0, 0, 0, 0.8);
   border: 1px solid #35c19f;
   color: #35c19f;
@@ -119,10 +121,29 @@ input:focus {
   justify-content: center;
   transition: all 0.3s ease;
   z-index: 1000;
+  touch-action: manipulation; /* Optimize for touch */
+}
+
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+  .toggle-music-button {
+    top: 135px;
+    right: 15px;
+    width: 45px;    /* Slightly larger on mobile */
+    height: 45px;   /* Slightly larger on mobile */
+    padding: 10px;
+  }
 }
 
 .toggle-music-button:hover {
   background: rgba(53, 193, 159, 0.2);
+}
+
+/* Remove hover effect on touch devices */
+@media (hover: none) {
+  .toggle-music-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
 }
 
 .toggle-music-button:active {
