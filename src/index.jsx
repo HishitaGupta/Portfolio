@@ -23,24 +23,19 @@ function Overlay() {
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
 
-    // Try to play audio by default
-    const playAudio = async () => {
-      try {
-        await audio.play();
-      } catch (error) {
-        console.log("Autoplay prevented:", error);
-        setIsPlaying(false);  // Update state if autoplay fails
-      }
-    };
     
-    playAudio();
-
-    return () => {
-      audio.pause();
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-    };
   }, [audio]);
+
+  const toggleMusic = () => {
+    if (audio.paused) {
+      audio.play().catch(error => console.error("Audio play error:", error));
+      setIsPlaying(true);
+    } else {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  };
+  
   
   const screens = [
     {
@@ -147,13 +142,7 @@ function Overlay() {
     }))
   }
 
-  const toggleMusic = () => {
-    if (audio.paused) {
-      audio.play().catch(error => console.error("Audio play error:", error));
-    } else {
-      audio.pause();
-    }
-  };
+ 
 
   return (
     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',overflow: 'hidden' }}>
