@@ -10,7 +10,7 @@ import { TbMusicOff } from 'react-icons/tb'
 function Overlay() {
   const [currentScreen, setCurrentScreen] = useState(0)
   const [audio] = useState(new Audio('./src/assets/portfolio-bg-music.mp3'));
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   
 
   useEffect(() => {
@@ -22,6 +22,18 @@ function Overlay() {
     
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
+
+    // Try to play audio by default
+    const playAudio = async () => {
+      try {
+        await audio.play();
+      } catch (error) {
+        console.log("Autoplay prevented:", error);
+        setIsPlaying(false);  // Update state if autoplay fails
+      }
+    };
+    
+    playAudio();
 
     return () => {
       audio.pause();
