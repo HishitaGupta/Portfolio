@@ -20,7 +20,7 @@ function Overlay() {
 
   useEffect(() => {
     audio.loop = true;
-    audio.volume = 0.5;
+    audio.volume = 0.1;
   
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
