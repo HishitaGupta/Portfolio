@@ -6,25 +6,34 @@ import { useState,useEffect } from 'react'
 // import { BsMusicNoteBeamed, BsMusicNoteSlash } from 'react-icons/bs'
 import { MdMusicNote, MdMusicOff, MdOutlineMusicOff } from 'react-icons/md'
 import { TbMusicOff } from 'react-icons/tb'
+import Preloader from './screens/Preloader'
+
+
+
 
 function Overlay() {
   const [currentScreen, setCurrentScreen] = useState(0)
-  const [audio] = useState(new Audio('./src/assets/portfolio-bg-music.mp3'));
+  const [audio] = useState(new Audio('/portfolio-bg-music.mp3'));
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   
 
   useEffect(() => {
     audio.loop = true;
     audio.volume = 0.5;
-    
+  
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
-    
+  
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
-
-    
-  }, [audio]);
+  
+    return () => {
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+    };
+  }, []);
+  
 
   const toggleMusic = () => {
     if (audio.paused) {
@@ -145,11 +154,14 @@ function Overlay() {
  
 
   return (
-    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',overflow: 'hidden' }}>
+    <>
+    {!isLoaded && <Preloader onLoaded={() => setIsLoaded(true)} />}
+    {isLoaded && (<div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',overflow: 'hidden' }}>
       <a href="" style={{ position: 'absolute', bottom: 40, left: 90, fontSize: '13px' }}>
         Hishita Gupta
         <br />
         Full Stack Developer
+        
       </a>
       <div style={{ position: 'absolute', top: 40, left: 40, fontSize: '13px' }}>ok —</div>
       <div style={{ position: 'absolute', bottom: 40, right: 40, fontSize: '13px' }}>
@@ -176,7 +188,8 @@ function Overlay() {
       >
         {isPlaying ? <MdMusicNote size={20} /> : <MdOutlineMusicOff size={20} />}
       </button>
-    </div>
+    </div>)}
+    </>
   )
 }
 

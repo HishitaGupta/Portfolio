@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins|Lato|Roboto+Mono&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* @import url('https://rsms.me/inter/inter.css'); */
 
@@ -349,3 +351,70 @@ svg.stat.bold {
   grid-gap: 5px;
   padding: 0 4rem 0 4rem;
 } */
+
+/* @keyframes noise {
+  0% { background-position: 0 0; }
+  100% { background-position: 100px 100px; }
+}
+
+.bg-noise {
+  background: url("https://media2.giphy.com/media/8TEJCaxdWBVkI/200_s.gif");
+  opacity: 0.2;
+  animation: noise 0.2s infinite;
+}
+
+.bg-crt-lines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 255, 0, 0.1),
+    rgba(0, 255, 0, 0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  opacity: 0.2;
+  mix-blend-mode: overlay;
+} */
+
+@keyframes flicker {
+  0% { opacity: 0.85; }
+  50% { opacity: 1; }
+  100% { opacity: 0.85; }
+}
+
+@keyframes scanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}
+
+@keyframes glitch {
+  0% { transform: skewX(0deg); }
+  20% { transform: skewX(5deg); }
+  40% { transform: skewX(-5deg); }
+  60% { transform: skewX(5deg); }
+  80% { transform: skewX(-5deg); }
+  100% { transform: skewX(0deg); }
+}
+
+/* Noise & Scanlines */
+.bg-noise {
+  background: url("https://www.transparenttextures.com/patterns/noisy-net.png");
+  animation: flicker 0.2s infinite alternate;
+}
+
+.bg-crt-lines {
+  background: repeating-linear-gradient(
+    transparent,
+    rgba(0, 0, 0, 0.2) 2px,
+    transparent 4px
+  );
+  animation: scanlines 5s linear infinite;
+}
+
+/* Curved Screen Effect */
+.screen-curved {
+  border-radius: 10px;
+  box-shadow: 
+    inset 0px 2px 50px rgba(0, 255, 0, 0.1), 
+    0px 0px 15px rgba(0, 255, 0, 0.3);
+  transform: perspective(800px) rotateX(0deg);
+}

@@ -279,6 +279,7 @@ export default function App() {
   ), [viewport.isMobile, reflectorSettings])
 
   return (
+    
     <Canvas
       shadows
       dpr={[MIN_DPR, Math.min(MAX_DPR, window.devicePixelRatio)]}
@@ -296,6 +297,7 @@ export default function App() {
         debounce: 200
       }}
     >
+     
       {/* Add cleanup manager */}
       <CleanupManager />
 
