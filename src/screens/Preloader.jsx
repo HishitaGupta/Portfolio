@@ -181,8 +181,8 @@ function Preloader({ onLoaded }) {
       {screenFlicker && <div className="absolute inset-0 bg-black opacity-30 pointer-events-none transition-opacity duration-200"></div>}
 
       {/* CRT Screen Container (Responsive) */}
-      <div className="relative w-[100vw]  h-[100vh] sm:w-[100vw] p-4 sm:p-6 text-green-400 font-mono text-sm sm:text-lg leading-relaxed rounded-lg shadow-green-500/40 overflow-hidden transition-all duration-150 screen-curved">
-        <pre className="whitespace-pre-line text-[3vw] sm:text-[1.2rem]">
+      <div className="relative w-[100vw] pt-10 sm:pt-10 lg:pt-4 h-full sm:w-[100vw] p-4 sm:p-6 text-green-400 font-mono text-sm sm:text-lg leading-relaxed rounded-lg shadow-green-500/40 overflow-hidden transition-all duration-150 screen-curved">
+        <pre className="whitespace-pre-line text-[3vw] sm:text-[1.2rem] ">
           {displayText.split("\n").map((line, index) => (
             <span key={index} className={line.startsWith("[") ? "text-blue-400 opacity-80" : "text-green-400 opacity-80"}>
               {line}
