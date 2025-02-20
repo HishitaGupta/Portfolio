@@ -675,7 +675,7 @@ export const HobbiesScreen = (props) => {
                 flexGrow: 1,
                 border: '1px solid #808080',
                 boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
-                height: '300px',
+                // height: '300px',
                 msOverflowStyle: 'none',
                 scrollbarWidth: 'none',
                 '&::-webkit-scrollbar': {
@@ -700,7 +700,10 @@ export const HobbiesScreen = (props) => {
                         alignItems: 'center',
                         width: '100%',
                         gap: '10px',
-                        height: '150px',
+                        flexDirection:'column',
+                        
+
+                        // height: '150px',
                     }}>
                         <div style={{
                             width: '100%',
@@ -756,7 +759,7 @@ export const HobbiesScreen = (props) => {
                             <p className="cousine-regular" style={{ fontSize: '6px', margin: '0px', padding: '0px' }}>
                                 Greater Philadelphia, USA
                             </p>
-                            <p className="cousine-regular" style={{ fontSize: '5.5px', marginTop: '2px', padding: '0px' }}>
+                            <p className="cousine-regular" style={{ fontSize: '6.5px', marginTop: '2px', padding: '0px' }}>
                                 I have been drawing and creating since I was physically capable of grasping a pencil. 
                                 From the age of 12, I began indulging in digital illustration. I decided to pursue my passion 
                                 in design graduated in 2017 at the top of my class with an Associate's Degree in Interactive Design.
