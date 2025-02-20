@@ -118,26 +118,46 @@ function Preloader({ onLoaded }) {
     audio.current.play();
   };
 
+  // const story = [
+  //   { text: "[SYSTEM BOOTING...]", type: "command" },
+  //   { text: "[NEURAL LINK ESTABLISHED]", type: "command" },
+  //   { text: "Ah… another traveler arrives.", type: "story" },
+  //   { text: "I am Byte, the curator of this digital realm.", type: "story" },
+  //   { text: "Once, these machines were abandoned—silent relics of the past.", type: "story" },
+  //   { text: "But my creator, Hishita Gupta, breathed life into them...", type: "story" },
+  //   { text: "Crafting a world where ideas take form, where innovation meets reality.", type: "story" },
+  //   { text: "Each glowing screen around you holds a fragment of her journey.", type: "story" },
+  //   { text: "[LOADING MODULES...]", type: "command" },
+  //   // { text: "Skills forged in the depths of code.", type: "story" },
+  //   // { text: "Achievements carved through relentless pursuit.", type: "story" },
+  //   // { text: "Projects that push the boundaries of creation.", type: "story" },
+  //   { text: "[ACCESS GRANTED...]", type: "command" },
+  //   { text: "This is more than a showcase. It is a gateway.", type: "story" },
+  //   { text: "A living archive of ingenuity and progress.", type: "story" },
+  //   // { text: "I will be your guide. Let me show you what she has built.", type: "story" },
+  //   { text: "[INITIALIZING SYSTEM ACCESS...]", type: "command" },
+  //   { text: "[LOADING NEXT SEQUENCE...]", type: "command" },
+  // ];
+
   const story = [
-    { text: "[SYSTEM BOOTING...]", type: "command" },
+    { text: "[BOOTING SYSTEM...]", type: "command" },
     { text: "[NEURAL LINK ESTABLISHED]", type: "command" },
-    { text: "Ah… another traveler arrives.", type: "story" },
-    { text: "I am Byte, the curator of this digital realm.", type: "story" },
-    { text: "Once, these machines were abandoned—silent relics of the past.", type: "story" },
-    { text: "But my creator, Hishita Gupta, breathed life into them...", type: "story" },
-    { text: "Crafting a world where ideas take form, where innovation meets reality.", type: "story" },
-    { text: "Each glowing screen around you holds a fragment of her journey.", type: "story" },
-    { text: "[LOADING MODULES...]", type: "command" },
-    // { text: "Skills forged in the depths of code.", type: "story" },
-    // { text: "Achievements carved through relentless pursuit.", type: "story" },
-    // { text: "Projects that push the boundaries of creation.", type: "story" },
-    { text: "[ACCESS GRANTED...]", type: "command" },
-    { text: "This is more than a showcase. It is a gateway.", type: "story" },
-    { text: "A living archive of ingenuity and progress.", type: "story" },
-    // { text: "I will be your guide. Let me show you what she has built.", type: "story" },
+    { text: "Welcome, traveler.", type: "story" },
+    { text: "I am Byte, the keeper of this archive.", type: "story" },
+    { text: "These machines were silent. Forgotten.", type: "story" },
+    { text: "Until she rebuilt them.", type: "story" },
+    { text: "Hishita Gupta. Architect of this world.", type: "story" },
+    { text: "[LOADING DATABASE...]", type: "command" },
+    { text: "Fragments of code. Sparks of innovation.", type: "story" },
+    { text: "[ACCESS GRANTED]", type: "command" },
+    { text: "This is more than data.", type: "story" },
+    { text: "It’s a doorway.", type: "story" },
+    { text: "Step in. See for yourself.", type: "story" },
     { text: "[INITIALIZING SYSTEM ACCESS...]", type: "command" },
     { text: "[LOADING NEXT SEQUENCE...]", type: "command" },
-  ];
+];
+
+
 
   useEffect(() => {
     if (currentIndex < story.length) {
@@ -146,17 +166,17 @@ function Preloader({ onLoaded }) {
           setLineBuffer((prev) => prev + story[currentIndex].text[charIndex]);
           setCharIndex((prev) => prev + 1);
           playSound();
-        }, Math.random() * 50 + 20);
+        }, Math.random() * 10 + 20);
       } else {
         timeoutRef.current = setTimeout(() => {
           setDisplayText((prev) => prev + "\n" + lineBuffer);
           setLineBuffer("");
           setCurrentIndex((prev) => prev + 1);
           setCharIndex(0);
-        }, 300);
+        }, 50);
       }
     } else {
-      setTimeout(onLoaded, 2000);
+      setTimeout(onLoaded, 1000);
     }
 
     return () => clearTimeout(timeoutRef.current);
