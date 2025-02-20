@@ -175,7 +175,7 @@ function CleanupManager() {
   return null
 }
 
-export default function App({isLoaded}) {
+export default function App() {
   const [viewport, setViewport] = useState(() => ({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -261,7 +261,7 @@ export default function App({isLoaded}) {
   const SceneContent = useMemo(() => (
     <group position={[0, -1, 1]}>
       <Instances>
-        <Computers scale={viewport.isMobile ? 0.35 : 0.5} isLoaded={props.isLoaded} />
+        <Computers scale={viewport.isMobile ? 0.35 : 0.5} />
       </Instances>
 
       <pointLight
