@@ -588,6 +588,7 @@ import { HobbiesScreen } from './screens/HobbiesScreen'
 import { ScreenInteractive } from './screens/ScreenInteractive'
 import { Robot } from './Telephone'
 import Hishita from "./assets/Hishita.jpg"
+import { useLoading } from './context/LoadingContext';
 
 
 
@@ -713,6 +714,7 @@ function Leds() {
 
 // Main Computers component with optimizations
 export function Computers(props) {
+    const { isLoaded } = useLoading();
     const { nodes:n, materials:m } = useGLTF('/computers_1-transformed.glb')
     const instances = useContext(InstancesContext)
     const { camera } = useThree()
@@ -747,6 +749,8 @@ export function Computers(props) {
     const handleScreenTransition = useScreenTransition(camera)
 
     const handleClick =useCallback((event, targetPos, targetRot, targetFov = 45, screenName, mobileTargetPos, mobileTargetRot, mobileTargetFov) => {
+        if (!isLoaded) return; // Prevent clicks before loading is complete
+        
         event.stopPropagation()
         const isMobile = window.innerWidth <= 768
         console.log(mobileTargetPos, mobileTargetRot, mobileTargetFov)
@@ -764,9 +768,10 @@ export function Computers(props) {
         window.dispatchEvent(new CustomEvent('changeScreen', {
             detail: { position: finalTargetPos, rotation: finalTargetRot, fov: finalTargetFov,screenName: screenName}
         }))
-    }, [handleScreenTransition])
+    }, [handleScreenTransition, isLoaded])
 
     useEffect(() => {
+        // if (!isLoaded) return;
                 const handleScreenChange = (event) => {
                     const { position, rotation, fov } = event.detail;
                     console.log(position,rotation,fov)
@@ -1075,6 +1080,7 @@ export function Computers(props) {
                 scale={0.9}
                 rotation={[0, 0, 0]}
             />
+            
         </group>
     )
 }

@@ -2,20 +2,18 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { Logo } from '@pmndrs/branding'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 // import { BsMusicNoteBeamed, BsMusicNoteSlash } from 'react-icons/bs'
 import { MdMusicNote, MdMusicOff, MdOutlineMusicOff } from 'react-icons/md'
 import { TbMusicOff } from 'react-icons/tb'
 import Preloader from './screens/Preloader'
-
-
-
+import { LoadingProvider, useLoading } from './context/LoadingContext'
 
 function Overlay() {
   const [currentScreen, setCurrentScreen] = useState(0)
   const [audio] = useState(new Audio('/portfolio-bg-music.mp3'));
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const { isLoaded } = useLoading();
   
 
   useEffect(() => {
@@ -155,7 +153,7 @@ function Overlay() {
 
   return (
     <>
-    {!isLoaded && <Preloader onLoaded={() => setIsLoaded(true)} />}
+    {!isLoaded && <Preloader />}
     {isLoaded && (<div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',overflow: 'hidden' }}>
       <a href="" style={{ position: 'absolute', bottom: 40, left: 90, fontSize: '13px' }}>
         Hishita Gupta
@@ -193,10 +191,14 @@ function Overlay() {
   )
 }
 
-createRoot(document.getElementById('root')).render(
-  <>
-    <App />
-    <Overlay />
-    <Logo style={{ position: 'absolute', bottom: 40, left: 40, width: 30 }} />
-  </>
-)
+function Root() {
+  return (
+    <LoadingProvider>
+      <App />
+      <Overlay />
+      <Logo style={{ position: 'absolute', bottom: 40, left: 40, width: 30 }} />
+    </LoadingProvider>
+  )
+}
+
+createRoot(document.getElementById('root')).render(<Root />)

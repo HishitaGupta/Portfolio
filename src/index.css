@@ -407,6 +407,7 @@ svg.stat.bold {
     rgba(0, 0, 0, 0.2) 2px,
     transparent 4px
   );
+  z-index: 9999;
   animation: scanlines 5s linear infinite;
 }
 
