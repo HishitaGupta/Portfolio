@@ -718,6 +718,7 @@ export function Computers(props) {
     const { nodes:n, materials:m } = useGLTF('/computers_1-transformed.glb')
     const instances = useContext(InstancesContext)
     const { camera } = useThree()
+    
 
 
     //     useEffect(() => {
@@ -749,7 +750,7 @@ export function Computers(props) {
     const handleScreenTransition = useScreenTransition(camera)
 
     const handleClick =useCallback((event, targetPos, targetRot, targetFov = 45, screenName, mobileTargetPos, mobileTargetRot, mobileTargetFov) => {
-        if (!isLoaded) return; // Prevent clicks before loading is complete
+        if (!isLoaded || props.soundPopup) return; // Prevent clicks before loading is complete
         
         event.stopPropagation()
         const isMobile = window.innerWidth <= 768

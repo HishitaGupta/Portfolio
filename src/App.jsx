@@ -116,6 +116,8 @@ import { Perf } from 'r3f-perf'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { KernelSize } from 'postprocessing'
 import * as THREE from 'three'
+import { useLoading } from './context/LoadingContext'
+import SoundPopup from './components/SoundPopup'
 
 // Constants
 const MOBILE_BREAKPOINT = 768
@@ -176,13 +178,13 @@ function CleanupManager() {
 }
 
 export default function App() {
+  const { isLoaded } = useLoading()
   const [viewport, setViewport] = useState(() => ({
     width: window.innerWidth,
     height: window.innerHeight,
     isMobile: window.innerWidth < MOBILE_BREAKPOINT
   }))
-
-  
+  const [soundPopup,setSoundPopup]=useState(false)
 
   const cameraSettings = useMemo(() => ({
     position: viewport.isMobile ? [0, 0, 6.5] : [0, 0, 4.5],
@@ -261,7 +263,7 @@ export default function App() {
   const SceneContent = useMemo(() => (
     <group position={[0, -1, 1]}>
       <Instances>
-        <Computers scale={viewport.isMobile ? 0.35 : 0.5} />
+        <Computers scale={viewport.isMobile ? 0.35 : 0.5} soundPopup={soundPopup}/>
       </Instances>
 
       <pointLight
@@ -278,60 +280,88 @@ export default function App() {
     </group>
   ), [viewport.isMobile, reflectorSettings])
 
+  const [showSoundPopup, setShowSoundPopup] = useState(false)
+  const [audio] = useState(new Audio('/portfolio-bg-music.mp3'))
+
+  useEffect(() => {
+    if (isLoaded) {
+      setShowSoundPopup(true)
+      setSoundPopup(true)
+    }
+  }, [isLoaded])
+
+  const handleEnableSound = () => {
+    audio.play().catch(console.error)
+    audio.loop = true
+    audio.volume = 0.1
+    setShowSoundPopup(false)
+  }
+
+  const handleDeclineSound = () => {
+    setShowSoundPopup(false)
+  }
+
   return (
-    
-    <Canvas
-      shadows
-      dpr={[MIN_DPR, Math.min(MAX_DPR, window.devicePixelRatio)]}
-      camera={cameraSettings}
-      style={{
-        height: '100vh',
-        width: '100vw',
-        touchAction: 'none'
-      }}
-      eventSource={document.getElementById('root')}
-      eventPrefix="client"
-      performance={{
-        min: 0.5,
-        max: 1,
-        debounce: 200
-      }}
-    >
-     
-      {/* Add cleanup manager */}
-      <CleanupManager />
-
-      <Perf position="bottom-right" />
-      <AdaptiveDpr pixelated />
-      <AdaptiveEvents />
-
-      <color attach="background" args={['black']} />
-      <hemisphereLight intensity={0.15} groundColor="black" />
-      <spotLight
-        decay={0}
-        position={[10, 20, 10]}
-        angle={0.12}
-        penumbra={1}
-        intensity={1}
-        castShadow
-        shadow-mapSize={DEFAULT_SHADOW_MAP_SIZE}
-      />
-
-      {SceneContent}
-
-      <EffectComposer 
-        disableNormalPass
-        multisampling={0}
+    <>
+      <Canvas
+        shadows
+        dpr={[MIN_DPR, Math.min(MAX_DPR, window.devicePixelRatio)]}
+        camera={cameraSettings}
+        style={{
+          height: '100vh',
+          width: '100vw',
+          touchAction: 'none'
+        }}
+        eventSource={document.getElementById('root')}
+        eventPrefix="client"
+        performance={{
+          min: 0.5,
+          max: 1,
+          debounce: 200
+        }}
       >
-        <Bloom
-          {...postProcessSettings.bloom}
-          kernelSize={KernelSize.MEDIUM}
-        />
-        <DepthOfField {...postProcessSettings.dof} />
-      </EffectComposer>
+        {/* Add cleanup manager */}
+        <CleanupManager />
 
-      <BakeShadows />
-    </Canvas>
+        <Perf position="bottom-right" />
+        <AdaptiveDpr pixelated />
+        <AdaptiveEvents />
+
+        <color attach="background" args={['black']} />
+        <hemisphereLight intensity={0.15} groundColor="black" />
+        <spotLight
+          decay={0}
+          position={[10, 20, 10]}
+          angle={0.12}
+          penumbra={1}
+          intensity={1}
+          castShadow
+          shadow-mapSize={DEFAULT_SHADOW_MAP_SIZE}
+        />
+
+        {SceneContent}
+
+        <EffectComposer 
+          disableNormalPass
+          multisampling={0}
+        >
+          <Bloom
+            {...postProcessSettings.bloom}
+            kernelSize={KernelSize.MEDIUM}
+          />
+          <DepthOfField {...postProcessSettings.dof} />
+        </EffectComposer>
+
+        <BakeShadows />
+      </Canvas>
+
+      {showSoundPopup && (
+        <SoundPopup 
+          onAccept={handleEnableSound}
+          onDecline={handleDeclineSound}
+        />
+      )}
+    </>
   )
 }
 

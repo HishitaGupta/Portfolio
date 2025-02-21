@@ -82,7 +82,7 @@
 //     // }, [!showHtml]);
 
 
-    
+
 
 
 //     const handleScreenClick = (e) => {
@@ -487,6 +487,7 @@ import Hishita from '../assets/Hishita.jpg';
 import { Screen } from './Screen';
 import * as dat from 'dat.gui';
 import { useThree } from '@react-three/fiber'
+import Marquee from 'react-fast-marquee';
 
 export const HobbiesScreen = (props) => {
     const [showHtml, setShowHtml] = useState(false);
@@ -510,7 +511,7 @@ export const HobbiesScreen = (props) => {
         }
     }, []);
 
-     // text controls
+    // text controls
     // useEffect(() => { 
     //     if (showHtml) {
     //         const gui = new dat.GUI({ name: 'HTML Controls' });
@@ -553,6 +554,77 @@ export const HobbiesScreen = (props) => {
     //     }
     // }, [showHtml]);
 
+    const SKILLS = [
+        {
+            name: "C",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png",
+        },
+        {
+            name: "C++",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg",
+        },
+        {
+            name: "JavaScript",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+        },
+        {
+            name: "Python",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
+        },
+        {
+            name: "Java",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg",
+        },
+        {
+            name: "HTML",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg",
+        },
+        {
+            name: "CSS",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg",
+        },
+        {
+            name: "React",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+        },
+        {
+            name: "Node.js",
+            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg",
+        },
+        // {
+        //   name: "MongoDB",
+        //   imageUrl: "https://upload.wikimedia.org/wikipedia/en/4/45/MongoDB-Logo.svg",
+        // },
+    ];
+
+    const TechStack = React.memo(({ skills }) => (
+        <div style={{ border: '1px solid #000', padding: '2px',marginTop:'10px' }}>
+            <p style={{ fontSize: '10px', marginBottom: '1px', color: 'black' }} class='teko'>Tech Stack</p>
+            <Marquee autoFill pauseOnHover>
+                {skills.map((skill) => (
+                    <div key={skill.name} style={{ margin: '2px' }}>
+                        <img
+                            src={skill.imageUrl}
+                            alt={skill.name}
+                            style={{ width: '20px', height: '20px' }}
+                        />
+                    </div>
+                ))}
+            </Marquee>
+        </div>
+    ));
+
+    const StatsCard = React.memo(({ title, value }) => (
+        <div style={{
+            border: '1px solid #000',
+            width: '50%',
+            padding: '5px',
+            textAlign: 'center'
+        }}>
+            <p style={{ fontSize: '8px', margin: '1px' }}>{title}</p>
+            <p style={{ fontSize: '20px', margin: '1px' }}>{value}</p>
+        </div>
+    ));
 
     useEffect(() => {
         window.addEventListener('changeScreen', handleScreenChange);
@@ -571,6 +643,81 @@ export const HobbiesScreen = (props) => {
             }
         }
     }, [isTransitioning, props]);
+
+
+    const GitHubStats = React.memo(() => (
+        <>
+            <div style={{
+                display: 'flex',
+                gap: '10px',
+                width: 'full',
+                height: '73%',
+                marginTop: '10px',
+                flexDirection:'column',
+                justifyContent:'center',
+                alignItems:'center',
+                // border:'2px solid black'
+            }}>
+                <object
+                    data="https://github-readme-stats.vercel.app/api?username=HishitaGupta&theme=transparent&hide_border=false&title_color=000000&text_color=000000&icon_color=000000&text_bold=true&ring_color=000000&rank_icon=github"
+                    type="image/svg+xml"
+                    style={{
+                        display: 'flex',
+                        // justifyContent: 'start',
+                        // alignItems: 'start',
+                        border: '1px solid #000',
+                        width: '100%'
+                    }}
+                />
+            </div>
+
+            <div style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'start',
+                alignItems: 'start',
+                height: '100%',
+                border: '1px solid #000',
+                marginTop: '10px'
+            }}>
+                <object
+                    data="https://github-readme-stats.vercel.app/api/top-langs/?username=HishitaGupta&layout=donut&theme=transparent&hide_border=true&title_color=000000&text_color=000000&icon_color=000000&text_bold=true&ring_color=000000"
+                    type="image/svg+xml"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'start',
+                        alignItems: 'start',
+                        width: '90%',
+                        height: '90%',
+                        fontFamily: 'teko'
+                    }}
+                />
+            </div>
+
+            <div style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'start',
+                alignItems: 'start',
+                height: '100%',
+                border: '1px solid #000',
+                marginTop: '10px'
+            }}>
+                <object
+                    data="https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs&layout=compact&theme=transparent&hide_border=true&title_color=000000&text_color=000000&icon_color=000000&text_bold=true&ring_color=000000"
+                    type="image/svg+xml"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'start',
+                        alignItems: 'start',
+                        width: '100%',
+                        height: '100%',
+                        fontFamily: 'teko'
+                    }}
+                />
+            </div>
+        </>
+    ));
 
     const WindowContent = useCallback(() => (
         <div style={{
@@ -594,7 +741,7 @@ export const HobbiesScreen = (props) => {
                 alignItems: 'center',
             }}>
                 <span style={{ padding: '0', fontSize: '6px' }}>
-                    C:\Users\Hishita Gupta\Life\About.txt
+                    C:\Users\Hishita Gupta\Life\About\Skills.txt
                 </span>
                 <div style={{ display: 'flex', gap: '2px' }}>
                     <div style={{
@@ -676,6 +823,7 @@ export const HobbiesScreen = (props) => {
                 border: '1px solid #808080',
                 boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
                 // height: '300px',
+                gap:'10px',
                 msOverflowStyle: 'none',
                 scrollbarWidth: 'none',
                 '&::-webkit-scrollbar': {
@@ -700,8 +848,8 @@ export const HobbiesScreen = (props) => {
                         alignItems: 'center',
                         width: '100%',
                         gap: '10px',
-                        flexDirection:'column',
-                        
+                        flexDirection: 'column',
+
 
                         // height: '150px',
                     }}>
@@ -759,19 +907,25 @@ export const HobbiesScreen = (props) => {
                             <p className="cousine-regular" style={{ fontSize: '6px', margin: '0px', padding: '0px' }}>
                                 Greater Philadelphia, USA
                             </p>
-                            <p className="cousine-regular" style={{ fontSize: '6.5px', marginTop: '2px', padding: '0px' }}>
-                                I have been drawing and creating since I was physically capable of grasping a pencil. 
-                                From the age of 12, I began indulging in digital illustration. I decided to pursue my passion 
+                            <p className="cousine-regular bg-red-500" style={{ fontSize: '6.5px', marginTop: '2px', padding: '0px' }}>
+                                I have been drawing and creating since I was physically capable of grasping a pencil.
+                                From the age of 12, I began indulging in digital illustration. I decided to pursue my passion
                                 in design graduated in 2017 at the top of my class with an Associate's Degree in Interactive Design.
                                 <br />
-                                To quench my hunger for web development knowledge, I kickstarted my web design journey in 2020 
-                                and haven't looked back. In my free time, I love to learn new tools and technologies to make 
-                                far-out websites and help bring others' visions to life. I also like to sprinkle a little 
+                                To quench my hunger for web development knowledge, I kickstarted my web design journey in 2020
+                                and haven't looked back. In my free time, I love to learn new tools and technologies to make
+                                far-out websites and help bring others' visions to life. I also like to sprinkle a little
                                 rollerskating & anime in between.
                             </p>
                         </div>
                     </div>
                 </section>
+                <TechStack skills={SKILLS} />
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                    <StatsCard title="LinkedIn" value="1K+" />
+                    <StatsCard title="Current CGPA" value="10" />
+                </div>
+                <GitHubStats />
             </div>
         </div>
     ), []);
@@ -782,14 +936,14 @@ export const HobbiesScreen = (props) => {
         <Screen {...props} onClick={handleScreenClick}>
             <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 10]} />
             <color attach="background" args={['#3B82F6']} />
-            
+
             {showHtml && !isTransitioning ? (
                 <group>
                     <Html
                         transform
-                        scale={isMobile ? props.mobileHtmlScale : (props.htmlScale )}
-                        position={isMobile  ? props.mobileHtmlPos : (props.htmlPos )}
-                        rotation={isMobile  ? props.mobileHtmlRot : (props.htmlRot )}
+                        scale={isMobile ? props.mobileHtmlScale : (props.htmlScale)}
+                        position={isMobile ? props.mobileHtmlPos : (props.htmlPos)}
+                        rotation={isMobile ? props.mobileHtmlRot : (props.htmlRot)}
                         style={{
                             width: '270px',
                             height: '200px',
@@ -812,16 +966,16 @@ export const HobbiesScreen = (props) => {
                     <ambientLight intensity={Math.PI / 2} />
                     <pointLight decay={0} position={[10, 10, 10]} intensity={Math.PI} />
                     <pointLight decay={0} position={[-10, -10, -10]} />
-                    <Text 
-                        fontSize={0.4} 
-                        letterSpacing={-0.1} 
+                    <Text
+                        fontSize={0.4}
+                        letterSpacing={-0.1}
                         color='black'
                         scale={props.textScale || 1}
                         position={[textPosition.x, textPosition.y, textPosition.z]}
-                        rotation={[textRotation.x, textRotation.y, textRotation.z]} 
+                        rotation={[textRotation.x, textRotation.y, textRotation.z]}
                         font="/Inter-Medium.woff"
                     >
-                        About Me
+                        About
                     </Text>
                 </>
             )}
